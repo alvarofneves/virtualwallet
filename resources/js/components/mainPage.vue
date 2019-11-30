@@ -2,7 +2,6 @@
     <div class="px-2">
         <div v-if="!this.$store.state.isLogged" align="center">
             <h1>Welcome To VirtualWallets</h1>
-            <br><br>
             <div>
                 <h2>Total Wallets</h2>
                 <h1>{{ this.wallets.length }}</h1>
@@ -17,7 +16,12 @@
         </div>
         <div v-if="this.$store.state.isLogged">
             <menuNav />
-            <users></users>
+            <div v-if="!this.$store.state.isEdditingProfile">
+                <users />
+            </div>
+            <div v-if="this.$store.state.isEdditingProfile">
+                <profile />
+            </div>
         </div>
     </div>
 </template>
@@ -25,6 +29,7 @@
 <script>
 import LoginComponent from "./login";
 import UsersComponent from "./users";
+import ProfileComponent from "./profile";
 import RegisterComponent from "./register";
 import WalletsComponent from "./wallets";
 import MovementsComponent from "./movements";
@@ -105,7 +110,8 @@ export default {
         register: RegisterComponent,
         users: UsersComponent,
         wallets: WalletsComponent,
-        menuNav : MenuNavComponent
+        menuNav : MenuNavComponent,
+        profile : ProfileComponent
     }
 };
 </script>

@@ -21,8 +21,6 @@ class WalletControllerAPI extends Controller
         } else {
             return WalletResource::collection(Wallet::all());
         }
-
-
     }
 
     public function show($id)

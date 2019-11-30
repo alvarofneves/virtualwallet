@@ -31,7 +31,9 @@
         </b-navbar-nav>
         <b-navbar-nav>
             <b-nav-item-dropdown text="User" right>
-                <b-dropdown-item v-on:click.prevent="">Profile</b-dropdown-item>
+
+                <b-dropdown-item v-if="this.$store.state.isEdditingProfile == false" v-on:click.prevent="profile()">Profile</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.isEdditingProfile == true" v-on:click.prevent="profile()">Wallets</b-dropdown-item>
                 <b-dropdown-item v-on:click.prevent="logout()">Logout</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -44,6 +46,9 @@ export default {
     
     props: ['wallets'],
     methods: {
+        profile: function(){
+            this.$store.commit("edditingProfileToggle");
+        },
         logout: function(){
             axios.post("api/logout", this.$store.state.user
             )

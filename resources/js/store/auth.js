@@ -9,7 +9,8 @@ export default new Vuex.Store({
     state: { 
         token: localStorage.getItem('token') || null,
         user: null,
-        isLogged: false
+        isLogged: false,
+        isEdditingProfile: false,
        
     },
     mutations: { 
@@ -23,6 +24,14 @@ export default new Vuex.Store({
         clearUser: (state) => {
             state.user = null;
             localStorage.removeItem('user');
+            
+        },
+        edditingProfileToggle: (state) => {
+            if(state.isEdditingProfile == false){
+                state.isEdditingProfile = true;
+            }else{
+                state.isEdditingProfile = false;
+            }
             
         },
         clearToken: (state) => {
