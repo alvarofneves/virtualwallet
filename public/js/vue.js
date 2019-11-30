@@ -2015,8 +2015,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getUsers: function getUsers() {
       var _this = this;
 
-      axios.get("api/users").then(function (response) {
-        _this.users = response.data.data;
+      axios.get("api/users").then(function (responseUser) {
+        _this.users = responseUser.data.data;
+        axios.get("api/wallets").then(function (responseWallets) {
+          _this.wallets = responseWallets.data.data;
+
+          _this.users.forEach(function (user) {
+            _this.wallets.forEach(function (wallet) {
+              if (user.email == wallet.email) {
+                user.wallet_id = wallet.id;
+              }
+            });
+          });
+        });
+        console.log(_this.users);
       });
     },
     beginRegisterUser: function beginRegisterUser() {
@@ -2027,22 +2039,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     changeLoginState: function changeLoginState(user) {
       this.$store.commit("setUser", user); //this.isLogged = true;
-    },
-    getWallets: function getWallets() {
-      var _this2 = this;
-
-      axios.get("api/wallets").then(function (response) {
-        _this2.wallets = response.data.data;
-      });
-      /* walletsCount=this.wallets.lenght; */
     }
   }, "changeLoginState", function changeLoginState(user) {
-    this.$store.commit("setUser", user); //this.isLogged = true;
+    this.$store.commit("setUser", user);
   }),
   mounted: function mounted() {
     console.log("Component mounted.");
     this.getUsers();
-    this.getWallets();
     console.log(this.wallets);
   },
   computed: {
