@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\resources",
+    "\\resources\\js",
+    "\\resources\\js\\components",
+    "\\resources\\views",
+    "\\resources\\views\\vue"
+  ],
+  "SelectedNode": "\\resources\\views\\vue\\index.blade.php",
+  "PreviewInSolutionExplorer": false
+}
