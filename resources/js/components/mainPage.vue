@@ -48,7 +48,6 @@ export default {
             registerUserState: false,
             wallets: [],
             walletsCount: null
-            //isLogged: false
         };
     },
     methods: {

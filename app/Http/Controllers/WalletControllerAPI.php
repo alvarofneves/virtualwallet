@@ -30,19 +30,16 @@ class WalletControllerAPI extends Controller
 
     public function store(Request $request)
     {
-      /*   $request->validate([
-                'email' => 'required|email|unique:users,email',
-                ''
-                
+         $request->validate([
+                'email' => 'required|email|unique:wallets,email',
             ]);
-        $user = new User();
-        $user->fill($request->all());
-        $user->password = Hash::make($user->password);
-        $user->save();
-        return response()->json(new UserResource($user), 201);*/
+        $wallet = new Wallet();
+        $wallet->fill($request->all());
+        $wallet->save();
+        return response()->json(new WalletResource($wallet), 201);
     }
- 
-    /* public function update(Request $request, $id)
+/* 
+    public function update(Request $request, $id)
     {
         $request->validate([
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
@@ -52,5 +49,5 @@ class WalletControllerAPI extends Controller
         $user = User::findOrFail($id);
         $user->update($request->all());
         return new UserResource($user);
-    } */
+    }*/
 }

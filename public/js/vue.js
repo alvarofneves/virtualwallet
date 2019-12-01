@@ -2007,8 +2007,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       users: [],
       registerUserState: false,
       wallets: [],
-      walletsCount: null //isLogged: false
-
+      walletsCount: null
     };
   },
   methods: _defineProperty({
@@ -2439,6 +2438,7 @@ __webpack_require__.r(__webpack_exports__);
       password: "",
       confirmation_password: "",
       nif: "",
+      wallet: undefined,
       usersOnRegister: []
     };
   },
@@ -2489,8 +2489,14 @@ __webpack_require__.r(__webpack_exports__);
             nif: _this.nif
           }).then(function (response) {
             console.log(response);
+            axios.post("api/wallets", {
+              email: _this.email,
+              balance: 0
+            }).then(function (response) {
+              console.log(response);
 
-            _this.$store.commit("setUser", response.data);
+              _this.$store.commit("setUser", response.data);
+            });
           });
         }
       });

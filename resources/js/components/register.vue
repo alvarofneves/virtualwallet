@@ -115,6 +115,7 @@ export default {
             password: "",
             confirmation_password: "",
             nif:"",
+            wallet: undefined,
             usersOnRegister: []
         };
     },
@@ -159,12 +160,21 @@ export default {
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                        nif: this. nif
+                        nif: this.nif
+                        
                     })
                     .then(response =>{
-                        console.log(response)
-                        this.$store.commit("setUser", response.data);
+                        console.log(response);
+                        axios.post("api/wallets", {
+                            email: this.email,
+                            balance: 0
+                        })
+                        .then(response =>{
+                            console.log(response)
+                            this.$store.commit("setUser", response.data);
+                        })
                     })
+                    
                 }
             });
         }

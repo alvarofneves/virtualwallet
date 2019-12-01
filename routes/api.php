@@ -17,16 +17,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//WALLET API
 Route::get('wallets', 'WalletControllerAPI@index');
 Route::get('wallets/{id}', 'WalletControllerAPI@show');
-Route::get('movements', 'MovementControllerAPI@index');
+Route::post('wallets', 'WalletControllerAPI@store');
+//Route::put('wallets/{id}', 'WalletControllerAPI@update');
+//Route::delete('users/{id}', 'WalletControllerAPI@destroy');
+//USER API
 Route::get('users', 'UserControllerAPI@index');
 Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@show');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
-
+//MOVEMENT API
+Route::get('movements', 'MovementControllerAPI@index');
+//LOGIN API
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout', 'LoginControllerAPI@logout');
 /*
