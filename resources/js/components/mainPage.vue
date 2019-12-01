@@ -60,7 +60,7 @@ export default {
                     this.users.forEach(user => {
                         this.wallets.forEach(wallet => {
                             if(user.email == wallet.email){
-                                user.wallet_id = wallet.id;
+                                user.wallet = wallet;
                             }
 
                         });

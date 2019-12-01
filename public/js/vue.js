@@ -2023,7 +2023,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this.users.forEach(function (user) {
             _this.wallets.forEach(function (wallet) {
               if (user.email == wallet.email) {
-                user.wallet_id = wallet.id;
+                user.wallet = wallet;
               }
             });
           });

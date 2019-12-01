@@ -20,9 +20,8 @@ class User extends Resource
             'email' => $this->email,
             'type' => $this->type,
             'nif' => $this->nif,
-            'active'=>$this->active,
-            'wallet_id' => $this->wallet_id,
-            /* 'value' => $this->wallet->value, */
+            'active' => $this->active,
+            'wallet' => $this->wallet
         ];
     }
 }

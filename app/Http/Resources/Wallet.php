@@ -18,8 +18,6 @@ class Wallet extends Resource
             'id' => $this->id,
             'email' => $this->email,
             'balance' => $this->balance,
-
-            
         ];
     }
 }
