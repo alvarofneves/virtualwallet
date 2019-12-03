@@ -1956,10 +1956,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wallets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wallets */ "./resources/js/components/wallets.vue");
 /* harmony import */ var _movements__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./movements */ "./resources/js/components/movements.vue");
 /* harmony import */ var _menuNav__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./menuNav */ "./resources/js/components/menuNav.vue");
-var _components;
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -2005,6 +2004,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       failMessage: "",
       currentUser: null,
       users: [],
+      movements: [],
       registerUserState: false,
       wallets: [],
       walletsCount: null
@@ -2053,11 +2053,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$store.state.isLogged;
     }
   },
-  components: (_components = {
+  components: {
     login: _login__WEBPACK_IMPORTED_MODULE_0__["default"],
     users: _users__WEBPACK_IMPORTED_MODULE_1__["default"],
-    register: _register__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }, _defineProperty(_components, "users", _users__WEBPACK_IMPORTED_MODULE_1__["default"]), _defineProperty(_components, "wallets", _wallets__WEBPACK_IMPORTED_MODULE_4__["default"]), _defineProperty(_components, "menuNav", _menuNav__WEBPACK_IMPORTED_MODULE_6__["default"]), _defineProperty(_components, "profile", _profile__WEBPACK_IMPORTED_MODULE_2__["default"]), _components)
+    register: _register__WEBPACK_IMPORTED_MODULE_3__["default"],
+    wallets: _wallets__WEBPACK_IMPORTED_MODULE_4__["default"],
+    menuNav: _menuNav__WEBPACK_IMPORTED_MODULE_6__["default"],
+    profile: _profile__WEBPACK_IMPORTED_MODULE_2__["default"],
+    movements: _movements__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }
 });
 
 /***/ }),
@@ -2249,6 +2253,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('api/movements').then(function (response) {
+        console.log(response);
         _this.movements = response.data.data;
       });
     }
@@ -2490,6 +2495,7 @@ __webpack_require__.r(__webpack_exports__);
           }).then(function (response) {
             console.log(response);
             axios.post("api/wallets", {
+              id: response.data.id,
               email: _this.email,
               balance: 0
             }).then(function (response) {
@@ -53435,7 +53441,7 @@ var render = function() {
             _c("menuNav"),
             _vm._v(" "),
             !this.$store.state.isEdditingProfile
-              ? _c("div", [_c("users")], 1)
+              ? _c("div", [_c("movements")], 1)
               : _vm._e(),
             _vm._v(" "),
             this.$store.state.isEdditingProfile
@@ -73791,8 +73797,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

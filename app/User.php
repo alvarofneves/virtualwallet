@@ -34,6 +34,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class,'email');
+    }
     // public function department()
     // {
     //     return $this->belongsTo(Department::class);

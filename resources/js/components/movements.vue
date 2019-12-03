@@ -38,7 +38,10 @@
         methods: {
             getMovements: function () {
                 axios.get('api/movements')
-                    .then(response => { this.movements = response.data.data; });
+                    .then(response => { 
+                        console.log(response)
+                        this.movements = response.data.data; 
+                    });
             },
         },
         mounted() {

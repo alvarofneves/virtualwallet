@@ -166,6 +166,7 @@ export default {
                     .then(response =>{
                         console.log(response);
                         axios.post("api/wallets", {
+                            id: response.data.id,
                             email: this.email,
                             balance: 0
                         })

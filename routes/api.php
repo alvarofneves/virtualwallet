@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('wallets', 'WalletControllerAPI@index');
 Route::get('wallets/{id}', 'WalletControllerAPI@show');
 Route::post('wallets', 'WalletControllerAPI@store');
-//Route::put('wallets/{id}', 'WalletControllerAPI@update');
+Route::put('wallets/{id}', 'WalletControllerAPI@update');
 //Route::delete('users/{id}', 'WalletControllerAPI@destroy');
 //USER API
 Route::get('users', 'UserControllerAPI@index');
@@ -32,6 +32,9 @@ Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 //MOVEMENT API
 Route::get('movements', 'MovementControllerAPI@index');
+Route::get('movements/{wallet_id}', 'MovementControllerAPI@show_movement_id');
+Route::post('movements', 'MovementControllerAPI@store');
+//Route::delete('users/{id}', 'WalletControllerAPI@destroy');
 //LOGIN API
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout', 'LoginControllerAPI@logout');

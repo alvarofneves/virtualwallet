@@ -9,7 +9,7 @@ use App\Http\Resources\Wallet as WalletResource;
 use Illuminate\Support\Facades\DB;
 
 use App\Wallet;
-use App\StoreUserRequest;
+use App\StoreWalletRequest;
 use Hash;
 
 class WalletControllerAPI extends Controller
@@ -32,6 +32,7 @@ class WalletControllerAPI extends Controller
     {
          $request->validate([
                 'email' => 'required|email|unique:wallets,email',
+                'balance'=> 'numeric'
             ]);
         $wallet = new Wallet();
         $wallet->fill($request->all());

@@ -17,7 +17,8 @@
         <div v-if="this.$store.state.isLogged">
             <menuNav />
             <div v-if="!this.$store.state.isEdditingProfile">
-                <users />
+                <!-- <users /> -->
+                <movements/>
             </div>
             <div v-if="this.$store.state.isEdditingProfile">
                 <profile />
@@ -45,6 +46,7 @@ export default {
             failMessage: "",
             currentUser: null,
             users: [],
+            movements: [],
             registerUserState: false,
             wallets: [],
             walletsCount: null
@@ -99,10 +101,10 @@ export default {
         login: LoginComponent,
         users: UsersComponent,
         register: RegisterComponent,
-        users: UsersComponent,
         wallets: WalletsComponent,
         menuNav : MenuNavComponent,
-        profile : ProfileComponent
+        profile : ProfileComponent,
+        movements : MovementsComponent
     }
 };
 </script>

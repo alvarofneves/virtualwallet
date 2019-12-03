@@ -30,6 +30,11 @@ class MovementControllerAPI extends Controller
         return new MovementResource(Movement::find($id));
     }
 
+    /* public function show_movement_id($wallet_id)
+    {
+        return MovementResource::collection(Movement::where('wallet_id', $wallet_id)
+    }
+ */
     public function store(Request $request)
     {
       /*   $request->validate([
