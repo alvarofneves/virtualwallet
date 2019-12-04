@@ -8,9 +8,9 @@
                 <th>Destination</th>
                 <th>Type Payment</th>
                 <th>Category Name</th>
-                <th>IBAN</th>
+                <!-- <th>IBAN</th>
                 <th>MB Entity Code</th>
-                <th>MB Payment Reference</th>
+                <th>MB Payment Reference</th> -->
                 <!-- <th>Description</th>
                 <th>Source Description</th> -->
                 <th>Date</th>
@@ -27,9 +27,9 @@
                 <td>{{ movement.transfer_wallet_id }}</td>            
                 <td>{{ movement.type_payment }}</td>
                 <td>{{ movement.category_id }}</td>
-                <td>{{ movement.iban }}</td>
+                <!-- <td>{{ movement.iban }}</td>
                 <td>{{ movement.mb_entity_code }}</td>
-                <td>{{ movement.mb_payment_reference }}</td>            
+                <td>{{ movement.mb_payment_reference }}</td>  -->           
                 <!-- <td>{{ movement.description }}</td>
                 <td>{{ movement.source_description }}</td> -->
                 <td>{{ movement.date }}</td>
