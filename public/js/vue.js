@@ -2493,15 +2493,14 @@ __webpack_require__.r(__webpack_exports__);
             password: _this.password,
             nif: _this.nif
           }).then(function (response) {
-            console.log(response);
+            _this.$store.commit("setUser", response.data);
+
             axios.post("api/wallets", {
               id: response.data.id,
               email: _this.email,
               balance: 0
             }).then(function (response) {
               console.log(response);
-
-              _this.$store.commit("setUser", response.data);
             });
           });
         }
@@ -73785,8 +73784,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

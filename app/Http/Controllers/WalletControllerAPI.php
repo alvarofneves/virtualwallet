@@ -31,12 +31,8 @@ class WalletControllerAPI extends Controller
     public function store(Request $request)
     {
          $request->validate([
-<<<<<<< Updated upstream
                 'email' => 'required|email|unique:wallets,email',
                 'balance'=> 'numeric'
-=======
-                //'email' => 'required|email|unique:wallets,email',
->>>>>>> Stashed changes
             ]);
         $wallet = new Wallet();
         $wallet->fill($request->all());
