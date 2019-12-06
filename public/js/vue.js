@@ -1987,6 +1987,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -2141,6 +2146,63 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementEdit.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementEdit.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['movement'],
+  data: function data() {
+    return {
+      options: [{
+        text: 'Expense',
+        value: 'e'
+      }, {
+        text: 'Income',
+        value: 'i'
+      }]
+    };
+  },
+  methods: {
+    saveMovement: function saveMovement() {
+      this.$emit('save-movement', this.movement);
+    },
+    cancelEdit: function cancelEdit() {
+      this.$emit('cancel-edit');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementList.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementList.vue?vue&type=script&lang=js& ***!
@@ -2193,12 +2255,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['movements'],
+  props: ['movements', 'currentMovement'],
   data: function data() {
     return {};
   },
-  methods: {}
+  methods: {
+    editMovement: function editMovement(movement) {
+      this.$emit('edit-movement', movement);
+    }
+  }
 });
 
 /***/ }),
@@ -2213,6 +2282,15 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _movementList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./movementList */ "./resources/js/components/movementList.vue");
+/* harmony import */ var _movementEdit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movementEdit */ "./resources/js/components/movementEdit.vue");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2234,18 +2312,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       title: 'Movements',
-      editingUser: false,
+      editingMovement: false,
       showSuccess: false,
       showFailure: false,
       successMessage: '',
       failMessage: '',
-      currentUser: null,
-      movements: [],
-      departments: []
+      currentMovement: null,
+      movements: []
     };
   },
   methods: {
@@ -2256,14 +2334,46 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response);
         _this.movements = response.data.data;
       });
+    },
+    editMovement: function editMovement(movement) {
+      this.currentMovement = movement;
+      this.editingMovement = true;
+      this.showSuccess = false;
+    },
+    saveMovement: function saveMovement(movement) {
+      var _this2 = this;
+
+      this.editingMovement = false;
+      axios.put('api/movement/' + movement.id, movement).then(function (response) {
+        _this2.showSuccess = true;
+        _this2.successMessage = 'Movement Saved'; // Copies response.data.data properties to this.currentUser
+        // without changing this.currentUser reference
+
+        Object.assign(_this2.currentMovement, response.data.data);
+        _this2.currentMovement = null;
+        _this2.editingMovement = false;
+      });
+    },
+    cancelEditMovement: function cancelEditMovement() {
+      var _this3 = this;
+
+      this.showSuccess = false;
+      this.editingMovement = false;
+      axios.get('api/movements/' + this.currentMovement.id).then(function (response) {
+        console.dir(_this3.currentMovement); // Copies response.data.data properties to this.currentUser
+        // without changing this.currentUser reference
+
+        Object.assign(_this3.currentMovement, response.data.data);
+        console.dir(_this3.currentMovement); //this.$refs.UserListReference.currentUser = null;
+      });
     }
   },
   mounted: function mounted() {
-    this.getMovements(); // axios.get('api/departments')
-    //     .then(response => { this.departments = response.data.data; });
+    this.getMovements();
   },
   components: {
-    'movement-list': _movementList__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'movement-list': _movementList__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'movement-edit': _movementEdit__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -53647,6 +53757,143 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "jumbotron" }, [
+    _c("h2", [_vm._v("Edit Movement")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputDescription" } }, [
+        _vm._v("Description")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.movement.description,
+            expression: "movement.description"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "description",
+          id: "inputDescription",
+          placeholder: "Description"
+        },
+        domProps: { value: _vm.movement.description },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.movement, "description", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "type" } }, [_vm._v("Type:")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.movement.type,
+              expression: "movement.type"
+            }
+          ],
+          attrs: { name: "type", id: "selectType", disabled: "" },
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.$set(
+                _vm.movement,
+                "type",
+                $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+              )
+            }
+          }
+        },
+        _vm._l(_vm.options, function(option) {
+          return _c(
+            "option",
+            { key: option.value, domProps: { value: option.value } },
+            [
+              _vm._v(
+                "\n                " + _vm._s(option.text) + "\n            "
+              )
+            ]
+          )
+        }),
+        0
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-primary",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.saveMovement()
+            }
+          }
+        },
+        [_vm._v("Save")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-light",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.cancelEdit()
+            }
+          }
+        },
+        [_vm._v("Cancel")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementList.vue?vue&type=template&id=53b0a738&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementList.vue?vue&type=template&id=53b0a738& ***!
@@ -53668,27 +53915,52 @@ var render = function() {
     _c(
       "tbody",
       _vm._l(_vm.movements, function(movement) {
-        return _c("tr", { key: movement.id }, [
-          _c("td", [_vm._v(_vm._s(movement.wallet_id))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.type))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.transfer))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.transfer_wallet_id))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.type_payment))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.category_id))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.date))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.start_balance))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.end_balance))]),
-          _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(movement.value))])
-        ])
+        return _c(
+          "tr",
+          {
+            key: movement.id,
+            class: { active: _vm.currentMovement === movement }
+          },
+          [
+            _c("td", [_vm._v(_vm._s(movement.wallet_id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.type))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.transfer))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.transfer_wallet_id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.type_payment))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.category_id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.date))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.start_balance))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.end_balance))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.value))]),
+            _vm._v(" "),
+            _vm.$store.state.user.type == "u"
+              ? _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editMovement(movement)
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  )
+                ])
+              : _vm._e()
+          ]
+        )
       }),
       0
     )
@@ -53754,8 +54026,22 @@ var render = function() {
       _vm._v(" "),
       _c("movement-list", {
         ref: "moventsListReference",
-        attrs: { movements: _vm.movements }
-      })
+        attrs: {
+          movements: _vm.movements,
+          "current-movement": _vm.currentMovement
+        },
+        on: { "edit-movement": _vm.editMovement }
+      }),
+      _vm._v(" "),
+      _vm.editingMovement
+        ? _c("movement-edit", {
+            attrs: { movement: _vm.currentMovement },
+            on: {
+              "save-movement": _vm.saveMovement,
+              "cancel-edit_movement": _vm.cancelEditMovement
+            }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -54324,8 +54610,8 @@ var render = function() {
         attrs: {
           type: "number",
           name: "age",
-          id: "inputAge",
-          placeholder: "Age",
+          id: "inputType",
+          placeholder: "Type",
           value: ""
         },
         domProps: { value: _vm.user.type },
@@ -72949,6 +73235,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/movementEdit.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/movementEdit.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _movementEdit_vue_vue_type_template_id_62f8cea4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true& */ "./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true&");
+/* harmony import */ var _movementEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movementEdit.vue?vue&type=script&lang=js& */ "./resources/js/components/movementEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _movementEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _movementEdit_vue_vue_type_template_id_62f8cea4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _movementEdit_vue_vue_type_template_id_62f8cea4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "62f8cea4",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/movementEdit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/movementEdit.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/movementEdit.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_movementEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./movementEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_movementEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementEdit_vue_vue_type_template_id_62f8cea4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementEdit_vue_vue_type_template_id_62f8cea4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementEdit_vue_vue_type_template_id_62f8cea4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/movementList.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/movementList.vue ***!
@@ -73606,7 +73961,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    token: localStorage.getItem('token') || null,
+    token: sessionStorage.getItem('token') || null,
     user: null,
     isLogged: false,
     isEdditingProfile: false
@@ -73615,13 +73970,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     clearUserAndToken: function clearUserAndToken(state) {
       state.user = null;
       state.token = "";
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('token');
       axios.defaults.headers.common.Authorization = undefined;
     },
     clearUser: function clearUser(state) {
       state.user = null;
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
     },
     edditingProfileToggle: function edditingProfileToggle(state) {
       if (state.isEdditingProfile == false) {
@@ -73632,48 +73987,40 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     clearToken: function clearToken(state) {
       state.token = "";
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
       axios.defaults.headers.common.Authorization = undefined;
       state.isLogged = false;
     },
     setUser: function setUser(state, user) {
       state.user = user;
-      localStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('user', JSON.stringify(user));
       state.isLogged = true;
     },
     setToken: function setToken(state, token) {
       state.token = token;
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
       axios.defaults.headers.common.Authorization = "Bearer " + token;
     },
     loadTokenAndUserFromSession: function loadTokenAndUserFromSession(state) {
       state.token = "";
       state.user = null;
-      var token = localStorage.getItem('token');
-      var user = localStorage.getItem('user');
+      var token = sessionStorage.getItem('token');
+      var user = sessionStorage.getItem('user');
+      console.log('Antes IF');
+      console.log(user);
 
       if (token) {
         state.token = token;
         axios.defaults.headers.common.Authorization = "Bearer " + token;
+      } else {
+        axios.defaults.headers.common.Authorization = undefined;
       }
 
       if (user) {
         state.user = JSON.parse(user);
+        /* vm.$socket.emit('login',user); */
       }
     }
-    /*         setMeal: (state, meal) => {
-                state.meals.push(meal);
-                localStorage.setItem('meals', JSON.stringify(state.meals));
-            },
-            removeMeal: (state, meal) => {
-                state.meals.splice(state.meals.indexOf(meal), 1);
-                localStorage.setItem('meals', JSON.stringify(state.meals));
-            },
-            clearAllMeals: (state) => {
-                state.meals = [];
-                localStorage.removeItem('meals');
-            }, */
-
   }
 }));
 
@@ -73760,9 +74107,18 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   store: _store_auth__WEBPACK_IMPORTED_MODULE_1__["default"],
   router: router,
-  data: {},
-  methods: {},
-  mounted: function mounted() {}
+  created: function created() {
+    console.log("-----");
+    console.log(this.$store.state.user);
+    console.log("+++++");
+    this.$store.commit("loadTokenAndUserFromSession", this);
+    console.log("*****");
+    /* if(this.$store.state,user){
+        this.$socket.emit('login',this.$store.state.user)
+    } */
+
+    console.log(this.$store.state.user);
+  }
 });
 
 /***/ }),

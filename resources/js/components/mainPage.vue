@@ -17,7 +17,12 @@
         <div v-if="this.$store.state.isLogged">
             <menuNav />
             <div v-if="!this.$store.state.isEdditingProfile">
-                <!-- <users /> -->
+                <!-- <div v-if="this.$store.state.user.type=='a'||this.$store.state.user.type=='o'"> 
+                <movements/>
+                </div>
+                <div v-if="this.$store.state.user.type=='u'"> 
+                <movements user.id=movement.id/>
+                </div> -->
                 <movements/>
             </div>
             <div v-if="this.$store.state.isEdditingProfile">

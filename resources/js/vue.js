@@ -47,14 +47,16 @@ const app = new Vue({
     el: '#app',
     store,
     router,
-    data: {
-        
-    },
-    methods: {
-        
-    },
-    mounted() {
-
+    created() {
+        console.log("-----");
+        console.log(this.$store.state.user);
+        console.log("+++++");
+        this.$store.commit("loadTokenAndUserFromSession",this);
+        console.log("*****");
+        /* if(this.$store.state,user){
+            this.$socket.emit('login',this.$store.state.user)
+        } */
+        console.log(this.$store.state.user);
     }
     
 });
