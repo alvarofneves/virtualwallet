@@ -86,7 +86,7 @@ export default {
         },
         changeLoginState: function(user) {
             this.$store.commit("setUser", user);
-            //this.isLogged = true;
+            this.isLogged = true;
         },
         changeLoginState: function(user) {
             this.$store.commit("setUser", user);
@@ -96,6 +96,11 @@ export default {
         console.log("Component mounted.");
         this.getUsers();
         console.log(this.wallets);
+        console.log(sessionStorage.getItem('token'))
+        if (sessionStorage.getItem('token')){
+            this.$store.commit('loadTokenAndUserFromSession');
+        }
+        console.log(this.$store.state.user);
 
     },
     computed: {

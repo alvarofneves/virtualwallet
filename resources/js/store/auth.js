@@ -65,6 +65,7 @@ export default new Vuex.Store({
             }
             if (user) {
                 state.user = JSON.parse(user);
+                state.isLogged = true;
                 /* vm.$socket.emit('login',user); */
             }
         },

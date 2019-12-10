@@ -1882,12 +1882,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2043,7 +2037,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.registerUserState = false;
     },
     changeLoginState: function changeLoginState(user) {
-      this.$store.commit("setUser", user); //this.isLogged = true;
+      this.$store.commit("setUser", user);
+      this.isLogged = true;
     }
   }, "changeLoginState", function changeLoginState(user) {
     this.$store.commit("setUser", user);
@@ -2052,6 +2047,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     console.log("Component mounted.");
     this.getUsers();
     console.log(this.wallets);
+    console.log(sessionStorage.getItem('token'));
+
+    if (sessionStorage.getItem('token')) {
+      this.$store.commit('loadTokenAndUserFromSession');
+    }
+
+    console.log(this.$store.state.user);
   },
   computed: {
     isLogged: function isLogged() {
@@ -2555,7 +2557,10 @@ __webpack_require__.r(__webpack_exports__);
       confirmation_password: "",
       nif: "",
       wallet: undefined,
-      usersOnRegister: []
+      usersOnRegister: [],
+      forGroup: {
+        nested: ''
+      }
     };
   },
   validations: {
@@ -31724,7 +31729,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.jumbotron[data-v-172b28a4] {\n    padding-top: 2%;\n    padding-bottom: 2%;\n    padding-left: 5%;\n    padding-right: 5%;\n    width: 50%;\n}\n.form-control[data-v-172b28a4] {\n    width: 100%;\n    align-content: left;\n}\np[data-v-172b28a4]{\n    color: red;\n}\n", ""]);
+exports.push([module.i, "\n.jumbotron[data-v-172b28a4] {\n    padding-top: 2%;\n    padding-bottom: 2%;\n    padding-left: 5%;\n    padding-right: 5%;\n    width: 50%;\n}\n.form-control[data-v-172b28a4] {\n    width: 100%;\n    align-content: left;\n}\np[data-v-172b28a4]{\n    color: red;\n}\n.fail-error[data-v-172b28a4]{\n    width: 100%;\n    align-content: left;\n    border: 1px solid red;\n}\n\n", ""]);
 
 // exports
 
@@ -53351,135 +53356,120 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron", attrs: { align: "left" } }, [
-    _c(
-      "form",
-      {
-        staticClass: "login",
+    _c("h1", { attrs: { align: "center" } }, [_vm._v(_vm._s(_vm.title))]),
+    _vm._v(" "),
+    _c("div", { staticClass: "inputField" }, [
+      _c("label", { attrs: { for: "email" } }, [_vm._v("Email:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model.trim",
+            value: _vm.email,
+            expression: "email",
+            modifiers: { trim: true }
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "email",
+          placeholder: "Email address",
+          id: "email",
+          required: "",
+          value: ""
+        },
+        domProps: { value: _vm.email },
         on: {
-          submit: function($event) {
+          change: function($event) {
+            return _vm.$v.email.$touch()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.email = $event.target.value.trim()
+          },
+          blur: function($event) {
+            return _vm.$forceUpdate()
+          }
+        }
+      }),
+      _vm._v(" "),
+      _vm.$v.email.$error
+        ? _c("p", [_vm._v("You must insert an Email")])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "inputField" }, [
+      _c("label", { attrs: { for: "password" } }, [_vm._v("Password:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.password,
+            expression: "password"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "password",
+          name: "password",
+          id: "password",
+          placeholder: "Password",
+          required: "",
+          value: ""
+        },
+        domProps: { value: _vm.password },
+        on: {
+          change: function($event) {
+            return _vm.$v.password.$touch()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.password = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _vm.$v.password.$error ? _c("p", [_vm._v("Field Required")]) : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: { type: "submit" },
+        on: {
+          click: function($event) {
             $event.preventDefault()
-            return _vm.login($event)
+            return _vm.userLogin()
           }
         }
       },
-      [
-        _c("h1", { attrs: { align: "center" } }, [_vm._v(_vm._s(_vm.title))]),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputField" }, [
-          _c("label", { attrs: { for: "email" } }, [_vm._v("Email:")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model.trim",
-                value: _vm.email,
-                expression: "email",
-                modifiers: { trim: true }
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "email",
-              placeholder: "Email address",
-              id: "email",
-              required: "",
-              value: ""
-            },
-            domProps: { value: _vm.email },
-            on: {
-              change: function($event) {
-                return _vm.$v.email.$touch()
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.email = $event.target.value.trim()
-              },
-              blur: function($event) {
-                return _vm.$forceUpdate()
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm.$v.email.$error
-            ? _c("p", [_vm._v("You must insert an Email")])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("div", { staticClass: "inputField" }, [
-          _c("label", { attrs: { for: "password" } }, [_vm._v("Password:")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.password,
-                expression: "password"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "password",
-              name: "password",
-              id: "password",
-              placeholder: "Password",
-              required: "",
-              value: ""
-            },
-            domProps: { value: _vm.password },
-            on: {
-              change: function($event) {
-                return _vm.$v.password.$touch()
-              },
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.password = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm.$v.password.$error
-            ? _c("p", [_vm._v("Field Required")])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("hr"),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.userLogin()
-              }
-            }
-          },
-          [_vm._v("\n            Login\n        ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary",
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.registerUser()
-              }
-            }
-          },
-          [_vm._v("\n            Register\n        ")]
-        )
-      ]
+      [_vm._v("\n            Login\n        ")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-secondary",
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.registerUser()
+          }
+        }
+      },
+      [_vm._v(" \n            Register\n        ")]
     )
   ])
 }
@@ -74019,6 +74009,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
       if (user) {
         state.user = JSON.parse(user);
+        state.isLogged = true;
         /* vm.$socket.emit('login',user); */
       }
     }
@@ -74108,18 +74099,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   store: _store_auth__WEBPACK_IMPORTED_MODULE_1__["default"],
   router: router,
-  created: function created() {
-    console.log("-----");
-    console.log(this.$store.state.user);
-    console.log("+++++");
-    this.$store.commit("loadTokenAndUserFromSession", this);
-    console.log("*****");
-    /* if(this.$store.state,user){
-        this.$socket.emit('login',this.$store.state.user)
-    } */
-
-    console.log(this.$store.state.user);
-  }
+  created: function created() {}
 });
 
 /***/ }),
