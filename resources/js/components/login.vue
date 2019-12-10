@@ -1,15 +1,13 @@
 <template>
     <div class="jumbotron" align="left">
-        <form class="login" @submit.prevent="login">
             <h1 align="center">{{ title }}</h1>
-            
             <div class="inputField">
                 <label for="email">Email:</label>
                 <input
                     type="email"
-                    @change="$v.email.$touch()"
                     class="form-control"
                     v-model.trim="email"
+                    @change="$v.email.$touch()"
                     placeholder="Email address"
                     id="email"
                     required
@@ -22,9 +20,9 @@
                 <label for="password">Password:</label>
                 <input
                     type="password"
-                    @change="$v.password.$touch()"
                     class="form-control"
                     v-model="password"
+                    @change="$v.password.$touch()"
                     name="password"
                     id="password"
                     placeholder="Password"
@@ -34,16 +32,12 @@
                 <p v-if="$v.password.$error">Field Required</p>
             </div>
             <hr />
-            <button class="btn btn-primary" v-on:click.prevent="userLogin()">
+            <button type="submit" class="btn btn-primary" v-on:click.prevent="userLogin()">
                 Login
             </button>
-            <button
-                class="btn btn-secondary"
-                v-on:click.prevent="registerUser()"
-            >
+            <button class="btn btn-secondary" v-on:click.prevent="registerUser()"> 
                 Register
             </button>
-        </form>
     </div>
 </template>
 <script>
@@ -108,4 +102,10 @@ export default {
 p{
     color: red;
 }
+.fail-error{
+    width: 100%;
+    align-content: left;
+    border: 1px solid red;
+}
+
 </style>

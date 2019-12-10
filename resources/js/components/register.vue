@@ -116,7 +116,10 @@ export default {
             confirmation_password: "",
             nif:"",
             wallet: undefined,
-            usersOnRegister: []
+            usersOnRegister: [],
+            forGroup:{
+                nested: ''
+            }
         };
     },
     validations: {
