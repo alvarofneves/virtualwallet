@@ -16,8 +16,8 @@
             <div class="form-group">
                 <label for="inputAge">Type</label>
                 <input type="number" class="form-control" v-model="user.type"
-                       name="age" id="inputAge"
-                       placeholder="Age" value="" />
+                       name="age" id="inputType"
+                       placeholder="Type" value="" />
             </div>
             <!-- <div class="form-group">
                 <label for="department_id">Department:</label>

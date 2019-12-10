@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="movement in movements" :key="movement.id">
+            <tr v-for="movement in movements" :key="movement.id" :class="{active: currentMovement === movement}">
                 <td>{{ movement.wallet_id }}</td>
                 <td>{{ movement.type }}</td>
                 <td>{{ movement.transfer }}</td>
@@ -36,6 +36,9 @@
                 <td>{{ movement.start_balance }}</td>
                 <td>{{ movement.end_balance }}</td>            
                 <td>{{ movement.value }}</td>
+                <td v-if="$store.state.user.type=='u'">
+                    <a class="btn btn-sm btn-primary" v-on:click.prevent="editMovement(movement)">Edit</a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -43,13 +46,15 @@
 
 <script>
     export default {
-        props: ['movements'],
+        props: ['movements','currentMovement'],
         data: function () {
             return {
             }
         },
         methods: {
-        
+        editMovement(movement) {
+                this.$emit('edit-movement',movement);
+            }
         }
     }
 </script>
