@@ -27,6 +27,7 @@
     "dependencies": {
         "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.1.0",
+        "eslint": "6.4.0",
         "vue-fixed-header": "^3.2.11",
         "vue-resource": "^1.5.1",
         "vuetify": "^2.1.11",

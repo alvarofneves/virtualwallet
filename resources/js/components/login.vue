@@ -13,7 +13,7 @@
                     required
                     value
                 />
-                <p v-if="$v.email.$error">You must insert an Email</p>
+                <p v-if="isSubmitted && !$v.email.required">You must insert an Email</p>
             </div>  
             <br>
             <div class="inputField">
@@ -29,7 +29,7 @@
                     required
                     value
                 />
-                <p v-if="$v.password.$error">Field Required</p>
+                <p v-if="isSubmitted && !$v.password.required">Field Required</p>
             </div>
             <hr />
             <button type="submit" class="btn btn-primary" v-on:click.prevent="userLogin()">
@@ -49,6 +49,7 @@ export default {
             title: "Login",
             email: "",
             password: "",
+            isSubmitted: false
         };
     },
     validations:{
@@ -57,6 +58,7 @@ export default {
     },
     methods: {
         userLogin: function(user) {
+            this.isSubmitted = true;
             if(!this.$v.$invalid){
                 this.editingUser = false;
                 axios.post("api/login", {

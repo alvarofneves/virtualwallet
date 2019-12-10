@@ -12,7 +12,7 @@
                 placeholder="Full name"
                 value
             />
-            <p v-if="!$v.name.required">Name required</p>
+            <p v-if="isSubmitted && !$v.name.required">Name required</p>
             <label>Email</label>
             <div class="alert alert-failure" v-if="showFailure">
                 <button type="button" class="close-btn" v-on:click="showFailure=false">&times;</button>
@@ -27,8 +27,8 @@
                 placeholder="Email"
                 value
             />
-            <p v-if="!$v.email.required">Email required</p>
-            <p v-if="!$v.email.email">Invalid Email</p>
+            <p v-if="isSubmitted && !$v.email.required">Email required</p>
+            <p v-if="isSubmitted && !$v.email.email">Invalid Email</p>
             <label>Password</label>
             <input
                 required
@@ -41,8 +41,8 @@
                 placeholder="Password"
                 value
             />
-            <p v-if="!$v.password.required">Password required</p>
-            <p v-if="!$v.password.minlength">Must have more than 3 characters</p>
+            <p v-if="isSubmitted && !$v.password.required">Password required</p>
+            <p v-if="isSubmitted && !$v.password.minlength">Must have more than 3 characters</p>
             <label>Confirm Password</label>
             <input
                 required
@@ -55,8 +55,8 @@
                 placeholder="Password"
                 value
             />
-            <p v-if="!$v.confirmation_password.required">Password confirmation required</p>
-            <p v-if="!$v.confirmation_password.sameAs">Password mismatch</p>
+            <p v-if="isSubmitted && !$v.confirmation_password.required">Password confirmation required</p>
+            <p v-if="isSubmitted && !$v.confirmation_password.sameAs">Password mismatch</p>
             <label>NIF</label>
             <input
                 required
@@ -69,8 +69,8 @@
                 placeholder="NIF"
                 value
             />
-            <p v-if="!$v.nif.required">You must insert a NIF</p>
-            <p v-if="!$v.nif.numeric">Can only have numeric characters</p>
+            <p v-if="isSubmitted && !$v.nif.required">You must insert a NIF</p>
+            <p v-if="isSubmitted && !$v.nif.numeric">Can only have numeric characters</p>
             <label>Photo</label>
             <br />
             <input
@@ -117,9 +117,7 @@ export default {
             nif:"",
             wallet: undefined,
             usersOnRegister: [],
-            forGroup:{
-                nested: ''
-            }
+            isSubmitted: false
         };
     },
     validations: {
@@ -146,7 +144,11 @@ export default {
             this.$emit("cancel-register-user");
         },
         createUser: function(user) {
+<<<<<<< Updated upstream
             console.log(users)
+=======
+            this.isSubmitted = true;
+>>>>>>> Stashed changes
             axios.get("api/users").then(response => {
                 
                 this.usersOnRegister = response.data.data;
