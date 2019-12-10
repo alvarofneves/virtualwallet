@@ -61,6 +61,8 @@ export default {
         getUsers: function() {
             axios.get("api/users").then(responseUser => {
                 this.users = responseUser.data.data;
+
+                //TODO: future delete:
                 axios.get("api/wallets").then(responseWallets => {
                     this.wallets = responseWallets.data.data;
                     this.users.forEach(user => {

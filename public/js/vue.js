@@ -2020,7 +2020,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       axios.get("api/users").then(function (responseUser) {
-        _this.users = responseUser.data.data;
+        _this.users = responseUser.data.data; //TODO: future delete:
+
         axios.get("api/wallets").then(function (responseWallets) {
           _this.wallets = responseWallets.data.data;
 
