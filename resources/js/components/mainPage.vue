@@ -17,7 +17,12 @@
         <div v-if="this.$store.state.isLogged">
             <menuNav />
             <div v-if="!this.$store.state.isEdditingProfile">
-                <!-- <users /> -->
+                <!-- <div v-if="this.$store.state.user.type=='a'||this.$store.state.user.type=='o'"> 
+                <movements/>
+                </div>
+                <div v-if="this.$store.state.user.type=='u'"> 
+                <movements user.id=movement.id/>
+                </div> -->
                 <movements/>
             </div>
             <div v-if="this.$store.state.isEdditingProfile">
@@ -56,6 +61,8 @@ export default {
         getUsers: function() {
             axios.get("api/users").then(responseUser => {
                 this.users = responseUser.data.data;
+
+                //TODO: future delete:
                 axios.get("api/wallets").then(responseWallets => {
                     this.wallets = responseWallets.data.data;
                     this.users.forEach(user => {

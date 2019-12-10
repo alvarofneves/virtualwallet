@@ -32,7 +32,7 @@ Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 //MOVEMENT API
 Route::get('movements', 'MovementControllerAPI@index');
-Route::get('movements/{wallet_id}', 'MovementControllerAPI@show_movement_id');
+Route::get('movements/{id}', 'MovementControllerAPI@show_movement_id');
 Route::post('movements', 'MovementControllerAPI@store');
 //Route::delete('users/{id}', 'WalletControllerAPI@destroy');
 //LOGIN API
