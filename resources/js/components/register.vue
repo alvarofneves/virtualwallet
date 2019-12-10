@@ -144,11 +144,7 @@ export default {
             this.$emit("cancel-register-user");
         },
         createUser: function(user) {
-<<<<<<< Updated upstream
-            console.log(users)
-=======
             this.isSubmitted = true;
->>>>>>> Stashed changes
             axios.get("api/users").then(response => {
                 
                 this.usersOnRegister = response.data.data;

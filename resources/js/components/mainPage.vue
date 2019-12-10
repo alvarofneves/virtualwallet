@@ -94,10 +94,7 @@ export default {
     },
     mounted() {
         this.getUsers();
-<<<<<<< Updated upstream
-=======
         console.log(this.wallets);
->>>>>>> Stashed changes
         if (sessionStorage.getItem('token')){
             this.$store.commit('loadTokenAndUserFromSession');
         }

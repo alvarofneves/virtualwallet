@@ -1940,9 +1940,212 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/mainPage.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/resources/js/components/mainPage.vue: Unexpected token (97:0)\n\n\u001b[0m \u001b[90m  95 | \u001b[39m    mounted() {\u001b[0m\n\u001b[0m \u001b[90m  96 | \u001b[39m        \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mgetUsers()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  97 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mUpdated\u001b[39m upstream\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m  98 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m  99 | \u001b[39m        console\u001b[33m.\u001b[39mlog(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwallets)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 100 | \u001b[39m\u001b[33m>>>\u001b[39m\u001b[33m>>>\u001b[39m\u001b[33m>\u001b[39m \u001b[33mStashed\u001b[39m changes\u001b[0m\n    at Parser.raise (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:6420:17)\n    at Parser.unexpected (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:7773:16)\n    at Parser.parseExprAtom (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8996:20)\n    at Parser.parseExprSubscripts (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8556:23)\n    at Parser.parseMaybeUnary (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8536:21)\n    at Parser.parseExprOps (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8402:23)\n    at Parser.parseMaybeConditional (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8375:23)\n    at Parser.parseMaybeAssign (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8325:21)\n    at Parser.parseExpression (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8275:23)\n    at Parser.parseStatementContent (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10138:23)\n    at Parser.parseStatement (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10009:17)\n    at Parser.parseBlockOrModuleBlockBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10585:25)\n    at Parser.parseBlockBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10572:10)\n    at Parser.parseBlock (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10556:10)\n    at Parser.parseFunctionBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9584:24)\n    at Parser.parseFunctionBodyAndFinish (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9554:10)\n    at Parser.parseMethod (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9508:10)\n    at Parser.parseObjectMethod (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9424:19)\n    at Parser.parseObjPropValue (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9466:23)\n    at Parser.parseObjectMember (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9390:10)\n    at Parser.parseObj (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9314:25)\n    at Parser.parseExprAtom (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8939:28)\n    at Parser.parseExprSubscripts (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8556:23)\n    at Parser.parseMaybeUnary (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8536:21)\n    at Parser.parseExprOps (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8402:23)\n    at Parser.parseMaybeConditional (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8375:23)\n    at Parser.parseMaybeAssign (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8325:21)\n    at Parser.parseExportDefaultExpression (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:11187:24)\n    at Parser.parseExport (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:11088:31)\n    at Parser.parseStatementContent (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10113:27)\n    at Parser.parseStatement (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10009:17)\n    at Parser.parseBlockOrModuleBlockBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10585:25)\n    at Parser.parseBlockBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10572:10)\n    at Parser.parseTopLevel (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9940:10)\n    at Parser.parse (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:11447:17)\n    at parse (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:11483:38)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login */ "./resources/js/components/login.vue");
+/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users */ "./resources/js/components/users.vue");
+/* harmony import */ var _profile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./profile */ "./resources/js/components/profile.vue");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./register */ "./resources/js/components/register.vue");
+/* harmony import */ var _wallets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wallets */ "./resources/js/components/wallets.vue");
+/* harmony import */ var _movements__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./movements */ "./resources/js/components/movements.vue");
+/* harmony import */ var _menuNav__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./menuNav */ "./resources/js/components/menuNav.vue");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["user"],
+  data: function data() {
+    return {
+      editingUser: false,
+      showWelcome: false,
+      successMessage: "",
+      failMessage: "",
+      currentUser: null,
+      users: [],
+      movements: [],
+      registerUserState: false,
+      wallets: [],
+      walletsCount: null
+    };
+  },
+  methods: _defineProperty({
+    getUsers: function getUsers() {
+      var _this = this;
+
+      axios.get("api/users").then(function (responseUser) {
+        _this.users = responseUser.data.data; //TODO: future delete:
+
+        axios.get("api/wallets").then(function (responseWallets) {
+          _this.wallets = responseWallets.data.data;
+
+          _this.users.forEach(function (user) {
+            _this.wallets.forEach(function (wallet) {
+              if (user.email == wallet.email) {
+                user.wallet = wallet;
+
+                if (user.id == _this.$store.state.user.id) {
+                  _this.$store.commit("setWallet", wallet);
+                }
+              }
+            });
+          });
+        });
+      });
+    },
+    beginRegisterUser: function beginRegisterUser() {
+      this.registerUserState = true;
+    },
+    cancelRegisterUser: function cancelRegisterUser() {
+      this.registerUserState = false;
+    },
+    changeLoginState: function changeLoginState(user) {
+      this.$store.commit("setUser", user);
+      this.isLogged = true;
+    }
+  }, "changeLoginState", function changeLoginState(user) {
+    this.$store.commit("setUser", user);
+  }),
+  mounted: function mounted() {
+    this.getUsers();
+    console.log(this.wallets);
+
+    if (sessionStorage.getItem('token')) {
+      this.$store.commit('loadTokenAndUserFromSession');
+    }
+  },
+  computed: {
+    isLogged: function isLogged() {
+      // `this` points to the vm instance
+      return this.$store.state.isLogged;
+    }
+  },
+  components: {
+    login: _login__WEBPACK_IMPORTED_MODULE_0__["default"],
+    users: _users__WEBPACK_IMPORTED_MODULE_1__["default"],
+    register: _register__WEBPACK_IMPORTED_MODULE_3__["default"],
+    wallets: _wallets__WEBPACK_IMPORTED_MODULE_4__["default"],
+    menuNav: _menuNav__WEBPACK_IMPORTED_MODULE_6__["default"],
+    profile: _profile__WEBPACK_IMPORTED_MODULE_2__["default"],
+    movements: _movements__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/menuNav.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/menuNav.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['wallets'],
+  methods: {
+    profile: function profile() {
+      this.$store.commit("edditingProfileToggle");
+    },
+    logout: function logout() {
+      var _this = this;
+
+      axios.post("api/logout", this.$store.state.user).then(function (response) {
+        console.log("Logout Success (DEBUG): ");
+        console.log(response);
+
+        _this.$store.commit("clearToken");
+      })["catch"](function (error) {
+        console.log("Cannot logout " + error);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -2215,14 +2418,300 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/profile.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  //props: ['user'],
+  data: function data() {
+    return {
+      user: this.$store.state.user,
+      name: "",
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+      isSubmitted: false
+    };
+  },
+  validations: {
+    oldPassword: {
+      sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])()
+    }
+  },
+  methods: {
+    saveUser: function saveUser() {
+      this.isSubmitted = true;
+      this.$emit('save-user', this.user);
+    },
+    cancelEdit: function cancelEdit() {
+      this.$store.commit("editingProfileToggle");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/register.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/register.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/resources/js/components/register.vue: Unexpected token (147:0)\n\n\u001b[0m \u001b[90m 145 | \u001b[39m        }\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 146 | \u001b[39m        createUser\u001b[33m:\u001b[39m \u001b[36mfunction\u001b[39m(user) {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 147 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mUpdated\u001b[39m upstream\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 148 | \u001b[39m            console\u001b[33m.\u001b[39mlog(users)\u001b[0m\n\u001b[0m \u001b[90m 149 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 150 | \u001b[39m            \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39misSubmitted \u001b[33m=\u001b[39m \u001b[36mtrue\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n    at Parser.raise (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:6420:17)\n    at Parser.unexpected (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:7773:16)\n    at Parser.parseExprAtom (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8996:20)\n    at Parser.parseExprSubscripts (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8556:23)\n    at Parser.parseMaybeUnary (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8536:21)\n    at Parser.parseExprOps (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8402:23)\n    at Parser.parseMaybeConditional (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8375:23)\n    at Parser.parseMaybeAssign (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8325:21)\n    at Parser.parseExpression (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8275:23)\n    at Parser.parseStatementContent (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10138:23)\n    at Parser.parseStatement (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10009:17)\n    at Parser.parseBlockOrModuleBlockBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10585:25)\n    at Parser.parseBlockBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10572:10)\n    at Parser.parseBlock (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10556:10)\n    at Parser.parseFunctionBody (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9584:24)\n    at Parser.parseFunctionBodyAndFinish (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9554:10)\n    at /Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10717:12\n    at Parser.withTopicForbiddingContext (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9884:14)\n    at Parser.parseFunction (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:10716:10)\n    at Parser.parseFunctionExpression (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9032:17)\n    at Parser.parseExprAtom (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8945:21)\n    at Parser.parseExprSubscripts (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8556:23)\n    at Parser.parseMaybeUnary (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8536:21)\n    at Parser.parseExprOps (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8402:23)\n    at Parser.parseMaybeConditional (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8375:23)\n    at Parser.parseMaybeAssign (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8325:21)\n    at Parser.parseObjectProperty (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9441:101)\n    at Parser.parseObjPropValue (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9466:101)\n    at Parser.parseObjectMember (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9390:10)\n    at Parser.parseObj (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:9314:25)\n    at Parser.parseExprAtom (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8939:28)\n    at Parser.parseExprSubscripts (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8556:23)\n    at Parser.parseMaybeUnary (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8536:21)\n    at Parser.parseExprOps (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8402:23)\n    at Parser.parseMaybeConditional (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8375:23)\n    at Parser.parseMaybeAssign (/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/node_modules/@babel/parser/lib/index.js:8325:21)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//TODO: FAZER O BLOQUEIO DO BOTAO CREATE USER SE HOUVER PELO MENOS UM CAMPO OBRIGATORIO POR PREENCHER!
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["users"],
+  data: function data() {
+    return {
+      title: "Register",
+      showFailure: false,
+      showSuccess: false,
+      message: "",
+      name: "",
+      email: "",
+      password: "",
+      confirmation_password: "",
+      nif: "",
+      wallet: undefined,
+      usersOnRegister: [],
+      isSubmitted: false
+    };
+  },
+  validations: {
+    name: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    email: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
+    },
+    password: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(3)
+    },
+    confirmation_password: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])("password")
+    },
+    nif: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+    }
+  },
+  methods: {
+    cancelRegister: function cancelRegister() {
+      this.$emit("cancel-register-user");
+    },
+    createUser: function createUser(user) {
+      var _this = this;
+
+      this.isSubmitted = true;
+      axios.get("api/users").then(function (response) {
+        _this.usersOnRegister = response.data.data;
+        _this.showFailure = false;
+
+        _this.usersOnRegister.forEach(function (element) {
+          if (_this.email == element.email) {
+            _this.message = "EMAIL JA REGISTADO!";
+            _this.showFailure = true;
+          }
+        });
+
+        if (_this.showFailure == false) {
+          axios.post("api/users", {
+            name: _this.name,
+            email: _this.email,
+            password: _this.password,
+            nif: _this.nif
+          }).then(function (response) {
+            userAboutToLogin = response.data;
+            axios.post("api/wallets", {
+              id: userAboutToLogin.id,
+              email: _this.email,
+              balance: 0
+            }).then(function (response) {//this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
+            });
+          });
+        }
+      });
+    },
+    mounted: function mounted() {
+      console.log(users);
+    }
+  }
+});
 
 /***/ }),
 
@@ -53155,6 +53644,193 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/menuNav.vue?vue&type=template&id=34116ac9&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/menuNav.vue?vue&type=template&id=34116ac9& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "nav",
+    { staticClass: "navbar navbar-expand navbar-dark bg-dark fixed-top" },
+    [
+      _c("a", { staticClass: "navbar-brand mr-1" }, [
+        _c("h1", { staticStyle: { color: "white" } }, [
+          _vm._v("Welcome, " + _vm._s(this.$store.state.user.name))
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass:
+            "d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
+        },
+        [
+          _c("div", { staticClass: "input-group" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                placeholder: "Search for...",
+                "aria-label": "Search",
+                "aria-describedby": "basic-addon2"
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group-append" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fas fa-search" })]
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "navbar-nav ml-auto ml-md-0" },
+        [
+          _c(
+            "b-navbar-nav",
+            [
+              _c(
+                "b-nav-item-dropdown",
+                { attrs: { text: "Notifications", right: "" } },
+                [
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                        }
+                      }
+                    },
+                    [_vm._v("Movements")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                        }
+                      }
+                    },
+                    [_vm._v("Statistics")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-navbar-nav",
+            [
+              _c(
+                "b-nav-item-dropdown",
+                { attrs: { text: "User", right: "" } },
+                [
+                  this.$store.state.isEdditingProfile == false
+                    ? _c(
+                        "b-dropdown-item",
+                        {
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.profile()
+                            }
+                          }
+                        },
+                        [_vm._v("Profile")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  this.$store.state.isEdditingProfile == true
+                    ? _c(
+                        "b-dropdown-item",
+                        {
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.profile()
+                            }
+                          }
+                        },
+                        [_vm._v("Wallets")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.logout()
+                        }
+                      }
+                    },
+                    [_vm._v("Logout")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-link btn-sm text-white order-1 order-sm-0",
+        attrs: { id: "sidebarToggle", href: "#" }
+      },
+      [_c("i", { staticClass: "fas fa-bars" })]
+    )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementEdit.vue?vue&type=template&id=62f8cea4&scoped=true& ***!
@@ -53488,6 +54164,220 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile.vue?vue&type=template&id=7eab0eae&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/profile.vue?vue&type=template&id=7eab0eae&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "jumbotron" }, [
+    _c("pre", [_vm._v(_vm._s(_vm.$v.oldPassword))]),
+    _vm._v(" "),
+    _c("h2", [_vm._v("Edit User")]),
+    _vm._v(" "),
+    _c("label", [_vm._v("Email: " + _vm._s(this.user.email) + " ")]),
+    _c("br"),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputName" } }, [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.name,
+            expression: "name"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "inputName",
+          id: "inputName",
+          placeholder: "New name"
+        },
+        domProps: { value: _vm.name },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.name = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("label", [_vm._v("Photo")]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("input", {
+      attrs: { type: "file", accept: "image/*", id: "file-input" },
+      on: {
+        change: function($event) {
+          return _vm.uploadImage($event)
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("label", [_vm._v("Old Password")]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.oldPassword,
+          expression: "oldPassword"
+        }
+      ],
+      staticClass: "form-control",
+      attrs: {
+        required: "",
+        type: "password",
+        name: "oldPassword",
+        id: "oldPassword",
+        placeholder: "Old Password",
+        value: ""
+      },
+      domProps: { value: _vm.oldPassword },
+      on: {
+        change: function($event) {
+          return _vm.$v.oldPassword.$touch()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.oldPassword = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.oldPassword.minlength
+      ? _c("p", [_vm._v("Must have more than 3 characters")])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("label", [_vm._v("New password")]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.newPassword,
+          expression: "newPassword"
+        }
+      ],
+      staticClass: "form-control",
+      attrs: {
+        required: "",
+        type: "password",
+        name: "newPassword",
+        id: "newPassword",
+        placeholder: "New Password"
+      },
+      domProps: { value: _vm.newPassword },
+      on: {
+        change: function($event) {
+          return _vm.$v.password.$touch()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.newPassword = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("label", [_vm._v("Confirm new password")]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.confirmNewPassword,
+          expression: "confirmNewPassword"
+        }
+      ],
+      staticClass: "form-control",
+      attrs: {
+        required: "",
+        type: "password",
+        name: "confirmNewPassword",
+        id: "confirmNewPassword",
+        placeholder: "Confirm Password"
+      },
+      domProps: { value: _vm.confirmNewPassword },
+      on: {
+        change: function($event) {
+          return _vm.$v.confirmNewPassword.$touch()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.confirmNewPassword = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-primary",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.saveUser()
+            }
+          }
+        },
+        [_vm._v("Save")]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-light",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.cancelEdit()
+            }
+          }
+        },
+        [_vm._v("Cancel")]
+      ),
+      _vm._v(" "),
+      _c("label", { attrs: { for: "teste" } }, [_vm._v(_vm._s(_vm.user))])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -72463,6 +73353,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/menuNav.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/menuNav.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _menuNav_vue_vue_type_template_id_34116ac9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./menuNav.vue?vue&type=template&id=34116ac9& */ "./resources/js/components/menuNav.vue?vue&type=template&id=34116ac9&");
+/* harmony import */ var _menuNav_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./menuNav.vue?vue&type=script&lang=js& */ "./resources/js/components/menuNav.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _menuNav_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _menuNav_vue_vue_type_template_id_34116ac9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _menuNav_vue_vue_type_template_id_34116ac9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/menuNav.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/menuNav.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/menuNav.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_menuNav_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./menuNav.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/menuNav.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_menuNav_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/menuNav.vue?vue&type=template&id=34116ac9&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/menuNav.vue?vue&type=template&id=34116ac9& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_menuNav_vue_vue_type_template_id_34116ac9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./menuNav.vue?vue&type=template&id=34116ac9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/menuNav.vue?vue&type=template&id=34116ac9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_menuNav_vue_vue_type_template_id_34116ac9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_menuNav_vue_vue_type_template_id_34116ac9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/movementEdit.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/movementEdit.vue ***!
@@ -72665,6 +73624,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movements_vue_vue_type_template_id_eeb3c42e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movements_vue_vue_type_template_id_eeb3c42e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/profile.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/profile.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _profile_vue_vue_type_template_id_7eab0eae_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./profile.vue?vue&type=template&id=7eab0eae&scoped=true& */ "./resources/js/components/profile.vue?vue&type=template&id=7eab0eae&scoped=true&");
+/* harmony import */ var _profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./profile.vue?vue&type=script&lang=js& */ "./resources/js/components/profile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _profile_vue_vue_type_template_id_7eab0eae_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _profile_vue_vue_type_template_id_7eab0eae_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "7eab0eae",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/profile.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/profile.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/profile.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./profile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/profile.vue?vue&type=template&id=7eab0eae&scoped=true&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/profile.vue?vue&type=template&id=7eab0eae&scoped=true& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_7eab0eae_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./profile.vue?vue&type=template&id=7eab0eae&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/profile.vue?vue&type=template&id=7eab0eae&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_7eab0eae_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_7eab0eae_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
