@@ -26,6 +26,7 @@ class Movement extends Resource
             'transfer_wallet_id'=> $this->transfer_wallet_id,
             'type_payment'=> $this->type_payment,
             'category_id'=> $this->category_id,
+            'category'=> (isset($this->category))?$this->category->name:'',
             'iban'=> $this->iban,
             'mb_entity_code'=> $this->mb_entity_code,
             'mb_payment_reference'=> $this->mb_payment_reference,

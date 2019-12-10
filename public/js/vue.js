@@ -1910,8 +1910,6 @@ __webpack_require__.r(__webpack_exports__);
           email: this.email,
           password: this.password
         }).then(function (response) {
-          console.log(response);
-
           _this.$store.commit("setToken", response.data.access_token);
 
           axios.get("api/user").then(function (response) {
@@ -2023,11 +2021,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this.wallets.forEach(function (wallet) {
               if (user.email == wallet.email) {
                 user.wallet = wallet;
+
+                if (user.id == _this.$store.state.user.id) {
+                  _this.$store.commit("setWallet", wallet);
+                }
               }
             });
           });
         });
-        console.log(_this.users);
       });
     },
     beginRegisterUser: function beginRegisterUser() {
@@ -2044,16 +2045,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.$store.commit("setUser", user);
   }),
   mounted: function mounted() {
-    console.log("Component mounted.");
     this.getUsers();
-    console.log(this.wallets);
-    console.log(sessionStorage.getItem('token'));
 
     if (sessionStorage.getItem('token')) {
       this.$store.commit('loadTokenAndUserFromSession');
     }
-
-    console.log(this.$store.state.user);
   },
   computed: {
     isLogged: function isLogged() {
@@ -2261,8 +2257,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['movements', 'currentMovement'],
+  props: ['movements', 'currentMovement', 'users'],
   data: function data() {
     return {};
   },
@@ -2314,9 +2342,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['users'],
   data: function data() {
     return {
       title: 'Movements',
@@ -2326,16 +2357,17 @@ __webpack_require__.r(__webpack_exports__);
       successMessage: '',
       failMessage: '',
       currentMovement: null,
-      movements: []
+      movements: [],
+      categories: []
     };
   },
   methods: {
     getMovements: function getMovements() {
       var _this = this;
 
-      axios.get('api/movements').then(function (response) {
-        console.log(response);
+      axios.get('api/movements/' + this.$store.state.user.id).then(function (response) {
         _this.movements = response.data.data;
+        console.log(_this.$store.state.user);
       });
     },
     editMovement: function editMovement(movement) {
@@ -2591,6 +2623,7 @@ __webpack_require__.r(__webpack_exports__);
     createUser: function createUser(user) {
       var _this = this;
 
+      console.log(users);
       axios.get("api/users").then(function (response) {
         _this.usersOnRegister = response.data.data;
         _this.showFailure = false;
@@ -2609,18 +2642,19 @@ __webpack_require__.r(__webpack_exports__);
             password: _this.password,
             nif: _this.nif
           }).then(function (response) {
-            _this.$store.commit("setUser", response.data);
-
+            userAboutToLogin = response.data;
             axios.post("api/wallets", {
-              id: response.data.id,
+              id: userAboutToLogin.id,
               email: _this.email,
               balance: 0
-            }).then(function (response) {
-              console.log(response);
+            }).then(function (response) {//this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
             });
           });
         }
       });
+    },
+    mounted: function mounted() {
+      console.log(users);
     }
   }
 });
@@ -31728,11 +31762,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-<<<<<<< Updated upstream
-exports.push([module.i, "\n.jumbotron[data-v-172b28a4] {\n    padding-top: 2%;\n    padding-bottom: 2%;\n    padding-left: 5%;\n    padding-right: 5%;\n    width: 50%;\n}\n.form-control[data-v-172b28a4] {\n    width: 100%;\n    align-content: left;\n}\np[data-v-172b28a4]{\n    color: red;\n}\n.fail-error[data-v-172b28a4]{\n    width: 100%;\n    align-content: left;\n    border: 1px solid red;\n}\n\n", ""]);
-=======
-exports.push([module.i, "\n.jumbotron[data-v-172b28a4] {\r\n    padding-top: 2%;\r\n    padding-bottom: 2%;\r\n    padding-left: 5%;\r\n    padding-right: 5%;\r\n    width: 50%;\n}\n.form-control[data-v-172b28a4] {\r\n    width: 100%;\r\n    align-content: left;\n}\np[data-v-172b28a4]{\r\n    color: red;\n}\r\n", ""]);
->>>>>>> Stashed changes
+exports.push([module.i, "\n.jumbotron[data-v-172b28a4] {\r\n    padding-top: 2%;\r\n    padding-bottom: 2%;\r\n    padding-left: 5%;\r\n    padding-right: 5%;\r\n    width: 50%;\n}\n.form-control[data-v-172b28a4] {\r\n    width: 100%;\r\n    align-content: left;\n}\np[data-v-172b28a4]{\r\n    color: red;\n}\n.fail-error[data-v-172b28a4]{\r\n    width: 100%;\r\n    align-content: left;\r\n    border: 1px solid red;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -53529,6 +53559,7 @@ var render = function() {
                 "div",
                 [
                   _c("register", {
+                    attrs: { users: _vm.users },
                     on: { "cancel-register-user": _vm.cancelRegisterUser }
                   })
                 ],
@@ -53545,7 +53576,7 @@ var render = function() {
             _c("menuNav"),
             _vm._v(" "),
             !this.$store.state.isEdditingProfile
-              ? _c("div", [_c("movements")], 1)
+              ? _c("div", [_c("movements", { attrs: { users: _vm.users } })], 1)
               : _vm._e(),
             _vm._v(" "),
             this.$store.state.isEdditingProfile
@@ -53583,11 +53614,11 @@ var render = function() {
     "nav",
     { staticClass: "navbar navbar-expand navbar-dark bg-dark fixed-top" },
     [
-      _c(
-        "a",
-        { staticClass: "navbar-brand mr-1", attrs: { href: "index.html" } },
-        [_c("h1", [_vm._v("Welcome, " + _vm._s(this.$store.state.user.name))])]
-      ),
+      _c("a", { staticClass: "navbar-brand mr-1" }, [
+        _c("h1", { staticStyle: { color: "white" } }, [
+          _vm._v("Welcome, " + _vm._s(this.$store.state.user.name))
+        ])
+      ]),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -53916,25 +53947,65 @@ var render = function() {
             class: { active: _vm.currentMovement === movement }
           },
           [
-            _c("td", [_vm._v(_vm._s(movement.wallet_id))]),
+            !movement.type ? _c("div") : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.type))]),
+            movement.type
+              ? _c("div", [
+                  movement.type == "e"
+                    ? _c("div", [_c("td", [_vm._v("Expense")])])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  movement.type == "i"
+                    ? _c("div", [_c("td", [_vm._v("Income")])])
+                    : _vm._e()
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.transfer))]),
+            !movement.transfer_wallet_id ? _c("td") : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.transfer_wallet_id))]),
+            movement.transfer_wallet_id
+              ? _c(
+                  "td",
+                  _vm._l(_vm.users, function(user) {
+                    return _c("div", { key: user.id }, [
+                      user.id == movement.transfer_wallet_id
+                        ? _c("div", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(user.email) +
+                                "\n                        "
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  }),
+                  0
+                )
+              : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.type_payment))]),
+            movement.type_payment == "bt"
+              ? _c("div", [_c("td", [_vm._v("Bank Transfer")])])
+              : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.category_id))]),
+            movement.type_payment == "mb"
+              ? _c("div", [_c("td", [_vm._v("Multibank")])])
+              : _vm._e(),
+            _vm._v(" "),
+            movement.type_payment == "c"
+              ? _c("div", [_c("td", [_vm._v("Cash")])])
+              : _vm._e(),
+            _vm._v(" "),
+            movement.type_payment == null ? _c("div", [_c("td")]) : _vm._e(),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(movement.category))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(movement.date))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.start_balance))]),
+            _c("td", [_vm._v(_vm._s(movement.start_balance) + " €")]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.end_balance))]),
+            _c("td", [_vm._v(_vm._s(movement.end_balance) + " €")]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.value))]),
+            _c("td", [_vm._v(_vm._s(movement.value) + " €")]),
             _vm._v(" "),
             _vm.$store.state.user.type == "u"
               ? _c("td", [
@@ -53967,17 +54038,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Origin")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Type")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Transfer")]),
         _vm._v(" "),
         _c("th", [_vm._v("Destination")]),
         _vm._v(" "),
         _c("th", [_vm._v("Type Payment")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Category Name")]),
+        _c("th", [_vm._v("Category")]),
         _vm._v(" "),
         _c("th", [_vm._v("Date")]),
         _vm._v(" "),
@@ -54015,13 +54082,22 @@ var render = function() {
     "div",
     [
       _c("div", { staticClass: "jumbotron" }, [
-        _c("h1", [_vm._v(_vm._s(_vm.title))])
+        _c("h1", [_vm._v(_vm._s(_vm.title))]),
+        _vm._v(" "),
+        _c("h2", [
+          _vm._v(
+            "Current Balance: " +
+              _vm._s(this.$store.state.wallet.balance) +
+              " €"
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("movement-list", {
         ref: "moventsListReference",
         attrs: {
           movements: _vm.movements,
+          users: _vm.users,
           "current-movement": _vm.currentMovement
         },
         on: { "edit-movement": _vm.editMovement }
@@ -73957,6 +74033,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     token: sessionStorage.getItem('token') || null,
     user: null,
+    wallet: 0,
     isLogged: false,
     isEdditingProfile: false
   },
@@ -73990,6 +74067,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       sessionStorage.setItem('user', JSON.stringify(user));
       state.isLogged = true;
     },
+    setWallet: function setWallet(state, wallet) {
+      state.wallet = wallet;
+      sessionStorage.setItem('wallet', JSON.stringify(wallet));
+    },
     setToken: function setToken(state, token) {
       state.token = token;
       sessionStorage.setItem('token', token);
@@ -74000,8 +74081,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       state.user = null;
       var token = sessionStorage.getItem('token');
       var user = sessionStorage.getItem('user');
-      console.log('Antes IF');
-      console.log(user);
 
       if (token) {
         state.token = token;
@@ -74125,13 +74204,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
 __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
 module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
-=======
-__webpack_require__(/*! /Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/resources/js/vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! /Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/resources/sass/app.scss */"./resources/sass/app.scss");
->>>>>>> master
 
 
 /***/ })

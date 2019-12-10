@@ -9,8 +9,10 @@ export default new Vuex.Store({
     state: { 
         token: sessionStorage.getItem('token') || null,
         user: null,
+        wallet: 0,
         isLogged: false,
-        isEdditingProfile: false,
+        isEdditingProfile: false
+
        
     },
     mutations: { 
@@ -45,6 +47,10 @@ export default new Vuex.Store({
             sessionStorage.setItem('user', JSON.stringify(user));
             state.isLogged=true;
         },
+        setWallet: (state, wallet) =>{
+            state.wallet = wallet;
+            sessionStorage.setItem('wallet', JSON.stringify(wallet));
+        },
         setToken: (state, token) => {
             state.token= token;
             sessionStorage.setItem('token', token);
@@ -55,8 +61,6 @@ export default new Vuex.Store({
             state.user = null;
             let token = sessionStorage.getItem('token');
             let user = sessionStorage.getItem('user');
-            console.log('Antes IF');
-            console.log(user);
             if (token) {
                 state.token = token;
                 axios.defaults.headers.common.Authorization = "Bearer " + token;

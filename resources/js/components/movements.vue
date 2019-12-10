@@ -2,10 +2,12 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
+            <h2>Current Balance: {{ this.$store.state.wallet.balance }} €</h2>
         </div>
 
         <movement-list 
             :movements="movements"
+            :users="users"
             :current-movement="currentMovement" 
             @edit-movement="editMovement"  
             ref="moventsListReference">
@@ -31,6 +33,7 @@
     import MovementEditComponent from './movementEdit';
 
     export default {
+        props:['users'],
         data: function () {
             return {
                 title: 'Movements',
@@ -40,15 +43,16 @@
                 successMessage: '',
                 failMessage: '',
                 currentMovement: null,
-                movements: []
+                movements: [],
+                categories: []
             };
         },
         methods: {
             getMovements: function () {
-                axios.get('api/movements')
+                axios.get('api/movements/' + this.$store.state.user.id)
                     .then(response => { 
-                        console.log(response)
-                        this.movements = response.data.data; 
+                        this.movements = response.data.data;
+                        console.log(this.$store.state.user)
                     });
             },
             editMovement: function (movement) {
@@ -85,6 +89,7 @@
         },
         mounted() {
             this.getMovements();
+            
         },
         components:{
             'movement-list':MovementListComponent,

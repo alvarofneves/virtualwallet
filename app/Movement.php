@@ -52,7 +52,7 @@ class Movement extends Authenticatable
      }
      public function category()
      {
-         return $this->belongsToMany(Movement::class);
+         return $this->belongsTo(category::class);
      }
 
 }

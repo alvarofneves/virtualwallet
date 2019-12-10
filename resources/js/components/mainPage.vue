@@ -11,7 +11,7 @@
                 <login @begin-register-user="beginRegisterUser" />
             </div>
             <div v-if="registerUserState">
-                <register @cancel-register-user="cancelRegisterUser" />
+                <register :users="users" @cancel-register-user="cancelRegisterUser" />
             </div>
         </div>
         <div v-if="this.$store.state.isLogged">
@@ -23,7 +23,7 @@
                 <div v-if="this.$store.state.user.type=='u'"> 
                 <movements user.id=movement.id/>
                 </div> -->
-                <movements/>
+                <movements :users="users"/>
             </div>
             <div v-if="this.$store.state.isEdditingProfile">
                 <profile />
@@ -69,13 +69,13 @@ export default {
                         this.wallets.forEach(wallet => {
                             if(user.email == wallet.email){
                                 user.wallet = wallet;
+                                if(user.id == this.$store.state.user.id){
+                                    this.$store.commit("setWallet", wallet);
+                                }
                             }
-
                         });
                     });
-
                 });
-                console.log(this.users);
             });
         },
         beginRegisterUser: function() {
@@ -93,15 +93,10 @@ export default {
         }
     },
     mounted() {
-        console.log("Component mounted.");
         this.getUsers();
-        console.log(this.wallets);
-        console.log(sessionStorage.getItem('token'))
         if (sessionStorage.getItem('token')){
             this.$store.commit('loadTokenAndUserFromSession');
         }
-        console.log(this.$store.state.user);
-
     },
     computed: {
         isLogged: function() {

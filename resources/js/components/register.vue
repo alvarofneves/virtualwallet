@@ -146,8 +146,9 @@ export default {
             this.$emit("cancel-register-user");
         },
         createUser: function(user) {
-
+            console.log(users)
             axios.get("api/users").then(response => {
+                
                 this.usersOnRegister = response.data.data;
                 this.showFailure = false;
 
@@ -175,12 +176,14 @@ export default {
                         })
                         .then(response =>{
                             //this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
-                            console.log(response)
                         })
                     })
                     
                 }
             });
+        },
+        mounted() {
+            console.log(users)
         }
     }
 };

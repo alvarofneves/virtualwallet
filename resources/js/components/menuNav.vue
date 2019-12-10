@@ -1,8 +1,8 @@
 <template>
         <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
 
-        <a class="navbar-brand mr-1" href="index.html">
-            <h1>Welcome, {{ this.$store.state.user.name }}</h1>
+        <a class="navbar-brand mr-1" >
+            <h1 style="color:white;">Welcome, {{ this.$store.state.user.name }}</h1>
         </a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">

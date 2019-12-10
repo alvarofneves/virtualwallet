@@ -64,7 +64,6 @@ export default {
                         password: this.password
                     })
                     .then(response =>{
-                        console.log(response);
                         this.$store.commit("setToken", response.data.access_token);
                         axios.get("api/user")
                         .then(response =>{
