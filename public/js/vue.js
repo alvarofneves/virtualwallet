@@ -2354,6 +2354,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2384,6 +2385,7 @@ __webpack_require__.r(__webpack_exports__);
       this.currentMovement = movement;
       this.editingMovement = true;
       this.showSuccess = false;
+      console.log(this.$store.state.categories);
     },
     saveMovement: function saveMovement(movement) {
       var _this2 = this;
@@ -53888,7 +53890,50 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "category_id" } }, [_vm._v("Category:")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.movement.category_id,
+              expression: "movement.category_id"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { id: "category_id", name: "category_id" },
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.$set(
+                _vm.movement,
+                "category_id",
+                $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+              )
+            }
+          }
+        },
+        _vm._l(_vm.categories, function(category) {
+          return _c(
+            "option",
+            { key: category.id, domProps: { value: category.id } },
+            [_vm._v(" " + _vm._s(category.name) + " ")]
+          )
+        }),
+        0
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
@@ -53921,16 +53966,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "category_id" } }, [_vm._v("Category:")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -54123,7 +54159,10 @@ var render = function() {
       _vm._v(" "),
       _vm.editingMovement
         ? _c("movement-edit", {
-            attrs: { movement: _vm.currentMovement },
+            attrs: {
+              categories: this.$store.state.categories,
+              movement: _vm.currentMovement
+            },
             on: {
               "save-movement": _vm.saveMovement,
               "cancel-edit_movement": _vm.cancelEditMovement
@@ -74784,13 +74823,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         state.isLogged = true;
         /* vm.$socket.emit('login',user); */
       }
+    },
+    loadCategories: function loadCategories(state) {
+      axios.get("api/categories").then(function (response) {
+        state.categories = response.data.data;
+      });
     }
-    /* loadCategories: state => {
-        axios.get("api/categories").then(response => {
-            state.categories = response.data.data;
-        });
-    } */
-
   }
 }));
 
@@ -74882,7 +74920,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   store: _store_auth__WEBPACK_IMPORTED_MODULE_1__["default"],
   router: router,
   created: function created() {
-    /*  this.$store.commit("loadCategories");  */
+    this.$store.commit("loadCategories");
   }
 });
 

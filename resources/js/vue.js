@@ -51,7 +51,7 @@ const app = new Vue({
     store,
     router,
     created() {
-       /*  this.$store.commit("loadCategories");  */   
+        this.$store.commit("loadCategories");    
     }
     
 });

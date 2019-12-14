@@ -53,7 +53,7 @@ class MovementControllerAPI extends Controller
     {
         $request->validate([
                 'description' => 'string',
-                //'type' => 'enum('u','o','a')'
+                'category_id' => 'integer'
         ]);
         $movement = Movement::findOrFail($id);
         $movement->update($request->all());

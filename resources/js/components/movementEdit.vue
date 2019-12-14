@@ -14,9 +14,9 @@
         </div>
         <div class="form-group">
             <label for="category_id">Category:</label>
-            <!-- <select class="form-control" id="category_id" name="category_id" v-model="movement.category_id" >
+            <select class="form-control" id="category_id" name="category_id" v-model="movement.category_id" >
 	            <option v-for="category in categories" :key="category.id" v-bind:value="category.id"> {{ category.name }} </option>
-	        </select> -->
+	        </select>
         </div>
         <div class="form-group">
             <a class="btn btn-primary" v-on:click.prevent="saveMovement()"

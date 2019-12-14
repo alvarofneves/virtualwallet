@@ -14,6 +14,7 @@
         </movement-list>
         <movement-edit 
             v-if="editingMovement"
+            :categories="this.$store.state.categories"
             :movement="currentMovement"
             @save-movement="saveMovement"
             @cancel-edit_movement="cancelEditMovement">
@@ -60,6 +61,7 @@
                 this.currentMovement = movement;
                 this.editingMovement = true;
                 this.showSuccess = false;
+                console.log(this.$store.state.categories);
             },
             saveMovement: function (movement) {
                 this.editingMovement = false;
