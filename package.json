@@ -25,10 +25,12 @@
         "vuelidate": "^0.7.4"
     },
     "dependencies": {
+        "@innologica/vue-stackable-modal": "^0.1.9",
         "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.1.0",
         "eslint": "6.4.0",
         "vue-fixed-header": "^3.2.11",
+        "vue-popup": "^0.2.14",
         "vue-resource": "^1.5.1",
         "vuetify": "^2.1.11",
         "vuex": "^3.1.2"

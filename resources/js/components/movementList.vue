@@ -20,7 +20,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="movement in movements" :key="movement.id" :class="{active: currentMovement === movement}">
+            <tr @click="movementDetail(movement)" v-for="movement in movements" :key="movement.id" :class="{active: currentMovement === movement}">
+                    
                     <td>{{ movement.id }}</td>
 
                     <div v-if="!movement.type">
@@ -84,12 +85,19 @@
             }
         },
         methods: {
-        editMovement(movement) {
+            editMovement(movement) {
                 this.$emit('edit-movement', movement);
-            }
-        }
+            },
+            movementDetail(movement){
+                this.$emit('movement-detail', movement);
+            },
+        },
+        components: {
+            
+        },
     }
 </script>
 <style>
-
+    
+    
 </style>

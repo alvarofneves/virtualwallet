@@ -72,7 +72,7 @@ export default {
                             console.log(response)
                             axios.get("api/wallets/" + response.data.id)
                             .then(response => {
-                                state.wallet = response.data.data;
+                                this.$store.commit("setWallet", response.data.data);
                             })
                             
                             this.$store.commit("setUser", response.data);

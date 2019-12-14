@@ -75,7 +75,6 @@ export default new Vuex.Store({
                 .then(response => {
                     state.wallet = response.data.data;
                 })
-                /* vm.$socket.emit('login',user); */
             }
         },
     } 

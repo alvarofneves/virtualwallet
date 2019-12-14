@@ -19,15 +19,18 @@ import MainPage from './components/mainPage';
 import Wallets from './components/wallets';
 import Movements from './components/movements';
 import BootstrapVue from 'bootstrap-vue';
+import StackModal from '@innologica/vue-stackable-modal'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 window.Vue = require('vue');
 
+
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
+Vue.use(StackModal)
 
 const routes = [
     {path:'/', redirect:'/mainPage'},
