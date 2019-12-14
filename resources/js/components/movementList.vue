@@ -85,6 +85,8 @@
         },
         methods: {
         editMovement(movement) {
+            console.log('movimento atual');
+            console.log(movement.id);
                 this.$emit('edit-movement', movement);
             }
         }

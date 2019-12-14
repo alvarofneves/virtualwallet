@@ -15,11 +15,11 @@ class Movement extends Resource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'wallet_id'=> $this->wallet_id,
             'email' => $this->email,
             'balance' => $this->balance,
-            'transfer_wallet_id'=> $this->transfer_wallet_id,/* 
-            'wallet_origin'=>$this->wallet->email, */
+            'transfer_wallet_id'=> $this->transfer_wallet_id,
             'type'=> $this->type,
             'transfer'=> $this->transfer,
             'transfer_movement_id'=> $this->transfer_movement_id,
@@ -36,7 +36,6 @@ class Movement extends Resource
             'start_balance'=> $this->start_balance,
             'end_balance'=> $this->end_balance,
             'value'=> $this->value,
-
         ];
     }
 }

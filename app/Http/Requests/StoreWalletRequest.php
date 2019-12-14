@@ -25,9 +25,9 @@ class StoreWalletRequest extends FormRequest
     {
         return [
             'email' => 'required|email|unique:wallets',
-            'balance' => 'required|numeric',
+            'balance' => 'required|numeric'/* ,
             'created_at' => 'integer',
-            'updated_at' => 'integer'
+            'updated_at' => 'integer' */
         ];
     }
 }

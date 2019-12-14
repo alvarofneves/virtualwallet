@@ -17,6 +17,8 @@ class Movement extends Authenticatable
      *
      * @var array
      */
+    public $timestamps = false;    
+
     protected $fillable = [
         'wallet_id',
         'type',
@@ -34,7 +36,6 @@ class Movement extends Authenticatable
         'start_balance',
         'end_balance',
         'value',
-
     ];
 
     /**

@@ -38,10 +38,10 @@
             },
             deleteUser(user) {
                 this.$emit('delete-user',user);
-            },
+            }/* ,
             definePlayer(user, playerNumber){
                 this.$root['player' + playerNumber];
-            }
+            } */
         }
     }
 </script>

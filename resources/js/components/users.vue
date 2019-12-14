@@ -14,7 +14,6 @@
 
         <user-edit 
             v-if="editingUser"
-            :departments="departments"
             :user="currentUser"
             @save-user="saveUser"
             @cancel-edit="cancelEdit">

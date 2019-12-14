@@ -73,5 +73,10 @@ export default new Vuex.Store({
                 /* vm.$socket.emit('login',user); */
             }
         },
+        /* loadCategories: state => {
+            axios.get("api/categories").then(response => {
+                state.categories = response.data.data;
+            });
+        } */
     } 
 });

@@ -54,7 +54,8 @@ export default {
             movements: [],
             registerUserState: false,
             wallets: [],
-            walletsCount: null
+            walletsCount: null/* ,
+            categories:[] */
         };
     },
     methods: {

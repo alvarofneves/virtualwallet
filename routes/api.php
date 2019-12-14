@@ -23,6 +23,7 @@ Route::get('wallets/{id}', 'WalletControllerAPI@show');
 Route::post('wallets', 'WalletControllerAPI@store');
 Route::put('wallets/{id}', 'WalletControllerAPI@update');
 //Route::delete('users/{id}', 'WalletControllerAPI@destroy');
+
 //USER API
 Route::get('users', 'UserControllerAPI@index');
 Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
@@ -30,11 +31,16 @@ Route::get('users/{id}', 'UserControllerAPI@show');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
+
 //MOVEMENT API
 Route::get('movements', 'MovementControllerAPI@index');
 Route::get('movements/{id}', 'MovementControllerAPI@show_movement_id');
 Route::post('movements', 'MovementControllerAPI@store');
-//Route::delete('users/{id}', 'WalletControllerAPI@destroy');
+Route::put('movements/{id}', 'MovementControllerAPI@update');
+
+
+//CATEGORY API
+Route::get('categories', 'CategoryControllerAPI@index');
 //LOGIN API
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout', 'LoginControllerAPI@logout');

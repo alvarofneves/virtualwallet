@@ -22,12 +22,15 @@ import BootstrapVue from 'bootstrap-vue';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import VuePaginate from 'vue-paginate'
+
 
 window.Vue = require('vue');
 
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
+Vue.use(VuePaginate)
 
 const routes = [
     {path:'/', redirect:'/mainPage'},
@@ -48,7 +51,7 @@ const app = new Vue({
     store,
     router,
     created() {
-        
+       /*  this.$store.commit("loadCategories");  */   
     }
     
 });

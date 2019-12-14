@@ -43,6 +43,7 @@
                 successMessage: '',
                 failMessage: '',
                 currentMovement: null,
+                movementToPut: null,
                 movements: [],
                 categories: []
             };
@@ -52,7 +53,7 @@
                 axios.get('api/movements/' + this.$store.state.user.id)
                     .then(response => { 
                         this.movements = response.data.data;
-                        console.log(this.$store.state.user)
+
                     });
             },
             editMovement: function (movement) {
@@ -62,7 +63,9 @@
             },
             saveMovement: function (movement) {
                 this.editingMovement = false;
-                axios.put('api/movement/' + movement.id, movement)
+                console.log(movement);
+
+                axios.put('api/movements/' + movement.id, movement)
                     .then(response => {
                         this.showSuccess = true;
                         this.successMessage = 'Movement Saved';
@@ -78,11 +81,9 @@
                 this.editingMovement = false;
                 axios.get('api/movements/' + this.currentMovement.id)
                     .then(response => {
-                        console.dir(this.currentMovement);
                         // Copies response.data.data properties to this.currentUser
                         // without changing this.currentUser reference
                         Object.assign(this.currentMovement, response.data.data);
-                        console.dir(this.currentMovement);
                         //this.$refs.UserListReference.currentUser = null;
                     });
             }
