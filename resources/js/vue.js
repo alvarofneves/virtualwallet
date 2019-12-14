@@ -19,6 +19,7 @@ import MainPage from './components/mainPage';
 import Wallets from './components/wallets';
 import Movements from './components/movements';
 import BootstrapVue from 'bootstrap-vue';
+import StackModal from '@innologica/vue-stackable-modal'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -27,10 +28,15 @@ import VuePaginate from 'vue-paginate'
 
 window.Vue = require('vue');
 
+
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
+<<<<<<< HEAD
 Vue.use(VuePaginate)
+=======
+Vue.use(StackModal)
+>>>>>>> master
 
 const routes = [
     {path:'/', redirect:'/mainPage'},

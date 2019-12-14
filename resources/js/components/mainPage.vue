@@ -70,9 +70,6 @@ export default {
                         this.wallets.forEach(wallet => {
                             if(user.email == wallet.email){
                                 user.wallet = wallet;
-                                if(user.id == this.$store.state.user.id){
-                                    this.$store.commit("setWallet", wallet);
-                                }
                             }
                         });
                     });
@@ -87,10 +84,8 @@ export default {
         },
         changeLoginState: function(user) {
             this.$store.commit("setUser", user);
+            this.$store.commit("setWallet", user.wallet);
             this.isLogged = true;
-        },
-        changeLoginState: function(user) {
-            this.$store.commit("setUser", user);
         }
     },
     mounted() {
@@ -98,6 +93,7 @@ export default {
         console.log(this.wallets);
         if (sessionStorage.getItem('token')){
             this.$store.commit('loadTokenAndUserFromSession');
+            
         }
     },
     computed: {

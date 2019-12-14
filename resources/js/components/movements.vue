@@ -2,14 +2,38 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
-            <h2>Current Balance: {{ this.$store.state.wallet.balance }} €</h2>
+            <h2>Current Balance: {{ this.$store.state.wallet.balance}}€</h2>
         </div>
+
+        <stack-modal
+                v-if="popupActivo"
+                :show="popupActivo"
+                title="Movement Detail"
+                @close="popupActivo=false">
+                <tr>
+                    <th v-if="currentMovement.iban">IBAN </th>
+                    <th v-if="currentMovement.mb_entity_code">MB Entity Code </th>
+                    <th v-if="currentMovement.mb_payment_reference">MB Payment Reference </th>
+                    <th v-if="currentMovement.description">Description </th>
+                    <th v-if="currentMovement.source_description">Source Description </th>
+                    <th v-if="currentMovement.wallet_id">Photo </th> 
+                </tr>
+                <tr>
+                    <th v-if="currentMovement.iban">{{currentMovement.iban}} </th>
+                    <th v-if="currentMovement.mb_entity_code">{{currentMovement.mb_entity_code}}  </th>
+                    <th v-if="currentMovement.mb_payment_reference">{{currentMovement.mb_payment_reference}}  </th>
+                    <th v-if="currentMovement.description">{{currentMovement.description}}  </th>
+                    <th v-if="currentMovement.source_description">{{currentMovement.source_description}}  </th>
+                    <th v-if="currentMovement.wallet_id">{{currentMovement.wallet_id}}  </th>
+                </tr>
+        </stack-modal>
 
         <movement-list 
             :movements="movements"
             :users="users"
             :current-movement="currentMovement" 
             @edit-movement="editMovement"  
+            @movement-detail="movementDetail"
             ref="moventsListReference">
         </movement-list>
         <movement-edit 
@@ -30,6 +54,7 @@
 </template>
 
 <script>
+    import StackModal from './stackModel';
     import MovementListComponent from './movementList';
     import MovementEditComponent from './movementEdit';
 
@@ -46,7 +71,8 @@
                 currentMovement: null,
                 movementToPut: null,
                 movements: [],
-                categories: []
+                categories: [],
+                popupActivo: false
             };
         },
         methods: {
@@ -62,6 +88,10 @@
                 this.editingMovement = true;
                 this.showSuccess = false;
                 console.log(this.$store.state.categories);
+            },
+            movementDetail: function (movement){
+                this.currentMovement = movement;
+                this.popupActivo = true;
             },
             saveMovement: function (movement) {
                 this.editingMovement = false;
@@ -96,7 +126,8 @@
         },
         components:{
             'movement-list':MovementListComponent,
-            'movement-edit':MovementEditComponent
+            'movement-edit':MovementEditComponent,
+            StackModal
 
         }
 
@@ -104,6 +135,10 @@
 </script>
 
 <style>
+    @import "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
 
+    stack-modal {
+        width: 700px;
+    }
 </style>
 

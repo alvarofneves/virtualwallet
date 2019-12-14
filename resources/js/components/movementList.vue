@@ -2,11 +2,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <!-- <th>Origin</th> -->
+                <th>ID</th>
                 <th>Type</th>
                 <!-- <th>Transfer</th> -->
                 <th>Destination</th>
-                <th>Type Payment</th>
+                <th>Type of Payment</th>
                 <th>Category</th>
                 <!-- <th>IBAN</th>
                 <th>MB Entity Code</th>
@@ -20,8 +20,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="movement in movements" :key="movement.id" :class="{active: currentMovement === movement}">
-                    <!-- <td>{{ movement.wallet_id }}</td> -->
+            <tr @click="movementDetail(movement)" v-for="movement in movements" :key="movement.id" :class="{active: currentMovement === movement}">
+                    
+                    <td>{{ movement.id }}</td>
 
                     <div v-if="!movement.type">
                     </div>
@@ -65,9 +66,9 @@
                     <!-- <td>{{ movement.description }}</td>
                     <td>{{ movement.source_description }}</td> -->
                     <td>{{ movement.date }}</td>
-                    <td>{{ movement.start_balance }} €</td>
-                    <td>{{ movement.end_balance }} €</td>            
-                    <td>{{ movement.value }} €</td>
+                    <td>{{ movement.start_balance }}€</td>
+                    <td>{{ movement.end_balance }}€</td>            
+                    <td>{{ movement.value }}€</td>
                     <td v-if="$store.state.user.type=='u'">
                         <a class="btn btn-sm btn-primary" v-on:click.prevent="editMovement(movement)">Edit</a>
                     </td>
@@ -88,10 +89,17 @@
             console.log('movimento atual');
             console.log(movement.id);
                 this.$emit('edit-movement', movement);
-            }
-        }
+            },
+            movementDetail(movement){
+                this.$emit('movement-detail', movement);
+            },
+        },
+        components: {
+            
+        },
     }
 </script>
 <style>
-
+    
+    
 </style>

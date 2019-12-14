@@ -20,6 +20,7 @@ class Movement extends Authenticatable
     public $timestamps = false;    
 
     protected $fillable = [
+        'id',
         'wallet_id',
         'type',
         'transfer',

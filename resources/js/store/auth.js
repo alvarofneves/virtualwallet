@@ -70,7 +70,11 @@ export default new Vuex.Store({
             if (user) {
                 state.user = JSON.parse(user);
                 state.isLogged = true;
-                /* vm.$socket.emit('login',user); */
+
+                axios.get("api/wallets/" + state.user.id)
+                .then(response => {
+                    state.wallet = response.data.data;
+                })
             }
         },
         loadCategories: state => {
