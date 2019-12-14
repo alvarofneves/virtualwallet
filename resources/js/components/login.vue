@@ -69,7 +69,14 @@ export default {
                         this.$store.commit("setToken", response.data.access_token);
                         axios.get("api/user")
                         .then(response =>{
+                            console.log(response)
+                            axios.get("api/wallets/" + response.data.id)
+                            .then(response => {
+                                state.wallet = response.data.data;
+                            })
+                            
                             this.$store.commit("setUser", response.data);
+
                         })
                         .catch(error =>{
                             console.log("Cannot get user");

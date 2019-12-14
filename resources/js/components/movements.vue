@@ -2,7 +2,7 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
-            <h2>Current Balance: {{ this.$store.state.wallet.balance }} €</h2>
+            <h2>Current Balance: {{ this.$store.state.wallet.balance}}€</h2>
         </div>
 
         <movement-list 
@@ -52,7 +52,7 @@
                 axios.get('api/movements/' + this.$store.state.user.id)
                     .then(response => { 
                         this.movements = response.data.data;
-                        console.log(this.$store.state.user)
+                        console.log(this.movements)
                     });
             },
             editMovement: function (movement) {

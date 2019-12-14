@@ -18,6 +18,7 @@ class Movement extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'id',
         'wallet_id',
         'type',
         'transfer',

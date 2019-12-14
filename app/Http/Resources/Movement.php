@@ -15,6 +15,7 @@ class Movement extends Resource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'wallet_id'=> $this->wallet_id,
             'email' => $this->email,
             'balance' => $this->balance,
