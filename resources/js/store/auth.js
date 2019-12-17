@@ -11,7 +11,8 @@ export default new Vuex.Store({
         user: {},
         wallet: 0,
         isLogged: false,
-        isEdditingProfile: false
+        isEdditingProfile: false,
+        isCreateMovement: false
 
        
     },
@@ -34,7 +35,13 @@ export default new Vuex.Store({
             }else{
                 state.isEdditingProfile = false;
             }
-            
+        },
+        createMovementToggle: (state) => {
+            if(state.isCreateMovement == false){
+                state.isCreateMovement = true;
+            }else{
+                state.isCreateMovement = false;
+            }
         },
         clearToken: (state) => {
             state.token = "";

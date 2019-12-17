@@ -24,14 +24,19 @@
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto ml-md-0">
         <b-navbar-nav>
-            <b-nav-item-dropdown text="Notifications" right>
-                <b-dropdown-item v-on:click.prevent="">Movements</b-dropdown-item>
+            <b-nav-item-dropdown text="Movements" right>
+                <b-dropdown-item v-if="this.$store.state.isCreateMovement == false" v-on:click.prevent="createMovement()">Create Movement</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.isCreateMovement == true" v-on:click.prevent="createMovement()">Wallets</b-dropdown-item>
                 <b-dropdown-item v-on:click.prevent="">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
         <b-navbar-nav>
+            <b-nav-item-dropdown text="Notifications" right>
+                <b-dropdown-item v-on:click.prevent="">Movements</b-dropdown-item>
+            </b-nav-item-dropdown>
+        </b-navbar-nav>
+        <b-navbar-nav>
             <b-nav-item-dropdown text="User" right>
-
                 <b-dropdown-item v-if="this.$store.state.isEdditingProfile == false" v-on:click.prevent="profile()">Profile</b-dropdown-item>
                 <b-dropdown-item v-if="this.$store.state.isEdditingProfile == true" v-on:click.prevent="profile()">Wallets</b-dropdown-item>
                 <b-dropdown-item v-on:click.prevent="logout()">Logout</b-dropdown-item>
@@ -48,6 +53,9 @@ export default {
     methods: {
         profile: function(){
             this.$store.commit("edditingProfileToggle");
+        },
+        createMovement: function(){
+            this.$store.commit("createMovementToggle");
         },
         logout: function(){
             axios.post("api/logout", this.$store.state.user
