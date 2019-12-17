@@ -57,16 +57,18 @@ class UserControllerAPI extends Controller
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
                 'email' => 'required|email|unique:users,email,'.$id,
                 //'type' => 'enum('u','o','a')'
-            ]);
+        ]);
         $user = User::findOrFail($id);
         //testar
         /*if($request->name){
             $user->update($request->name());
         }*/
         if(!Hash::check($request->currentPassword, $user->password))
-            return response()->json('Forbidden, current password not match', 403);
-        
+            return response()->json('Forbidden, wrong current password', 403);
+
         $user->update($request->all());
+        $user->password = Hash::make($user->password);
+        $user->save();
         return new UserResource($user);
     }
 
