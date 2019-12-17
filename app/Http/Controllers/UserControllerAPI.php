@@ -59,6 +59,13 @@ class UserControllerAPI extends Controller
                 //'type' => 'enum('u','o','a')'
             ]);
         $user = User::findOrFail($id);
+        //testar
+        /*if($request->name){
+            $user->update($request->name());
+        }*/
+        if(!Hash::check($request->currentPassword, $user->password))
+            return response()->json('Forbidden, current password not match', 403);
+        
         $user->update($request->all());
         return new UserResource($user);
     }

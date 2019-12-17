@@ -145,16 +145,14 @@ export default {
         },
         createUser: function(user) {
             this.isSubmitted = true;
-            axios.get("api/users").then(response => {
-                
+            axios.get("api/users")
+            .then(response => {
                 this.usersOnRegister = response.data.data;
                 this.showFailure = false;
-
                 this.usersOnRegister.forEach(element => {
                 if(this.email == element.email){
                     this.message = "EMAIL JA REGISTADO!";
                     this.showFailure = true;
-
                 }
                 });
                 if(this.showFailure == false){

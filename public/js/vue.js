@@ -2554,21 +2554,22 @@ __webpack_require__.r(__webpack_exports__);
     return {
       user: this.$store.state.user,
       name: "",
-      oldPassword: "",
+      currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
       isSubmitted: false
     };
   },
   validations: {
-    oldPassword: {
+    currentPassword: {
       sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])()
     }
   },
   methods: {
-    saveUser: function saveUser() {
-      this.isSubmitted = true;
-      this.$emit('save-user', this.user);
+    updateUser: function updateUser() {
+      this.isSubmitted = true; //this.$emit('save-user', this.user);
+
+      axios.put("api/users/" + this.user.id, this.user).then(function (response) {});
     },
     cancelEdit: function cancelEdit() {
       this.$store.commit("editingProfileToggle");
@@ -54772,41 +54773,41 @@ var render = function() {
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
-    _c("label", [_vm._v("Old Password")]),
+    _c("label", [_vm._v("Current Password")]),
     _vm._v(" "),
     _c("input", {
       directives: [
         {
           name: "model",
           rawName: "v-model",
-          value: _vm.oldPassword,
-          expression: "oldPassword"
+          value: _vm.currentPassword,
+          expression: "currentPassword"
         }
       ],
       staticClass: "form-control",
       attrs: {
         required: "",
         type: "password",
-        name: "oldPassword",
-        id: "oldPassword",
-        placeholder: "Old Password",
+        name: "currentPassword",
+        id: "currentPassword",
+        placeholder: "Current Password",
         value: ""
       },
-      domProps: { value: _vm.oldPassword },
+      domProps: { value: _vm.currentPassword },
       on: {
         change: function($event) {
-          return _vm.$v.oldPassword.$touch()
+          return _vm.$v.currentPassword.$touch()
         },
         input: function($event) {
           if ($event.target.composing) {
             return
           }
-          _vm.oldPassword = $event.target.value
+          _vm.currentPassword = $event.target.value
         }
       }
     }),
     _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.oldPassword.minlength
+    _vm.isSubmitted && _vm.$v.currentPassword.minlength
       ? _c("p", [_vm._v("Must have more than 3 characters")])
       : _vm._e(),
     _vm._v(" "),
@@ -54884,7 +54885,7 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.saveUser()
+              return _vm.updateUser()
             }
           }
         },
@@ -54905,7 +54906,9 @@ var render = function() {
         [_vm._v("Cancel")]
       ),
       _vm._v(" "),
-      _c("label", { attrs: { for: "teste" } }, [_vm._v(_vm._s(_vm.user))])
+      _c("label", { attrs: { for: "teste" } }, [
+        _vm._v("DEBUG: " + _vm._s(_vm.user))
+      ])
     ])
   ])
 }
@@ -74894,7 +74897,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     token: sessionStorage.getItem('token') || null,
-    user: null,
+    user: {},
     wallet: 0,
     isLogged: false,
     isEdditingProfile: false
