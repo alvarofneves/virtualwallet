@@ -54429,35 +54429,73 @@ var render = function() {
           "tr",
           {
             key: movement.id,
-            class: { active: _vm.currentMovement === movement },
-            on: {
-              click: function($event) {
-                return _vm.movementDetail(movement)
-              }
-            }
+            class: { active: _vm.currentMovement === movement }
           },
           [
-            _c("td", [_vm._v(_vm._s(movement.id))]),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.movementDetail(movement)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(movement.id))]
+            ),
             _vm._v(" "),
-            !movement.type ? _c("div") : _vm._e(),
-            _vm._v(" "),
-            movement.type
-              ? _c("div", [
-                  movement.type == "e"
-                    ? _c("div", [_c("td", [_vm._v("Expense")])])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  movement.type == "i"
-                    ? _c("div", [_c("td", [_vm._v("Income")])])
-                    : _vm._e()
-                ])
+            !movement.type
+              ? _c("div", {
+                  on: {
+                    click: function($event) {
+                      return _vm.movementDetail(movement)
+                    }
+                  }
+                })
               : _vm._e(),
             _vm._v(" "),
-            !movement.transfer_wallet_id ? _c("td") : _vm._e(),
+            movement.type
+              ? _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.movementDetail(movement)
+                      }
+                    }
+                  },
+                  [
+                    movement.type == "e"
+                      ? _c("div", [_c("td", [_vm._v("Expense")])])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    movement.type == "i"
+                      ? _c("div", [_c("td", [_vm._v("Income")])])
+                      : _vm._e()
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            !movement.transfer_wallet_id
+              ? _c("td", {
+                  on: {
+                    click: function($event) {
+                      return _vm.movementDetail(movement)
+                    }
+                  }
+                })
+              : _vm._e(),
             _vm._v(" "),
             movement.transfer_wallet_id
               ? _c(
                   "td",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.movementDetail(movement)
+                      }
+                    }
+                  },
                   _vm._l(_vm.users, function(user) {
                     return _c("div", { key: user.id }, [
                       user.id == movement.transfer_wallet_id
@@ -54476,28 +54514,120 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             movement.type_payment == "bt"
-              ? _c("div", [_c("td", [_vm._v("Bank Transfer")])])
+              ? _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.movementDetail(movement)
+                      }
+                    }
+                  },
+                  [_c("td", [_vm._v("Bank Transfer")])]
+                )
               : _vm._e(),
             _vm._v(" "),
             movement.type_payment == "mb"
-              ? _c("div", [_c("td", [_vm._v("Multibank")])])
+              ? _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.movementDetail(movement)
+                      }
+                    }
+                  },
+                  [_c("td", [_vm._v("Multibank")])]
+                )
               : _vm._e(),
             _vm._v(" "),
             movement.type_payment == "c"
-              ? _c("div", [_c("td", [_vm._v("Cash")])])
+              ? _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.movementDetail(movement)
+                      }
+                    }
+                  },
+                  [_c("td", [_vm._v("Cash")])]
+                )
               : _vm._e(),
             _vm._v(" "),
-            movement.type_payment == null ? _c("div", [_c("td")]) : _vm._e(),
+            movement.type_payment == null
+              ? _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.movementDetail(movement)
+                      }
+                    }
+                  },
+                  [_c("td")]
+                )
+              : _vm._e(),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.category))]),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.movementDetail(movement)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(movement.category))]
+            ),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.date))]),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.movementDetail(movement)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(movement.date))]
+            ),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.start_balance) + "€")]),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.movementDetail(movement)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(movement.start_balance) + "€")]
+            ),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.end_balance) + "€")]),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.movementDetail(movement)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(movement.end_balance) + "€")]
+            ),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(movement.value) + "€")]),
+            _c(
+              "td",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.movementDetail(movement)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(movement.value) + "€")]
+            ),
             _vm._v(" "),
             _vm.$store.state.user.type == "u"
               ? _c("td", [
@@ -75083,8 +75213,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
