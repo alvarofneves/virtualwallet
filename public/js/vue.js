@@ -2599,8 +2599,8 @@ __webpack_require__.r(__webpack_exports__);
       sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])("newPassword")
     },
     nif: {
-      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(9),
-      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(9),
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(8),
+      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(10),
       numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
     }
   },
@@ -55048,7 +55048,7 @@ var render = function() {
       }
     }),
     _vm._v(" "),
-    _vm.isSubmitted && _vm.$v.currentPassword.minlength
+    _vm.isSubmitted && !_vm.$v.currentPassword.minlength
       ? _c("p", [_vm._v("Must have more than 3 characters")])
       : _vm._e(),
     _vm._v(" "),
@@ -55153,12 +55153,12 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.nif.minlength
-      ? _c("p", [_vm._v("Must have 9 digits")])
+    _vm.isSubmitted && _vm.$v.nif.minlength
+      ? _c("p", [_vm._v("Must have -9 digits")])
       : _vm._e(),
     _vm._v(" "),
     _vm.isSubmitted && !_vm.$v.nif.maxlength
-      ? _c("p", [_vm._v("Must have 9 digits")])
+      ? _c("p", [_vm._v("Must have +9 digits")])
       : _vm._e(),
     _vm._v(" "),
     _vm.isSubmitted && !_vm.$v.nif.numeric

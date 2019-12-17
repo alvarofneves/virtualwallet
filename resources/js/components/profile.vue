@@ -36,7 +36,7 @@
             placeholder="Current Password"
             value
         />
-        <p v-if="isSubmitted && $v.currentPassword.minlength">Must have more than 3 characters</p>
+        <p v-if="isSubmitted && !$v.currentPassword.minlength">Must have more than 3 characters</p>
         <label>New password</label>
         <input
             type="password"
@@ -71,8 +71,8 @@
                 placeholder="NIF"
             />
         </div>
-        <p v-if="isSubmitted && !$v.nif.minlength">Must have 9 digits</p>
-        <p v-if="isSubmitted && !$v.nif.maxlength">Must have 9 digits</p>
+        <p v-if="isSubmitted && $v.nif.minlength">Must have -9 digits</p>
+        <p v-if="isSubmitted && !$v.nif.maxlength">Must have +9 digits</p>
         <p v-if="isSubmitted && !$v.nif.numeric">Can only have numeric characters</p>
         <div class="form-group">
             <a class="btn btn-primary" v-on:click.prevent="updateUser()"
@@ -124,8 +124,8 @@ export default {
             sameAs: sameAs("newPassword")
         },
         nif:{
-            minLength: minLength(9),
-            maxlength: maxLength(9),
+            minLength: minLength(8),
+            maxlength: maxLength(10),
             numeric
         },
     },
