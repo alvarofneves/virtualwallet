@@ -28,7 +28,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 window.Vue = require('vue');
 
-
+/* Vue.component('pagination', require('laravel-vue-pagination')); */
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
