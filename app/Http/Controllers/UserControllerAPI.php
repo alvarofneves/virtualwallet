@@ -29,6 +29,12 @@ class UserControllerAPI extends Controller
         return new UserResource(User::find($id));
     }
 
+    public function me()
+    {
+        dd(auth()->guard('api')->user());
+        return new UserResource(auth()->guard('api')->user());
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -71,11 +77,35 @@ class UserControllerAPI extends Controller
         /*if($request->name){
             $user->update($request->name());
         }*/
-        if(!Hash::check($request->currentPassword, $user->password))
-            return response()->json('Forbidden, wrong current password', 403);
+        if($request->photo != null){
+            $exploded = explode(',', $request->photo);
+            $decoded = base64_decode($exploded[1]);
+            if(str_contains($exploded[0], 'jpeg'))
+                $extension = 'jpg';
+            else
+                $extension = 'png';
+        
+            $fileName = '_'.str_random().'.'.$extension;
+            $path = public_path('/storage/fotos').'/'.$fileName;
+            file_put_contents($path, $decoded);
+        }
 
-        $user->update($request->all());
-        $user->password = Hash::make($user->password);
+        if($request->currentPassword != null && $request->password != null){
+            if(!Hash::check($request->currentPassword, $user->password))
+                return response()->json('Forbidden, wrong current password', 403);
+        }
+
+        if($request->password != null){
+            $user->password = Hash::make($user->password);
+            $user->update($request->password);
+        }
+        if($request->photo != null){
+            $user->photo = $fileName;
+            $user->update($request->photo);
+        }
+        
+        $user->update($request->except('currentPassword','password','photo'));
+
         $user->save();
         return new UserResource($user);
     }

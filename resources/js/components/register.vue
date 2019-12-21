@@ -164,6 +164,9 @@ export default {
                         nif: this.nif,
                         photo: this.photo
                     })
+                    .then(response=>{
+                        console.log("DEBUG: "+ response.data)
+                    })
                       /*  userAboutToLogin = response.data;
                         
                         axios.post("api/wallets", {
@@ -178,7 +181,7 @@ export default {
                     .catch(error=>{
                         console.log(error.response.data)
                     })
-                    
+
                 }
             })
             .catch(error=>{

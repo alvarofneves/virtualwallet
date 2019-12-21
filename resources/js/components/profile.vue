@@ -8,9 +8,9 @@
         <br />
         <input
             type="file"
+            class="form-control"
             accept="image/*"
-            @change="uploadImage($event)"
-            id="file-input"
+            @change="uploadImage"
         />
         <br/><br/>
         <div class="form-group">
@@ -22,7 +22,7 @@
                 v-model="name"
                 name="name"
                 id="name"
-                placeholder="New name"
+                placeholder="Name"
             />
         </div>
         <p v-if="isSubmitted && !$v.name.alpha">Only letters acceptable</p>
@@ -101,14 +101,15 @@ export default {
     props: ["users"],
     data: function() {
         return {
-            name: "",
+            name: this.$store.state.user.name,
             email: "",
             currentPassword: "",
             newPassword: "",
             confirmNewPassword: "",
-            nif: "",
+            nif: this.$store.state.user.nif,
             isSubmitted: false,
-            photo: ""
+            photo: "",
+            //updated_at: ""
         };
     },
     validations: {
@@ -143,10 +144,13 @@ export default {
                     email: this.$store.state.user.email,
                     currentPassword: this.currentPassword,
                     password: this.newPassword,
-                    nif: this.nif
+                    nif: this.nif,
+                    photo: this.photo,
+                    //updated_at: Date.now
                 })
                 .then(response => {
                     console.log(response.data);
+                    this.$store.commit("setUser", response.data.data);
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -157,6 +161,14 @@ export default {
         },
         cancelEdit() {
             this.$store.commit("editingProfileToggle");
+        },
+        uploadImage: function(event){
+            var fileReader = new FileReader()
+
+            fileReader.readAsDataURL(event.target.files[0])
+            fileReader.onload = (event) =>{
+                this.photo = event.target.result
+            }
         }
     }
 };
@@ -165,5 +177,8 @@ export default {
 <style scoped>
 p {
     color: red;
+}
+img{
+    width: 128px
 }
 </style>

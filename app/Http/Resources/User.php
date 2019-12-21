@@ -22,7 +22,7 @@ class User extends Resource
             'nif' => $this->nif,
             'active' => $this->active,
             'wallet' => $this->wallet,
-            'photo' => '/storage/fotos/'.$this->photo,
+            'photo' => $this->photo,
         ];
     }
 }
