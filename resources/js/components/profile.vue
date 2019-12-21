@@ -1,8 +1,18 @@
 <template>
     <div class="jumbotron">
-        <pre>{{ $v.nif }}</pre>
         <h2>Edit User</h2>
+        <img :src="'/fotos/'+this.$store.state.user.photo">
+        <!-- TODO: Atenção, mudar depois do deploy-->
         <label>Email: {{ this.$store.state.user.email }} </label><br /><br />
+        <label>Photo</label>
+        <br />
+        <input
+            type="file"
+            accept="image/*"
+            @change="uploadImage($event)"
+            id="file-input"
+        />
+        <br/><br/>
         <div class="form-group">
             <label for="inputName">Name</label>
             <input
@@ -16,14 +26,6 @@
             />
         </div>
         <p v-if="isSubmitted && !$v.name.alpha">Only letters acceptable</p>
-        <label>Photo</label>
-        <br />
-        <input
-            type="file"
-            accept="image/*"
-            @change="uploadImage($event)"
-            id="file-input"
-        />
         <br />
         <label>Current Password</label>
         <input
@@ -81,7 +83,6 @@
             <a class="btn btn-light" v-on:click.prevent="cancelEdit()"
                 >Cancel</a
             >
-            <label for="teste">DEBUG: {{ this.$store.state.user }}</label>
         </div>
     </div>
 </template>
@@ -97,7 +98,7 @@ import {
 } from "vuelidate/lib/validators";
 
 export default {
-    props: ["user"],
+    props: ["users"],
     data: function() {
         return {
             name: "",
@@ -106,7 +107,8 @@ export default {
             newPassword: "",
             confirmNewPassword: "",
             nif: "",
-            isSubmitted: false
+            isSubmitted: false,
+            photo: ""
         };
     },
     validations: {

@@ -44,6 +44,10 @@ Route::get('categories', 'CategoryControllerAPI@index');
 //LOGIN API
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout', 'LoginControllerAPI@logout');
+//PHOTOS API
+Route::post('users/{id}/photo','FileController@storePhoto');
+Route::get('/{fileName}', 'ProfileController@viewPhoto');
+//TODO: Get route para conseguir onbter as imagens 
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:
 NOTA: neste caso, o parâmetro a receber nos métodos do controlador é user e não id

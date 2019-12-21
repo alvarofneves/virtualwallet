@@ -21,7 +21,8 @@ class User extends Resource
             'type' => $this->type,
             'nif' => $this->nif,
             'active' => $this->active,
-            'wallet' => $this->wallet
+            'wallet' => $this->wallet,
+            'photo' => '/storage/fotos/'.$this->photo,
         ];
     }
 }

@@ -79,10 +79,12 @@ export default {
 
                         })
                         .catch(error =>{
+                            console.log(error.response.data);
                             console.log("Cannot get user");
                         })
                     })
                     .catch(error =>{
+                        console.log(error.response.data);
                         console.log("Cannot log in");
                     })
             }else{

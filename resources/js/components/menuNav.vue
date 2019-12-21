@@ -44,9 +44,10 @@
 <script>
 export default {
     
-    props: ['wallets'],
+    props: ['users','wallets'],
     methods: {
         profile: function(){
+            console.log(this.$store.state.user);
             this.$store.commit("edditingProfileToggle");
         },
         logout: function(){

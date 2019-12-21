@@ -75,9 +75,9 @@
             <br />
             <input
                 type="file"
+                class="form-control"
                 accept="image/*"
-                @change="uploadImage($event)"
-                id="file-input"
+                @change="uploadImage"
             />
             <hr />
             <button class="btn btn-primary" v-on:click.prevent="createUser()">
@@ -114,9 +114,10 @@ export default {
             email: "",
             password: "",
             confirmation_password: "",
+            photo: "",
             nif:"",
             wallet: undefined,
-            usersOnRegister: [],
+            usersOnRegister: undefined,
             isSubmitted: false
         };
     },
@@ -160,10 +161,10 @@ export default {
                         name: this.name,
                         email: this.email,
                         password: this.password,
-                        nif: this.nif
+                        nif: this.nif,
+                        photo: this.photo
                     })
-                    .then(response =>{
-                        userAboutToLogin = response.data;
+                      /*  userAboutToLogin = response.data;
                         
                         axios.post("api/wallets", {
                             id: userAboutToLogin.id,
@@ -173,10 +174,24 @@ export default {
                         .then(response =>{
                             //this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
                         })
+                    })*/
+                    .catch(error=>{
+                        console.log(error.response.data)
                     })
                     
                 }
-            });
+            })
+            .catch(error=>{
+                console.log(error.response.data)
+            })
+        },
+        uploadImage: function(event){
+            var fileReader = new FileReader()
+
+            fileReader.readAsDataURL(event.target.files[0])
+            fileReader.onload = (event) =>{
+                this.photo = event.target.result
+            }
         },
         mounted() {
             console.log(users)

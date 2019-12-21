@@ -1935,9 +1935,11 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$store.commit("setUser", response.data);
           })["catch"](function (error) {
+            console.log(error.response.data);
             console.log("Cannot get user");
           });
         })["catch"](function (error) {
+          console.log(error.response.data);
           console.log("Cannot log in");
         });
       } else {
@@ -2140,9 +2142,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['wallets'],
+  props: ['users', 'wallets'],
   methods: {
     profile: function profile() {
+      console.log(this.$store.state.user);
       this.$store.commit("edditingProfileToggle");
     },
     logout: function logout() {
@@ -2570,9 +2573,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["user"],
+  props: ["users"],
   data: function data() {
     return {
       name: "",
@@ -2581,7 +2585,8 @@ __webpack_require__.r(__webpack_exports__);
       newPassword: "",
       confirmNewPassword: "",
       nif: "",
-      isSubmitted: false
+      isSubmitted: false,
+      photo: ""
     };
   },
   validations: {
@@ -2752,9 +2757,10 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "",
       confirmation_password: "",
+      photo: "",
       nif: "",
       wallet: undefined,
-      usersOnRegister: [],
+      usersOnRegister: undefined,
       isSubmitted: false
     };
   },
@@ -2803,18 +2809,37 @@ __webpack_require__.r(__webpack_exports__);
             name: _this.name,
             email: _this.email,
             password: _this.password,
-            nif: _this.nif
-          }).then(function (response) {
-            userAboutToLogin = response.data;
+            nif: _this.nif,
+            photo: _this.photo
+          })
+          /*  userAboutToLogin = response.data;
+            
             axios.post("api/wallets", {
-              id: userAboutToLogin.id,
-              email: _this.email,
-              balance: 0
-            }).then(function (response) {//this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
-            });
+                id: userAboutToLogin.id,
+                email: this.email,
+                balance: 0
+            })
+            .then(response =>{
+                //this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
+            })
+          })*/
+          ["catch"](function (error) {
+            console.log(error.response.data);
           });
         }
+      })["catch"](function (error) {
+        console.log(error.response.data);
       });
+    },
+    uploadImage: function uploadImage(event) {
+      var _this2 = this;
+
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(event.target.files[0]);
+
+      fileReader.onload = function (event) {
+        _this2.photo = event.target.result;
+      };
     },
     mounted: function mounted() {
       console.log(users);
@@ -54952,13 +54977,29 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
-    _c("pre", [_vm._v(_vm._s(_vm.$v.nif))]),
-    _vm._v(" "),
     _c("h2", [_vm._v("Edit User")]),
+    _vm._v(" "),
+    _c("img", { attrs: { src: "/fotos/" + this.$store.state.user.photo } }),
     _vm._v(" "),
     _c("label", [
       _vm._v("Email: " + _vm._s(this.$store.state.user.email) + " ")
     ]),
+    _c("br"),
+    _c("br"),
+    _vm._v(" "),
+    _c("label", [_vm._v("Photo")]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("input", {
+      attrs: { type: "file", accept: "image/*", id: "file-input" },
+      on: {
+        change: function($event) {
+          return _vm.uploadImage($event)
+        }
+      }
+    }),
+    _vm._v(" "),
     _c("br"),
     _c("br"),
     _vm._v(" "),
@@ -54999,19 +55040,6 @@ var render = function() {
     _vm.isSubmitted && !_vm.$v.name.alpha
       ? _c("p", [_vm._v("Only letters acceptable")])
       : _vm._e(),
-    _vm._v(" "),
-    _c("label", [_vm._v("Photo")]),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { type: "file", accept: "image/*", id: "file-input" },
-      on: {
-        change: function($event) {
-          return _vm.uploadImage($event)
-        }
-      }
-    }),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
@@ -55192,11 +55220,7 @@ var render = function() {
           }
         },
         [_vm._v("Cancel")]
-      ),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "teste" } }, [
-        _vm._v("DEBUG: " + _vm._s(this.$store.state.user))
-      ])
+      )
     ])
   ])
 }
@@ -55472,12 +55496,9 @@ var render = function() {
         _c("br"),
         _vm._v(" "),
         _c("input", {
-          attrs: { type: "file", accept: "image/*", id: "file-input" },
-          on: {
-            change: function($event) {
-              return _vm.uploadImage($event)
-            }
-          }
+          staticClass: "form-control",
+          attrs: { type: "file", accept: "image/*" },
+          on: { change: _vm.uploadImage }
         }),
         _vm._v(" "),
         _c("hr"),

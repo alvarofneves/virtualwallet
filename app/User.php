@@ -22,7 +22,8 @@ class User extends Authenticatable
         'password',
         'type',
         'nif',
-        'ative'
+        'ative',
+        'photo'
         // 'department_id',
     ];
 

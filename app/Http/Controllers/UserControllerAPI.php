@@ -44,9 +44,23 @@ class UserControllerAPI extends Controller
                 'password' => 'min:3'/* ,
                 'nif' => 'min:9' */
             ]);
+            //\Log::info($request->all()); DEBUG!!
+        $exploded = explode(',', $request->photo);
+        $decoded = base64_decode($exploded[1]);
+        if(str_contains($exploded[0], 'jpeg'))
+            $extension = '.jpg';
+        else
+            $extension = '.png';
+
+        $fileName = '_'.str_random().'.'.$extension;
+        $path = public_path('/storage/fotos').'/'.$fileName;
+        file_put_contents($path, $decoded);
+
+        
         $user = new User();
-        $user->fill($request->all());
+        $user->fill($request->except('photo')); //request->all
         $user->password = Hash::make($user->password);
+        $user->photo = $fileName;
         $user->save();
         return response()->json(new UserResource($user), 201);
     }
