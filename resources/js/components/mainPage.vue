@@ -17,13 +17,12 @@
         <div v-if="this.$store.state.isLogged">
             <menuNav />
             <div v-if="!this.$store.state.isEdditingProfile">
-                <!-- <div v-if="this.$store.state.user.type=='a'||this.$store.state.user.type=='o'"> 
-                <movements/>
+                <div v-if="!this.$store.state.isCreateMovement">
+                    <movements :users="users"/>
                 </div>
-                <div v-if="this.$store.state.user.type=='u'"> 
-                <movements user.id=movement.id/>
-                </div> -->
-                <movements :users="users"/>
+                <div v-if="this.$store.state.isCreateMovement">
+                    <movementCreate :categories="this.$store.state.categories"/>
+                </div>
             </div>
             <div v-if="this.$store.state.isEdditingProfile">
                 <profile />
@@ -39,9 +38,11 @@ import ProfileComponent from "./profile";
 import RegisterComponent from "./register";
 import WalletsComponent from "./wallets";
 import MovementsComponent from "./movements";
+import MovementCreateComponent from "./movementCreate";
 import MenuNavComponent from "./menuNav";
 
 export default {
+    //TODO: Tranferir as variaveis boolean da storage para mainPage (meter em variaveis locais)
     props: ["user"],
     data: function() {
         return {
@@ -53,9 +54,10 @@ export default {
             users: [],
             movements: [],
             registerUserState: false,
+            createMovementState: false,
             wallets: [],
-            walletsCount: null/* ,
-            categories:[] */
+            walletsCount: null,
+            
         };
     },
     methods: {
@@ -81,6 +83,12 @@ export default {
         },
         cancelRegisterUser: function() {
             this.registerUserState = false;
+        },
+        beginCreateMovement: function(){
+            this.createMovementState = true;
+        },
+        cancelCreateMovement: function(){
+            this.createMovementState = false;
         },
         changeLoginState: function(user) {
             this.$store.commit("setUser", user);
@@ -109,7 +117,8 @@ export default {
         wallets: WalletsComponent,
         menuNav : MenuNavComponent,
         profile : ProfileComponent,
-        movements : MovementsComponent
+        movements : MovementsComponent,
+        movementCreate : MovementCreateComponent
     }
 };
 </script>

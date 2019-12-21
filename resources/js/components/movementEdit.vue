@@ -15,7 +15,7 @@
         <div class="form-group">
             <label for="category_id">Category:</label>
             <select class="form-control" id="category_id" name="category_id" v-model="movement.category_id" >
-	            <option v-for="category in categories" :key="category.id" v-bind:value="category.id"> {{ category.name }} </option>
+	            <option v-for="category in typeMovement(categories, movement)" :key="category.id" v-bind:value="category.id"> {{ category.name }} </option>
 	        </select>
         </div>
         <div class="form-group">
@@ -42,6 +42,13 @@ export default {
         },
         cancelEdit() {
             this.$emit("cancel-edit");
+        },
+        typeMovement(categories, movement) {
+            return this.categories.filter(category => {
+                if(category.type == movement.type){
+                    return category;
+                }
+            })
         }
     }
 };
