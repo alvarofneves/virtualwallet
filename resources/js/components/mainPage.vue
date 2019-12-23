@@ -6,22 +6,33 @@
                 <h2>Total Wallets</h2>
                 <h1>{{ this.wallets.length }}</h1>
             </div>
-            <br><br>
+            <br /><br />
             <div v-if="!registerUserState">
                 <login @begin-register-user="beginRegisterUser" />
             </div>
             <div v-if="registerUserState">
-                <register :users="users" @cancel-register-user="cancelRegisterUser" />
+                <register
+                    :users="users"
+                    @cancel-register-user="cancelRegisterUser"
+                />
             </div>
         </div>
         <div v-if="this.$store.state.isLogged">
             <menuNav />
             <div v-if="!this.$store.state.isEdditingProfile">
                 <div v-if="!this.$store.state.isCreateMovement">
-                    <movements :users="users"/>
+                    <movements :users="users" />
                 </div>
+
+                <!-- se  não forem users aparecem a listagem de users -->
+                <!-- <div v-if="!this.$store.state.type == 'u'">
+                    <users />
+                </div> -->
+
                 <div v-if="this.$store.state.isCreateMovement">
-                    <movementCreate :categories="this.$store.state.categories"/>
+                    <movementCreate
+                        :categories="this.$store.state.categories"
+                    />
                 </div>
             </div>
             <div v-if="this.$store.state.isEdditingProfile">
@@ -56,21 +67,19 @@ export default {
             registerUserState: false,
             createMovementState: false,
             wallets: [],
-            walletsCount: null,
-            
+            walletsCount: null
         };
     },
     methods: {
         getUsers: function() {
             axios.get("api/users").then(responseUser => {
                 this.users = responseUser.data.data;
-
                 //TODO: future delete:
                 axios.get("api/wallets").then(responseWallets => {
                     this.wallets = responseWallets.data.data;
                     this.users.forEach(user => {
                         this.wallets.forEach(wallet => {
-                            if(user.email == wallet.email){
+                            if (user.email == wallet.email) {
                                 user.wallet = wallet;
                             }
                         });
@@ -84,10 +93,10 @@ export default {
         cancelRegisterUser: function() {
             this.registerUserState = false;
         },
-        beginCreateMovement: function(){
+        beginCreateMovement: function() {
             this.createMovementState = true;
         },
-        cancelCreateMovement: function(){
+        cancelCreateMovement: function() {
             this.createMovementState = false;
         },
         changeLoginState: function(user) {
@@ -99,9 +108,8 @@ export default {
     mounted() {
         this.getUsers();
         console.log(this.wallets);
-        if (sessionStorage.getItem('token')){
-            this.$store.commit('loadTokenAndUserFromSession');
-            
+        if (sessionStorage.getItem("token")) {
+            this.$store.commit("loadTokenAndUserFromSession");
         }
     },
     computed: {
@@ -115,15 +123,15 @@ export default {
         users: UsersComponent,
         register: RegisterComponent,
         wallets: WalletsComponent,
-        menuNav : MenuNavComponent,
-        profile : ProfileComponent,
-        movements : MovementsComponent,
-        movementCreate : MovementCreateComponent
+        menuNav: MenuNavComponent,
+        profile: ProfileComponent,
+        movements: MovementsComponent,
+        movementCreate: MovementCreateComponent
     }
 };
 </script>
 <style>
 .px-2 {
-  padding-top: 30px;
+    padding-top: 30px;
 }
 </style>

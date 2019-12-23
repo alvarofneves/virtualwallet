@@ -16,13 +16,7 @@ class MovementControllerAPI extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->has('page')) {
-            return MovementResource::collection(Movement::paginate(5));
-        } else {
-            return MovementResource::collection(Movement::all());
-        }
-
-
+            return MovementResource::collection(Movement::paginate(10));
     }
 
     public function show($id)
@@ -32,7 +26,7 @@ class MovementControllerAPI extends Controller
 
     public function show_movement_id($id)
     {
-        return MovementResource::collection(Movement::where('wallet_id', $id)->get());
+        return MovementResource::collection(Movement::where('wallet_id', $id)->paginate(10));
     }
 
     public function store(Request $request)

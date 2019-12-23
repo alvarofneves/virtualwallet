@@ -43,6 +43,15 @@
             </tr>
         </stack-modal>
 
+        <movement-edit
+            v-if="editingMovement"
+            :categories="this.$store.state.categories"
+            :movement="currentMovement"
+            @save-movement="saveMovement"
+            @cancel-edit="cancelEditMovement"
+        >
+        </movement-edit>
+
         <div>
             <movement-list
                 :movements="movements"
@@ -53,23 +62,13 @@
                 ref="moventsListReference"
             >
             </movement-list>
-            <!-- <pagination
-                :data="movements"
-                @pagination-change-page="getMovements"
-            ></pagination>
-            <span slot="prev-nav">Previous</span>
-            <span slot="next-nav">Next</span> -->
+            <pagination 
+                :meta_data="meta_data"
+                @next="getMovements">
+            </pagination>
         </div>
-        <movement-edit
-            v-if="editingMovement"
-            :categories="this.$store.state.categories"
-            :movement="currentMovement"
-            @save-movement="saveMovement"
-            @cancel-edit_movement="cancelEditMovement"
-        >
-        </movement-edit>
 
-        <!--         <div class="alert alert-success" v-if="showSuccess">
+        <!--<div class="alert alert-success" v-if="showSuccess">
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div> -->
@@ -80,6 +79,7 @@
 import StackModal from "./stackModel";
 import MovementListComponent from "./movementList";
 import MovementEditComponent from "./movementEdit";
+import PaginationComponent from "./pagination";
 
 export default {
     props: ["users"],
@@ -95,21 +95,28 @@ export default {
             movementToPut: null,
             movements: [],
             categories: [],
-            popupActivo: false
+            popupActivo: false,
+            meta_data: {
+                last_page: null,
+                current_page: 1,
+                prev_page_url: null
+            }
         };
     },
     methods: {
-        getMovements: function(page) {
-            if (typeof page === 'undefined') {
-				page = 1;
-			}
-            axios
-                .get(
-                    "api/movements/" +
-                        this.$store.state.user.id
-                )
+        getMovements: function(page = 1) {
+            axios.get("api/movements/" + this.$store.state.user.id, {
+                    params: {
+                        page
+                    }
+            })
                 .then(response => {
+                    console.log(response)
                     this.movements = response.data.data;
+
+                    this.meta_data.last_page = response.data.meta.last_page;
+                    this.meta_data.current_page = response.data.meta.current_page;
+                    this.meta_data.prev_page_url = response.data.meta.prev_page_url;
                 });
         },
         editMovement: function(movement) {
@@ -141,14 +148,6 @@ export default {
         cancelEditMovement: function() {
             this.showSuccess = false;
             this.editingMovement = false;
-            axios
-                .get("api/movements/" + this.currentMovement.id)
-                .then(response => {
-                    // Copies response.data.data properties to this.currentUser
-                    // without changing this.currentUser reference
-                    Object.assign(this.currentMovement, response.data.data);
-                    //this.$refs.UserListReference.currentUser = null;
-                });
         }
     },
     mounted() {
@@ -157,7 +156,8 @@ export default {
     components: {
         "movement-list": MovementListComponent,
         "movement-edit": MovementEditComponent,
-        StackModal
+        StackModal,
+        "pagination": PaginationComponent
     }
 };
 </script>

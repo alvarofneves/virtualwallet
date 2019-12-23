@@ -23,7 +23,7 @@ import StackModal from '@innologica/vue-stackable-modal'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-/* import VuePaginate from 'vue-paginate' */
+
 
 
 window.Vue = require('vue');
@@ -32,7 +32,6 @@ window.Vue = require('vue');
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
-/* Vue.use(VuePaginate) */
 Vue.use(StackModal)
 
 const routes = [
