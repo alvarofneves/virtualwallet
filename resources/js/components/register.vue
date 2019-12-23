@@ -164,20 +164,16 @@ export default {
                         nif: this.nif,
                         photo: this.photo
                     })
-                    .then(response=>{
-                        console.log("DEBUG: "+ response.data)
-                    })
-                      /*  userAboutToLogin = response.data;
-                        
+                    .then(response => {
                         axios.post("api/wallets", {
-                            id: userAboutToLogin.id,
-                            email: this.email,
+                            id: response.data.id,
+                            email: response.data.email,
                             balance: 0
                         })
                         .then(response =>{
                             //this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
                         })
-                    })*/
+                    })
                     .catch(error=>{
                         console.log(error.response.data)
                     })
