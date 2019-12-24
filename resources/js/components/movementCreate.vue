@@ -8,14 +8,8 @@
                 <option value="transfer"> Bank Transfer </option>
 	        </select>
         </div>
-        <div class="form-group">
-            <label for="category_id">Category:</label>
-            <select class="form-control" id="category_id" name="category_id" >
-	            <option v-for="category in typeExpense(categories)" :key="category.id" v-bind:value="category.id"> {{ category.name }} </option>
-	        </select>
-        </div>
 
-        <div v-if="typeOfMovement == 'external'" class="form-group">
+        <div class="form-group">
             <label for="inputValue">Value:</label>
             <input
                 type="text"
@@ -23,29 +17,70 @@
                 name="value"
                 id="inputValue"
                 placeholder="Value"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="category_id">Category:</label>
+            <select class="form-control" id="category_id" name="category_id" >
+	            <option v-for="category in typeExpense(categories)" :key="category.id" v-bind:value="category.id"> 
+                    {{ category.name }}
+                </option>
+	        </select>
+        </div>
+
+        <div class="form-group">
+            <label for="inputValue">Description:</label>
+            <input
+                type="text"
+                class="form-control"
+                name="description"
+                id="inputDescription"
+                placeholder="Description"
             />
         </div>
 
         <div v-if="typeOfMovement == 'transfer'" class="form-group">
-            <label for="inputValue">Value:</label>
+            <label for="inputValue">IBAN:</label>
             <input
                 type="text"
                 class="form-control"
-                name="value"
-                id="inputValue"
-                placeholder="Value"
+                name="description"
+                id="inputDescription"
+                placeholder="IBAN"
             />
         </div>
 
-        <div class="form-group">
-            <label for="inputValue">Value:</label>
+        <div v-if="typeOfMovement == 'transfer'" class="form-group">
+            <label for="inputValue">Destination's E-mail:</label>
             <input
                 type="text"
                 class="form-control"
-                name="value"
-                id="inputValue"
-                placeholder="Value"
-                @keypress="isNumber($event)"
+                name="destEmail"
+                id="inputDestEmail"
+                placeholder="Destination's E-mail"
+            />
+        </div>
+
+        <div v-if="typeOfMovement == 'external'" class="form-group">
+            <label for="inputValue">MB Entity Code:</label>
+            <input
+                type="text"
+                class="form-control"
+                name="mBEntityCode"
+                id="inputMBentityCode"
+                placeholder="MB Entity Code"
+            />
+        </div>
+
+        <div v-if="typeOfMovement == 'external'" class="form-group">
+            <label for="inputValue">MB Entity Reference:</label>
+            <input
+                type="text"
+                class="form-control"
+                name="mBEntityReference"
+                id="inputMBEntityReference"
+                placeholder="MB Entity Reference"
             />
         </div>
 
@@ -93,7 +128,7 @@ export default {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
             if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 44) {
-                evt.preventDefault();;
+                evt.preventDefault();
             } else {
                 return true;
             }

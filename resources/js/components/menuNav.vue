@@ -2,7 +2,10 @@
         <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
 
         <a class="navbar-brand mr-1" >
-            <h1 style="color:white;">Welcome, {{ this.$store.state.user.name }}</h1>
+            <h1 style="color:white;">
+                <img height="60" width="60" :src="'/storage/fotos/' + this.$store.state.user.photo">
+                Welcome, {{ this.$store.state.user.name }}
+            </h1>
         </a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">

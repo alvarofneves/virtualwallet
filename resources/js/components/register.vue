@@ -165,6 +165,7 @@ export default {
                         photo: this.photo
                     })
                     .then(response => {
+                        console.log(response.data)
                         axios.post("api/wallets", {
                             id: response.data.id,
                             email: response.data.email,

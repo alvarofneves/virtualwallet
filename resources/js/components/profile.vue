@@ -1,7 +1,7 @@
 <template>
     <div class="jumbotron">
         <h2>Edit User</h2>
-        <img :src="'/fotos/'+this.$store.state.user.photo">
+        <img :src="'/storage/fotos/' + this.$store.state.user.photo">
         <!-- TODO: Atenção, mudar depois do deploy-->
         <label>Email: {{ this.$store.state.user.email }} </label><br /><br />
         <label>Photo</label>
@@ -160,6 +160,7 @@ export default {
             }
         },
         cancelEdit() {
+            console.log(this.$store.state.user.photo)
             this.$store.commit("editingProfileToggle");
         },
         uploadImage: function(event){
