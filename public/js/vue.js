@@ -2056,8 +2056,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("api/users").then(function (responseUser) {
         _this.users = responseUser.data.data;
-        console.log(_this.users); //TODO: future delete:
-
         axios.get("api/wallets").then(function (responseWallets) {
           _this.wallets = responseWallets.data.data;
 
@@ -2314,11 +2312,44 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       typeOfMovement: "external",
-      newMovement: null
+      newMovement: null,
+      value: null,
+      category: null,
+      description: null,
+      iban: null,
+      destEmail: null,
+      mBEntityCode: null,
+      mBEntityReference: null
     };
   },
   methods: {
     saveMovement: function saveMovement() {
+      this.newMovement.type = "e";
+      this.newMovement.wallet_id = this.$store.state.wallet.id;
+      this.newMovement.value = this.value;
+      this.newMovement.start_balance = this.$store.state.wallet.balance;
+      this.newMovement.end_balance = this.newMovement.start_balance - this.value;
+      this.newMovement.category_id = category.id;
+      this.newMovement.category = this.category;
+      this.newMovement.description = this.description; //Get today's Date
+
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var dateTime = date + ' ' + time;
+      this.newMovement.date = dateTime;
+
+      if (typeOfMovement == "external") {
+        this.newMovement.transfer = 0;
+        this.newMovement.type_payment = "mb";
+        this.newMovement.mb_entity_code = this.mBEntityCode;
+        this.newMovement.mb_payment_reference = this.mBEntityReference;
+      } else {
+        this.newMovement.transfer = 1;
+        this.newMovement.type_payment = "bt";
+        this.newMovement.iban = this.iban; //this.newMovement.email = 
+      }
+
       this.$emit("save-movement", this.movement);
     },
     cancelEdit: function cancelEdit() {
@@ -2348,6 +2379,11 @@ __webpack_require__.r(__webpack_exports__);
         return true;
       }
     }
+  },
+  mounted: function mounted() {
+    console.log("Current State: ");
+    console.log(this.$store.state);
+    console.log(dateTime);
   }
 });
 
@@ -54934,8 +54970,8 @@ var render = function() {
             staticClass: "form-control",
             attrs: {
               type: "text",
-              name: "description",
-              id: "inputDescription",
+              name: "iban",
+              id: "inputIban",
               placeholder: "IBAN"
             }
           })
