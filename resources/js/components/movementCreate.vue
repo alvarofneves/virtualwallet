@@ -117,6 +117,7 @@ export default {
             typeOfMovement: "external",
             newMovement: null,
             value: null,
+            date: null,
             category: null,
             description: null,
             iban: null,
@@ -146,12 +147,7 @@ export default {
     },
     methods: {
         saveMovement() {
-            this.newMovement.type = "e";
-            this.newMovement.wallet_id = this.$store.state.wallet.id;
-            this.newMovement.value = this.value;
-            this.newMovement.start_balance = this.$store.state.wallet.balance;
-            this.newMovement.end_balance = this.newMovement.start_balance - this.value;
-            this.newMovement.category_id = category.id;
+            this.newMovement.category_id = this.category.id;
             this.newMovement.category = this.category;
             this.newMovement.description = this.description;
 
@@ -161,29 +157,53 @@ export default {
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date + ' ' + time;
 
-            this.newMovement.date = dateTime;
+            this.date = dateTime;
 
             if(typeOfMovement == "external"){
-                this.newMovement.transfer = 0;
-                this.newMovement.type_payment = "mb";
-                this.newMovement.mb_entity_code = this.mBEntityCode;
-                this.newMovement.mb_payment_reference = this.mBEntityReference;
-
                 axios.post("api/movements", {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                        nif: this.nif,
-                        photo: this.photo
+                    wallet_id: this.$store.state.wallet.id,
+                    email: this.email,
+                    transfer_wallet_id: this.transfer_wallet_id,
+                    type: "e",
+                    transfer: 0,
+                    type_payment: "mb",
+                    category_id: this.category_id,
+                    category: this.category,
+                    iban: this.iban,
+                    mb_entity_code: this.mBEntityCode,
+                    mb_payment_reference: this.mBEntityReference,
+                    description: this.description,
+                    date: this.date,
+                    start_balance: this.$store.state.wallet.balance,
+                    end_balance: (this.$store.state.wallet.balance - this.value),
+                    value: this.value
+                }).then(response => {
+                        console.log(response.data);
                     })
 
             }else{
-                this.newMovement.transfer = 1;
-                this.newMovement.type_payment = "bt";
-                this.newMovement.iban = this.iban;
                 //this.newMovement.email = 
 
-
+                axios.post("api/movements", {
+                    wallet_id: this.$store.state.wallet.id,
+                    email: this.email,
+                    transfer_wallet_id: this.transfer_wallet_id,
+                    type: "e",
+                    transfer: 1,
+                    type_payment: "bt",
+                    category_id: this.category_id,
+                    category: this.category,
+                    iban: this.iban,
+                    mb_entity_code: this.mb_entity_code,
+                    mb_payment_reference: this.mb_payment_reference,
+                    description: this.description,
+                    date: this.date,
+                    start_balance: this.$store.state.wallet.balance,
+                    end_balance: (this.$store.state.wallet.balance - this.value),
+                    value: this.value
+                }).then(response => {
+                        console.log(response.data);
+                    })
             }
 
             this.$emit("save-movement", this.movement);
@@ -218,10 +238,6 @@ export default {
     mounted() {
         console.log("Current State: ");
         console.log(this.$store.state);
-
-        
-
-        console.log(dateTime)
     }
 };
 </script>

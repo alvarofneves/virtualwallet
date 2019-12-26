@@ -9,8 +9,8 @@
             v-if="popupActivo"
             :show="popupActivo"
             title="Movement Detail"
-            @close="popupActivo = false"
-        >
+            @close="popupActivo = false">
+
             <tr>
                 <th v-if="currentMovement.iban">IBAN</th>
                 <th v-if="currentMovement.mb_entity_code">MB Entity Code</th>
@@ -21,7 +21,7 @@
                 <th v-if="currentMovement.source_description">
                     Source Description
                 </th>
-                <th v-if="currentMovement.wallet_id">Photo</th>
+                <th v-if="currentMovement.transfer_wallet_id">Photo</th>
             </tr>
             <tr>
                 <th v-if="currentMovement.iban">{{ currentMovement.iban }}</th>
@@ -37,8 +37,12 @@
                 <th v-if="currentMovement.source_description">
                     {{ currentMovement.source_description }}
                 </th>
-                <th v-if="currentMovement.wallet_id">
-                    {{ currentMovement.wallet_id }}
+                <th v-if="currentMovement.transfer_wallet_id">
+                    <img v-if="this.currentMovementPhoto != ''"
+                    height="60" 
+                    width="60" 
+                    :src="'/storage/fotos/' + this.currentMovementPhoto"
+                    />
                 </th>
             </tr>
         </stack-modal>
@@ -92,6 +96,7 @@ export default {
             successMessage: "",
             failMessage: "",
             currentMovement: null,
+            currentMovementPhoto: "",
             movementToPut: null,
             movements: [],
             categories: [],
@@ -119,6 +124,13 @@ export default {
                     this.meta_data.prev_page_url = response.data.meta.prev_page_url;
                 });
         },
+        getPhoto: function(id){
+            axios.get("api/users/" + id)
+            .then(response => {
+                console.log(response)
+                this.currentMovementPhoto = response.data.data.photo;
+            })
+        },
         editMovement: function(movement) {
             this.currentMovement = movement;
             this.editingMovement = true;
@@ -126,6 +138,9 @@ export default {
             console.log(this.$store.state.categories);
         },
         movementDetail: function(movement) {
+            if(movement.transfer_wallet_id != null){
+                this.getPhoto(movement.transfer_wallet_id);
+            }
             this.currentMovement = movement;
             this.popupActivo = true;
         },
