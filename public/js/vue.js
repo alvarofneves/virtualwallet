@@ -2015,6 +2015,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2046,8 +2055,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("api/users").then(function (responseUser) {
-        _this.users = responseUser.data.data; //TODO: future delete:
-
+        _this.users = responseUser.data.data;
         axios.get("api/wallets").then(function (responseWallets) {
           _this.wallets = responseWallets.data.data;
 
@@ -2116,6 +2124,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2261,16 +2272,84 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['movement', 'categories'],
   data: function data() {
     return {
       typeOfMovement: "external",
-      newMovement: null
+      newMovement: null,
+      value: null,
+      category: null,
+      description: null,
+      iban: null,
+      destEmail: null,
+      mBEntityCode: null,
+      mBEntityReference: null
     };
   },
   methods: {
     saveMovement: function saveMovement() {
+      this.newMovement.type = "e";
+      this.newMovement.wallet_id = this.$store.state.wallet.id;
+      this.newMovement.value = this.value;
+      this.newMovement.start_balance = this.$store.state.wallet.balance;
+      this.newMovement.end_balance = this.newMovement.start_balance - this.value;
+      this.newMovement.category_id = category.id;
+      this.newMovement.category = this.category;
+      this.newMovement.description = this.description; //Get today's Date
+
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var dateTime = date + ' ' + time;
+      this.newMovement.date = dateTime;
+
+      if (typeOfMovement == "external") {
+        this.newMovement.transfer = 0;
+        this.newMovement.type_payment = "mb";
+        this.newMovement.mb_entity_code = this.mBEntityCode;
+        this.newMovement.mb_payment_reference = this.mBEntityReference;
+      } else {
+        this.newMovement.transfer = 1;
+        this.newMovement.type_payment = "bt";
+        this.newMovement.iban = this.iban; //this.newMovement.email = 
+      }
+
       this.$emit("save-movement", this.movement);
     },
     cancelEdit: function cancelEdit() {
@@ -2296,11 +2375,15 @@ __webpack_require__.r(__webpack_exports__);
 
       if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 44) {
         evt.preventDefault();
-        ;
       } else {
         return true;
       }
     }
+  },
+  mounted: function mounted() {
+    console.log("Current State: ");
+    console.log(this.$store.state);
+    console.log(dateTime);
   }
 });
 
@@ -2912,6 +2995,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cancelEdit: function cancelEdit() {
+      console.log(this.$store.state.user.photo);
       this.$store.commit("editingProfileToggle");
     },
     uploadImage: function uploadImage(event) {
@@ -3103,6 +3187,7 @@ __webpack_require__.r(__webpack_exports__);
             nif: _this.nif,
             photo: _this.photo
           }).then(function (response) {
+            console.log(response.data);
             axios.post("api/wallets", {
               id: response.data.id,
               email: response.data.email,
@@ -54527,11 +54612,27 @@ var render = function() {
             !this.$store.state.isEdditingProfile
               ? _c("div", [
                   !this.$store.state.isCreateMovement
-                    ? _c(
-                        "div",
-                        [_c("movements", { attrs: { users: _vm.users } })],
-                        1
-                      )
+                    ? _c("div", [
+                        this.$store.state.user.type == "u"
+                          ? _c(
+                              "div",
+                              [
+                                _c("movements", { attrs: { users: _vm.users } })
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        this.$store.state.user.type == "o"
+                          ? _c("div", [
+                              _c("h1", [_vm._v(" MAN WHAT DA HELL IS THIS! ")])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        this.$store.state.user.type == "a"
+                          ? _c("div", [_c("users")], 1)
+                          : _vm._e()
+                      ])
                     : _vm._e(),
                   _vm._v(" "),
                   this.$store.state.isCreateMovement
@@ -54585,7 +54686,18 @@ var render = function() {
     [
       _c("a", { staticClass: "navbar-brand mr-1" }, [
         _c("h1", { staticStyle: { color: "white" } }, [
-          _vm._v("Welcome, " + _vm._s(this.$store.state.user.name))
+          _c("img", {
+            attrs: {
+              height: "60",
+              width: "60",
+              src: "/storage/fotos/" + this.$store.state.user.photo
+            }
+          }),
+          _vm._v(
+            "\n            Welcome, " +
+              _vm._s(this.$store.state.user.name) +
+              "\n        "
+          )
         ])
       ]),
       _vm._v(" "),
@@ -54840,6 +54952,8 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("label", { attrs: { for: "category_id" } }, [_vm._v("Category:")]),
       _vm._v(" "),
@@ -54853,24 +54967,32 @@ var render = function() {
           return _c(
             "option",
             { key: category.id, domProps: { value: category.id } },
-            [_vm._v(" " + _vm._s(category.name) + " ")]
+            [
+              _vm._v(
+                " \n                    " +
+                  _vm._s(category.name) +
+                  "\n                "
+              )
+            ]
           )
         }),
         0
       )
     ]),
     _vm._v(" "),
-    _vm.typeOfMovement == "external"
+    _vm._m(1),
+    _vm._v(" "),
+    _vm.typeOfMovement == "transfer"
       ? _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
+          _c("label", { attrs: { for: "inputValue" } }, [_vm._v("IBAN:")]),
           _vm._v(" "),
           _c("input", {
             staticClass: "form-control",
             attrs: {
               type: "text",
-              name: "value",
-              id: "inputValue",
-              placeholder: "Value"
+              name: "iban",
+              id: "inputIban",
+              placeholder: "IBAN"
             }
           })
         ])
@@ -54878,38 +55000,57 @@ var render = function() {
     _vm._v(" "),
     _vm.typeOfMovement == "transfer"
       ? _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
+          _c("label", { attrs: { for: "inputValue" } }, [
+            _vm._v("Destination's E-mail:")
+          ]),
           _vm._v(" "),
           _c("input", {
             staticClass: "form-control",
             attrs: {
               type: "text",
-              name: "value",
-              id: "inputValue",
-              placeholder: "Value"
+              name: "destEmail",
+              id: "inputDestEmail",
+              placeholder: "Destination's E-mail"
             }
           })
         ])
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "value",
-          id: "inputValue",
-          placeholder: "Value"
-        },
-        on: {
-          keypress: function($event) {
-            return _vm.isNumber($event)
-          }
-        }
-      })
-    ]),
+    _vm.typeOfMovement == "external"
+      ? _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "inputValue" } }, [
+            _vm._v("MB Entity Code:")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              name: "mBEntityCode",
+              id: "inputMBentityCode",
+              placeholder: "MB Entity Code"
+            }
+          })
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.typeOfMovement == "external"
+      ? _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "inputValue" } }, [
+            _vm._v("MB Entity Reference:")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              name: "mBEntityReference",
+              id: "inputMBEntityReference",
+              placeholder: "MB Entity Reference"
+            }
+          })
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
@@ -54942,7 +55083,44 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "value",
+          id: "inputValue",
+          placeholder: "Value"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Description:")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "description",
+          id: "inputDescription",
+          placeholder: "Description"
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -55711,7 +55889,9 @@ var render = function() {
   return _c("div", { staticClass: "jumbotron" }, [
     _c("h2", [_vm._v("Edit User")]),
     _vm._v(" "),
-    _c("img", { attrs: { src: "/fotos/" + this.$store.state.user.photo } }),
+    _c("img", {
+      attrs: { src: "/storage/fotos/" + this.$store.state.user.photo }
+    }),
     _vm._v(" "),
     _c("label", [
       _vm._v("Email: " + _vm._s(this.$store.state.user.email) + " ")

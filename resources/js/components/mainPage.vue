@@ -21,7 +21,16 @@
             <menuNav />
             <div v-if="!this.$store.state.isEdditingProfile">
                 <div v-if="!this.$store.state.isCreateMovement">
-                    <movements :users="users" />
+                    <div v-if="this.$store.state.user.type == 'u'">
+                        <movements :users="users" />
+                    </div>
+                    <div v-if="this.$store.state.user.type == 'o'">
+                        <h1> MAN WHAT DA HELL IS THIS! </h1>
+                    </div>
+                    <div v-if="this.$store.state.user.type == 'a'">
+                        <users />
+                    </div>
+                    
                 </div>
 
                 <!-- se  não forem users aparecem a listagem de users -->
@@ -74,7 +83,6 @@ export default {
         getUsers: function() {
             axios.get("api/users").then(responseUser => {
                 this.users = responseUser.data.data;
-                //TODO: future delete:
                 axios.get("api/wallets").then(responseWallets => {
                     this.wallets = responseWallets.data.data;
                     this.users.forEach(user => {
