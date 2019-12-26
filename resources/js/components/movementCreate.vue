@@ -12,11 +12,15 @@
         <div class="form-group">
             <label for="inputValue">Value:</label>
             <input
-                type="text"
+                required
+                v-model="value"
+                @change="$v.value.$touch()"
+                type="number"
                 class="form-control"
                 name="value"
                 id="inputValue"
                 placeholder="Value"
+                value
             />
         </div>
 
@@ -43,6 +47,7 @@
         <div v-if="typeOfMovement == 'transfer'" class="form-group">
             <label for="inputValue">IBAN:</label>
             <input
+                required
                 type="text"
                 class="form-control"
                 name="iban"
@@ -54,7 +59,8 @@
         <div v-if="typeOfMovement == 'transfer'" class="form-group">
             <label for="inputValue">Destination's E-mail:</label>
             <input
-                type="text"
+                required
+                type="email"
                 class="form-control"
                 name="destEmail"
                 id="inputDestEmail"
@@ -95,6 +101,15 @@
     </div>
 </template>
 <script>
+import {
+    required,
+    email,
+    sameAs,
+    minLength,
+    length,
+    numeric,
+} from "vuelidate/lib/validators";
+
 export default {
     props: ['movement', 'categories'],
     data: function() {
@@ -109,6 +124,25 @@ export default {
             mBEntityCode: null,
             mBEntityReference: null
         };
+    },
+    validations: {
+        value: { required },
+        iban: { 
+            required,
+            lenght: 23
+        },
+        destEmail: {
+            required,
+            email,
+        },
+        mBEntityCode: {
+            required,
+            lenght: 3
+        },
+        mBEntityReference:{
+            required,
+            lenght: 3
+        }
     },
     methods: {
         saveMovement() {
@@ -134,6 +168,14 @@ export default {
                 this.newMovement.type_payment = "mb";
                 this.newMovement.mb_entity_code = this.mBEntityCode;
                 this.newMovement.mb_payment_reference = this.mBEntityReference;
+
+                axios.post("api/movements", {
+                        name: this.name,
+                        email: this.email,
+                        password: this.password,
+                        nif: this.nif,
+                        photo: this.photo
+                    })
 
             }else{
                 this.newMovement.transfer = 1;

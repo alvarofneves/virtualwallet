@@ -2211,6 +2211,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2307,6 +2309,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['movement', 'categories'],
   data: function data() {
@@ -2321,6 +2330,27 @@ __webpack_require__.r(__webpack_exports__);
       mBEntityCode: null,
       mBEntityReference: null
     };
+  },
+  validations: {
+    value: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    iban: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      lenght: 23
+    },
+    destEmail: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
+    },
+    mBEntityCode: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      lenght: 3
+    },
+    mBEntityReference: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      lenght: 3
+    }
   },
   methods: {
     saveMovement: function saveMovement() {
@@ -2344,6 +2374,13 @@ __webpack_require__.r(__webpack_exports__);
         this.newMovement.type_payment = "mb";
         this.newMovement.mb_entity_code = this.mBEntityCode;
         this.newMovement.mb_payment_reference = this.mBEntityReference;
+        axios.post("api/movements", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          nif: this.nif,
+          photo: this.photo
+        });
       } else {
         this.newMovement.transfer = 1;
         this.newMovement.type_payment = "bt";
@@ -54932,7 +54969,41 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.value,
+            expression: "value"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          required: "",
+          type: "number",
+          name: "value",
+          id: "inputValue",
+          placeholder: "Value",
+          value: ""
+        },
+        domProps: { value: _vm.value },
+        on: {
+          change: function($event) {
+            return _vm.$v.value.$touch()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.value = $event.target.value
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("label", { attrs: { for: "category_id" } }, [_vm._v("Category:")]),
@@ -54960,7 +55031,7 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(1),
+    _vm._m(0),
     _vm._v(" "),
     _vm.typeOfMovement == "transfer"
       ? _c("div", { staticClass: "form-group" }, [
@@ -54969,6 +55040,7 @@ var render = function() {
           _c("input", {
             staticClass: "form-control",
             attrs: {
+              required: "",
               type: "text",
               name: "iban",
               id: "inputIban",
@@ -54987,7 +55059,8 @@ var render = function() {
           _c("input", {
             staticClass: "form-control",
             attrs: {
-              type: "text",
+              required: "",
+              type: "email",
               name: "destEmail",
               id: "inputDestEmail",
               placeholder: "Destination's E-mail"
@@ -55064,24 +55137,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "value",
-          id: "inputValue",
-          placeholder: "Value"
-        }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
