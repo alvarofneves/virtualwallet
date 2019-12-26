@@ -1,5 +1,8 @@
 <template>
     <div class="jumbotron">
+        <pre>
+            {{ $v.tranferValue }}
+        </pre>
         <h2>Create Movement</h2>
         <div class="form-group">
             <label for="category_id">Type of Movement:</label>
@@ -13,16 +16,19 @@
             <label for="inputValue">Value:</label>
             <input
                 required
-                v-model="value"
-                @change="$v.value.$touch()"
+                v-model="tranferValue"
+                @change="$v.tranferValue.$touch()"
                 type="number"
                 class="form-control"
-                name="value"
-                id="inputValue"
+                name="tranferValue"
+                id="tranferValue"
                 placeholder="Value"
                 value
             />
         </div>
+         <p v-if="isSubmitted && !$v.tranferValue.required">Value required</p>
+         <p v-if="isSubmitted && !$v.tranferValue.minLength">Min value 0,01€</p>
+         <p v-if="isSubmitted && !$v.tranferValue.maxLength">Max value 5000€</p>
 
         <div class="form-group">
             <label for="category_id">Category:</label>
@@ -71,7 +77,6 @@
         <div v-if="typeOfMovement == 'external'" class="form-group">
             <label for="inputValue">MB Entity Code:</label>
             <input
-                type="text"
                 class="form-control"
                 name="mBEntityCode"
                 id="inputMBentityCode"
@@ -106,6 +111,7 @@ import {
     email,
     sameAs,
     minLength,
+    maxLength,
     length,
     numeric,
 } from "vuelidate/lib/validators";
@@ -115,53 +121,57 @@ export default {
     data: function() {
         return {
             typeOfMovement: "external",
-            newMovement: null,
-            value: null,
-            category: null,
-            description: null,
-            iban: null,
-            destEmail: null,
-            mBEntityCode: null,
-            mBEntityReference: null
+            newMovement: "",
+            tranferValue: this.tranferValue,
+            category: "",
+            description: "",
+            iban: "",
+            destEmail: "",
+            mBEntityCode: "",
+            mBEntityReference: "",
+            isSubmitted: false
         };
     },
     validations: {
-        value: { required },
+        tranferValue: { 
+            required,
+            minlength: minLength(0),
+            maxlength: maxLength(5000)
+            },
         iban: { 
             required,
-            lenght: 23
+            length: 23
         },
         destEmail: {
-            required,
-            email,
+            email
         },
         mBEntityCode: {
-            required,
-            lenght: 3
+            length: 5
         },
         mBEntityReference:{
-            required,
-            lenght: 3
+            length: 9
         }
     },
     methods: {
         saveMovement() {
+            this.isSubmitted = true;
+
             this.newMovement.type = "e";
             this.newMovement.wallet_id = this.$store.state.wallet.id;
-            this.newMovement.value = this.value;
+            this.newMovement.tranferValue = this.tranferValue;
             this.newMovement.start_balance = this.$store.state.wallet.balance;
-            this.newMovement.end_balance = this.newMovement.start_balance - this.value;
+            this.newMovement.end_balance = this.newMovement.start_balance - this.tranferValue;
             this.newMovement.category_id = category.id;
             this.newMovement.category = this.category;
             this.newMovement.description = this.description;
 
             //Get today's Date
-            var today = new Date();
+            /*var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date + ' ' + time;
+            var dateTime = date + ' ' + time;*/
 
-            this.newMovement.date = dateTime;
+            //this.newMovement.date = dateTime;
 
             if(typeOfMovement == "external"){
                 this.newMovement.transfer = 0;
@@ -218,10 +228,6 @@ export default {
     mounted() {
         console.log("Current State: ");
         console.log(this.$store.state);
-
-        
-
-        console.log(dateTime)
     }
 };
 </script>
