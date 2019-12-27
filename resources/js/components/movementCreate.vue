@@ -174,26 +174,50 @@ export default {
             //this.newMovement.date = dateTime;
 
             if(typeOfMovement == "external"){
-                this.newMovement.transfer = 0;
-                this.newMovement.type_payment = "mb";
-                this.newMovement.mb_entity_code = this.mBEntityCode;
-                this.newMovement.mb_payment_reference = this.mBEntityReference;
-
                 axios.post("api/movements", {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                        nif: this.nif,
-                        photo: this.photo
+                    wallet_id: this.$store.state.wallet.id,
+                    email: this.email,
+                    transfer_wallet_id: this.transfer_wallet_id,
+                    type: "e",
+                    transfer: 0,
+                    type_payment: "mb",
+                    category_id: this.category_id,
+                    category: this.category,
+                    iban: this.iban,
+                    mb_entity_code: this.mBEntityCode,
+                    mb_payment_reference: this.mBEntityReference,
+                    description: this.description,
+                    date: this.date,
+                    start_balance: this.$store.state.wallet.balance,
+                    end_balance: (this.$store.state.wallet.balance - this.value),
+                    value: this.value
+                }).then(response => {
+                        console.log(response.data);
                     })
 
             }else{
-                this.newMovement.transfer = 1;
-                this.newMovement.type_payment = "bt";
-                this.newMovement.iban = this.iban;
                 //this.newMovement.email = 
 
-
+                axios.post("api/movements", {
+                    wallet_id: this.$store.state.wallet.id,
+                    email: this.email,
+                    transfer_wallet_id: this.transfer_wallet_id,
+                    type: "e",
+                    transfer: 1,
+                    type_payment: "bt",
+                    category_id: this.category_id,
+                    category: this.category,
+                    iban: this.iban,
+                    mb_entity_code: this.mb_entity_code,
+                    mb_payment_reference: this.mb_payment_reference,
+                    description: this.description,
+                    date: this.date,
+                    start_balance: this.$store.state.wallet.balance,
+                    end_balance: (this.$store.state.wallet.balance - this.value),
+                    value: this.value
+                }).then(response => {
+                        console.log(response.data);
+                    })
             }
 
             this.$emit("save-movement", this.movement);

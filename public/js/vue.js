@@ -2365,7 +2365,7 @@ __webpack_require__.r(__webpack_exports__);
       this.newMovement.tranferValue = this.tranferValue;
       this.newMovement.start_balance = this.$store.state.wallet.balance;
       this.newMovement.end_balance = this.newMovement.start_balance - this.tranferValue;
-      this.newMovement.category_id = category.id;
+      this.newMovement.category_id = this.category.id;
       this.newMovement.category = this.category;
       this.newMovement.description = this.description; //Get today's Date
 
@@ -2376,21 +2376,48 @@ __webpack_require__.r(__webpack_exports__);
       //this.newMovement.date = dateTime;
 
       if (typeOfMovement == "external") {
-        this.newMovement.transfer = 0;
-        this.newMovement.type_payment = "mb";
-        this.newMovement.mb_entity_code = this.mBEntityCode;
-        this.newMovement.mb_payment_reference = this.mBEntityReference;
         axios.post("api/movements", {
-          name: this.name,
+          wallet_id: this.$store.state.wallet.id,
           email: this.email,
-          password: this.password,
-          nif: this.nif,
-          photo: this.photo
+          transfer_wallet_id: this.transfer_wallet_id,
+          type: "e",
+          transfer: 0,
+          type_payment: "mb",
+          category_id: this.category_id,
+          category: this.category,
+          iban: this.iban,
+          mb_entity_code: this.mBEntityCode,
+          mb_payment_reference: this.mBEntityReference,
+          description: this.description,
+          date: this.date,
+          start_balance: this.$store.state.wallet.balance,
+          end_balance: this.$store.state.wallet.balance - this.value,
+          value: this.value
+        }).then(function (response) {
+          console.log(response.data);
         });
       } else {
-        this.newMovement.transfer = 1;
-        this.newMovement.type_payment = "bt";
-        this.newMovement.iban = this.iban; //this.newMovement.email = 
+        //this.newMovement.email = 
+        axios.post("api/movements", {
+          wallet_id: this.$store.state.wallet.id,
+          email: this.email,
+          transfer_wallet_id: this.transfer_wallet_id,
+          type: "e",
+          transfer: 1,
+          type_payment: "bt",
+          category_id: this.category_id,
+          category: this.category,
+          iban: this.iban,
+          mb_entity_code: this.mb_entity_code,
+          mb_payment_reference: this.mb_payment_reference,
+          description: this.description,
+          date: this.date,
+          start_balance: this.$store.state.wallet.balance,
+          end_balance: this.$store.state.wallet.balance - this.value,
+          value: this.value
+        }).then(function (response) {
+          console.log(response.data);
+        });
       }
 
       this.$emit("save-movement", this.movement);
@@ -2733,6 +2760,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2748,6 +2779,7 @@ __webpack_require__.r(__webpack_exports__);
       successMessage: "",
       failMessage: "",
       currentMovement: null,
+      currentMovementPhoto: "",
       movementToPut: null,
       movements: [],
       categories: [],
@@ -2776,6 +2808,14 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta_data.prev_page_url = response.data.meta.prev_page_url;
       });
     },
+    getPhoto: function getPhoto(id) {
+      var _this2 = this;
+
+      axios.get("api/users/" + id).then(function (response) {
+        console.log(response);
+        _this2.currentMovementPhoto = response.data.data.photo;
+      });
+    },
     editMovement: function editMovement(movement) {
       this.currentMovement = movement;
       this.editingMovement = true;
@@ -2783,22 +2823,26 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.$store.state.categories);
     },
     movementDetail: function movementDetail(movement) {
+      if (movement.transfer_wallet_id != null) {
+        this.getPhoto(movement.transfer_wallet_id);
+      }
+
       this.currentMovement = movement;
       this.popupActivo = true;
     },
     saveMovement: function saveMovement(movement) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.editingMovement = false;
       console.log(movement);
       axios.put("api/movements/" + movement.id, movement).then(function (response) {
-        _this2.showSuccess = true;
-        _this2.successMessage = "Movement Saved"; // Copies response.data.data properties to this.currentUser
+        _this3.showSuccess = true;
+        _this3.successMessage = "Movement Saved"; // Copies response.data.data properties to this.currentUser
         // without changing this.currentUser reference
 
-        Object.assign(_this2.currentMovement, response.data.data);
-        _this2.currentMovement = null;
-        _this2.editingMovement = false;
+        Object.assign(_this3.currentMovement, response.data.data);
+        _this3.currentMovement = null;
+        _this3.editingMovement = false;
       });
     },
     cancelEditMovement: function cancelEditMovement() {
@@ -55702,7 +55746,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.currentMovement.wallet_id
+                _vm.currentMovement.transfer_wallet_id
                   ? _c("th", [_vm._v("Photo")])
                   : _vm._e()
               ]),
@@ -55752,13 +55796,17 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.currentMovement.wallet_id
+                _vm.currentMovement.transfer_wallet_id
                   ? _c("th", [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(_vm.currentMovement.wallet_id) +
-                          "\n            "
-                      )
+                      this.currentMovementPhoto != ""
+                        ? _c("img", {
+                            attrs: {
+                              height: "60",
+                              width: "60",
+                              src: "/storage/fotos/" + this.currentMovementPhoto
+                            }
+                          })
+                        : _vm._e()
                     ])
                   : _vm._e()
               ])
