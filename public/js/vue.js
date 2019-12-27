@@ -2211,6 +2211,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2307,6 +2309,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['movement', 'categories'],
   data: function data() {
@@ -2314,6 +2323,7 @@ __webpack_require__.r(__webpack_exports__);
       typeOfMovement: "external",
       newMovement: null,
       value: null,
+      date: null,
       category: null,
       description: null,
       iban: null,
@@ -2322,14 +2332,30 @@ __webpack_require__.r(__webpack_exports__);
       mBEntityReference: null
     };
   },
+  validations: {
+    value: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    iban: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      lenght: 23
+    },
+    destEmail: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
+    },
+    mBEntityCode: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      lenght: 3
+    },
+    mBEntityReference: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      lenght: 3
+    }
+  },
   methods: {
     saveMovement: function saveMovement() {
-      this.newMovement.type = "e";
-      this.newMovement.wallet_id = this.$store.state.wallet.id;
-      this.newMovement.value = this.value;
-      this.newMovement.start_balance = this.$store.state.wallet.balance;
-      this.newMovement.end_balance = this.newMovement.start_balance - this.value;
-      this.newMovement.category_id = category.id;
+      this.newMovement.category_id = this.category.id;
       this.newMovement.category = this.category;
       this.newMovement.description = this.description; //Get today's Date
 
@@ -2337,17 +2363,51 @@ __webpack_require__.r(__webpack_exports__);
       var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var dateTime = date + ' ' + time;
-      this.newMovement.date = dateTime;
+      this.date = dateTime;
 
       if (typeOfMovement == "external") {
-        this.newMovement.transfer = 0;
-        this.newMovement.type_payment = "mb";
-        this.newMovement.mb_entity_code = this.mBEntityCode;
-        this.newMovement.mb_payment_reference = this.mBEntityReference;
+        axios.post("api/movements", {
+          wallet_id: this.$store.state.wallet.id,
+          email: this.email,
+          transfer_wallet_id: this.transfer_wallet_id,
+          type: "e",
+          transfer: 0,
+          type_payment: "mb",
+          category_id: this.category_id,
+          category: this.category,
+          iban: this.iban,
+          mb_entity_code: this.mBEntityCode,
+          mb_payment_reference: this.mBEntityReference,
+          description: this.description,
+          date: this.date,
+          start_balance: this.$store.state.wallet.balance,
+          end_balance: this.$store.state.wallet.balance - this.value,
+          value: this.value
+        }).then(function (response) {
+          console.log(response.data);
+        });
       } else {
-        this.newMovement.transfer = 1;
-        this.newMovement.type_payment = "bt";
-        this.newMovement.iban = this.iban; //this.newMovement.email = 
+        //this.newMovement.email = 
+        axios.post("api/movements", {
+          wallet_id: this.$store.state.wallet.id,
+          email: this.email,
+          transfer_wallet_id: this.transfer_wallet_id,
+          type: "e",
+          transfer: 1,
+          type_payment: "bt",
+          category_id: this.category_id,
+          category: this.category,
+          iban: this.iban,
+          mb_entity_code: this.mb_entity_code,
+          mb_payment_reference: this.mb_payment_reference,
+          description: this.description,
+          date: this.date,
+          start_balance: this.$store.state.wallet.balance,
+          end_balance: this.$store.state.wallet.balance - this.value,
+          value: this.value
+        }).then(function (response) {
+          console.log(response.data);
+        });
       }
 
       this.$emit("save-movement", this.movement);
@@ -2383,7 +2443,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     console.log("Current State: ");
     console.log(this.$store.state);
-    console.log(dateTime);
   }
 });
 
@@ -2691,6 +2750,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2706,6 +2769,7 @@ __webpack_require__.r(__webpack_exports__);
       successMessage: "",
       failMessage: "",
       currentMovement: null,
+      currentMovementPhoto: "",
       movementToPut: null,
       movements: [],
       categories: [],
@@ -2734,6 +2798,14 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta_data.prev_page_url = response.data.meta.prev_page_url;
       });
     },
+    getPhoto: function getPhoto(id) {
+      var _this2 = this;
+
+      axios.get("api/users/" + id).then(function (response) {
+        console.log(response);
+        _this2.currentMovementPhoto = response.data.data.photo;
+      });
+    },
     editMovement: function editMovement(movement) {
       this.currentMovement = movement;
       this.editingMovement = true;
@@ -2741,22 +2813,26 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.$store.state.categories);
     },
     movementDetail: function movementDetail(movement) {
+      if (movement.transfer_wallet_id != null) {
+        this.getPhoto(movement.transfer_wallet_id);
+      }
+
       this.currentMovement = movement;
       this.popupActivo = true;
     },
     saveMovement: function saveMovement(movement) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.editingMovement = false;
       console.log(movement);
       axios.put("api/movements/" + movement.id, movement).then(function (response) {
-        _this2.showSuccess = true;
-        _this2.successMessage = "Movement Saved"; // Copies response.data.data properties to this.currentUser
+        _this3.showSuccess = true;
+        _this3.successMessage = "Movement Saved"; // Copies response.data.data properties to this.currentUser
         // without changing this.currentUser reference
 
-        Object.assign(_this2.currentMovement, response.data.data);
-        _this2.currentMovement = null;
-        _this2.editingMovement = false;
+        Object.assign(_this3.currentMovement, response.data.data);
+        _this3.currentMovement = null;
+        _this3.editingMovement = false;
       });
     },
     cancelEditMovement: function cancelEditMovement() {
@@ -54986,7 +55062,41 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.value,
+            expression: "value"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          required: "",
+          type: "number",
+          name: "value",
+          id: "inputValue",
+          placeholder: "Value",
+          value: ""
+        },
+        domProps: { value: _vm.value },
+        on: {
+          change: function($event) {
+            return _vm.$v.value.$touch()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.value = $event.target.value
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("label", { attrs: { for: "category_id" } }, [_vm._v("Category:")]),
@@ -55014,7 +55124,7 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(1),
+    _vm._m(0),
     _vm._v(" "),
     _vm.typeOfMovement == "transfer"
       ? _c("div", { staticClass: "form-group" }, [
@@ -55023,6 +55133,7 @@ var render = function() {
           _c("input", {
             staticClass: "form-control",
             attrs: {
+              required: "",
               type: "text",
               name: "iban",
               id: "inputIban",
@@ -55041,7 +55152,8 @@ var render = function() {
           _c("input", {
             staticClass: "form-control",
             attrs: {
-              type: "text",
+              required: "",
+              type: "email",
               name: "destEmail",
               id: "inputDestEmail",
               placeholder: "Destination's E-mail"
@@ -55118,24 +55230,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "value",
-          id: "inputValue",
-          placeholder: "Value"
-        }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -55681,7 +55775,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.currentMovement.wallet_id
+                _vm.currentMovement.transfer_wallet_id
                   ? _c("th", [_vm._v("Photo")])
                   : _vm._e()
               ]),
@@ -55731,13 +55825,17 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.currentMovement.wallet_id
+                _vm.currentMovement.transfer_wallet_id
                   ? _c("th", [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(_vm.currentMovement.wallet_id) +
-                          "\n            "
-                      )
+                      this.currentMovementPhoto != ""
+                        ? _c("img", {
+                            attrs: {
+                              height: "60",
+                              width: "60",
+                              src: "/storage/fotos/" + this.currentMovementPhoto
+                            }
+                          })
+                        : _vm._e()
                     ])
                   : _vm._e()
               ])
