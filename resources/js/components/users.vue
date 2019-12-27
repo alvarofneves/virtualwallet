@@ -4,6 +4,13 @@
             <h1>{{ title }}</h1>
         </div>
         <div>
+            <user-edit
+            v-if="editingUser"
+            :user="currentUser"
+            @save-user="saveUser"
+            @cancel-edit="cancelEdit"
+        >
+        </user-edit>
             <user-list
                 :users="users"
                 :current-user="currentUser"
@@ -17,13 +24,7 @@
                 @next="getUsers">
             </pagination>
         </div>
-        <user-edit
-            v-if="editingUser"
-            :user="currentUser"
-            @save-user="saveUser"
-            @cancel-edit="cancelEdit"
-        >
-        </user-edit>
+        
 
         <div class="alert alert-success" v-if="showSuccess">
             <button

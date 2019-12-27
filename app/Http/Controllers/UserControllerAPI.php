@@ -80,9 +80,15 @@ class UserControllerAPI extends Controller
         ]);
         $user = User::findOrFail($id);
         //testar
-        /*if($request->name){
+        /* if($request->name){
             $user->update($request->name());
-        }*/
+        }
+        if($request->type){
+            $user->update($request->type());
+        }
+        if($request->email){
+            $user->update($request->email());
+        } */
         if($request->photo != null){
             $exploded = explode(',', $request->photo);
             $decoded = base64_decode($exploded[1]);
@@ -110,7 +116,7 @@ class UserControllerAPI extends Controller
             $user->update($request->photo);
         }
         
-        $user->update($request->except('currentPassword','password','photo'));
+        $user->update($request->except('currentPassword','password','photo','name','type','email'));
 
         $user->save();
         return new UserResource($user);

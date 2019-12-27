@@ -3493,17 +3493,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ["user"],
   data: function data() {
-    return {};
+    return {
+      options: [{
+        value: "a",
+        text: "Administrator"
+      }, {
+        value: "o",
+        text: "Operator"
+      }, {
+        value: "u",
+        text: "User"
+      }]
+    };
   },
   methods: {
     saveUser: function saveUser() {
-      this.$emit('save-user', this.user);
+      this.$emit("save-user", this.user);
     },
     cancelEdit: function cancelEdit() {
-      this.$emit('cancel-edit');
+      this.$emit("cancel-edit");
     }
   }
 });
@@ -3519,7 +3553,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -3601,6 +3634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pagination */ "./resources/js/components/pagination.vue");
 /* harmony import */ var _userList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./userList */ "./resources/js/components/userList.vue");
 /* harmony import */ var _userEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./userEdit */ "./resources/js/components/userEdit.vue");
+//
 //
 //
 //
@@ -56619,10 +56653,9 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputAge" } }, [_vm._v("Type test")]),
-      _vm._v(" "),
-      _c("input", {
+    _c(
+      "select",
+      {
         directives: [
           {
             name: "model",
@@ -56631,25 +56664,59 @@ var render = function() {
             expression: "user.type"
           }
         ],
-        staticClass: "form-control",
-        attrs: {
-          type: "number",
-          name: "age",
-          id: "inputType",
-          placeholder: "Type",
-          value: ""
-        },
-        domProps: { value: _vm.user.type },
         on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.user, "type", $event.target.value)
+          change: function($event) {
+            var $$selectedVal = Array.prototype.filter
+              .call($event.target.options, function(o) {
+                return o.selected
+              })
+              .map(function(o) {
+                var val = "_value" in o ? o._value : o.value
+                return val
+              })
+            _vm.$set(
+              _vm.user,
+              "type",
+              $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+            )
           }
         }
-      })
-    ]),
+      },
+      _vm._l(_vm.options, function(option) {
+        return _c(
+          "option",
+          { key: option.id, domProps: { value: option.value } },
+          [_vm._v("\n            " + _vm._s(option.text) + "\n        ")]
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      [
+        _c(
+          "b-form-checkbox",
+          {
+            attrs: {
+              id: "ative",
+              name: "ative",
+              value: "1",
+              "unchecked-value": "0"
+            },
+            model: {
+              value: _vm.user.active,
+              callback: function($$v) {
+                _vm.$set(_vm.user, "active", $$v)
+              },
+              expression: "user.active"
+            }
+          },
+          [_vm._v("Active\n        ")]
+        )
+      ],
+      1
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
@@ -56813,64 +56880,60 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "div",
-        {
-          staticClass: "jumbotron",
-          attrs: { position: "absolute", bottom: "0" }
-        },
-        [_c("h1", [_vm._v(_vm._s(_vm.title))])]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c("user-list", {
-            ref: "userListReference",
-            attrs: { users: _vm.users, "current-user": _vm.currentUser },
-            on: { "delete-user": _vm.deleteUser, "edit-user": _vm.editUser }
-          }),
-          _vm._v(" "),
-          _c("pagination", {
-            attrs: { meta_data: _vm.meta_data },
-            on: { next: _vm.getUsers }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm.editingUser
-        ? _c("user-edit", {
-            attrs: { user: _vm.currentUser },
-            on: { "save-user": _vm.saveUser, "cancel-edit": _vm.cancelEdit }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.showSuccess
-        ? _c("div", { staticClass: "alert alert-success" }, [
-            _c(
-              "button",
-              {
-                staticClass: "close-btn",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    _vm.showSuccess = false
-                  }
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "jumbotron",
+        attrs: { position: "absolute", bottom: "0" }
+      },
+      [_c("h1", [_vm._v(_vm._s(_vm.title))])]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      [
+        _vm.editingUser
+          ? _c("user-edit", {
+              attrs: { user: _vm.currentUser },
+              on: { "save-user": _vm.saveUser, "cancel-edit": _vm.cancelEdit }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _c("user-list", {
+          ref: "userListReference",
+          attrs: { users: _vm.users, "current-user": _vm.currentUser },
+          on: { "delete-user": _vm.deleteUser, "edit-user": _vm.editUser }
+        }),
+        _vm._v(" "),
+        _c("pagination", {
+          attrs: { meta_data: _vm.meta_data },
+          on: { next: _vm.getUsers }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm.showSuccess
+      ? _c("div", { staticClass: "alert alert-success" }, [
+          _c(
+            "button",
+            {
+              staticClass: "close-btn",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.showSuccess = false
                 }
-              },
-              [_vm._v("\n            ×\n        ")]
-            ),
-            _vm._v(" "),
-            _c("strong", [_vm._v(_vm._s(_vm.successMessage))])
-          ])
-        : _vm._e()
-    ],
-    1
-  )
+              }
+            },
+            [_vm._v("\n            ×\n        ")]
+          ),
+          _vm._v(" "),
+          _c("strong", [_vm._v(_vm._s(_vm.successMessage))])
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -26,7 +26,6 @@
                 <div v-if="user.type == 'u'">
                     <td>User</td>
                 </div>
-                <!-- <td>{{ user.type }}</td> -->
                 <td>{{ user.active }}</td>
                 <td>{{ user.nif }}</td>
                 <td v-if="$store.state.user.type == 'a'">
@@ -50,7 +49,8 @@
 export default {
     props: ["users", "currentUser"],
     data: function() {
-        return {};
+        return {
+        };
     },
     methods: {
         editUser(user) {
