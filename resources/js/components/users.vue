@@ -77,7 +77,15 @@ export default {
         },
         saveUser: function(user) {
             this.editingUser = false;
-            axios.put("api/users/" + user.id, user).then(response => {
+            console.log(user)
+            axios.put("api/users/" + user.id, { 
+                name: user.name,
+                email: user.email,
+                type: user.type,
+                photo: user.photo
+            })
+            .then(response => {
+                console.log(response)
                 this.showSuccess = true;
                 this.successMessage = "User Saved";
                 // Copies response.data.data properties to this.currentUser

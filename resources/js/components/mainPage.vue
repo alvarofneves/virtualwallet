@@ -25,19 +25,12 @@
                         <movements :users="users" />
                     </div>
                     <div v-if="this.$store.state.user.type == 'o'">
-                        <h1> MAN WHAT DA HELL IS THIS! </h1>
+                        <wallets />
                     </div>
                     <div v-if="this.$store.state.user.type == 'a'">
                         <users />
                     </div>
-                    
                 </div>
-
-                <!-- se  não forem users aparecem a listagem de users -->
-                <!-- <div v-if="!this.$store.state.type == 'u'">
-                    <users />
-                </div> -->
-
                 <div v-if="this.$store.state.isCreateMovement">
                     <movementCreate
                         :categories="this.$store.state.categories"
@@ -109,13 +102,14 @@ export default {
         },
         changeLoginState: function(user) {
             this.$store.commit("setUser", user);
-            this.$store.commit("setWallet", user.wallet);
+            if(this.$store.state.user.type =="u"){
+                this.$store.commit("setWallet", user.wallet);
+            }
             this.isLogged = true;
         }
     },
     mounted() {
         this.getUsers();
-        console.log(this.wallets);
         if (sessionStorage.getItem("token")) {
             this.$store.commit("loadTokenAndUserFromSession");
         }

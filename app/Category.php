@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Http\Resources\Wallet;
+use App\Http\Resources\Movement;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,9 +33,9 @@ class Category extends Authenticatable
         'password', 'remember_token',
     ];
 
-     public function wallet()
+     public function movement()
      {
-         return $this->belongsToMany(Wallet::class);
+         return $this->belongsToMany(Movement::class);
      }
 
 }

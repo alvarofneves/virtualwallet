@@ -44,8 +44,12 @@ export default new Vuex.Store({
             }
         },
         clearToken: (state) => {
+            state.user = null;
+            state.wallet = null;
             state.token = "";
+            sessionStorage.removeItem('user');
             sessionStorage.removeItem('token');
+            sessionStorage.removeItem('wallet');
             axios.defaults.headers.common.Authorization = undefined;
             state.isLogged=false;
         },
@@ -78,10 +82,12 @@ export default new Vuex.Store({
                 state.user = JSON.parse(user);
                 state.isLogged = true;
 
-                axios.get("api/wallets/" + state.user.id)
-                .then(response => {
-                    state.wallet = response.data.data;
-                })
+                if(user.type == "u"){
+                    axios.get("api/wallets/" + state.user.id)
+                    .then(response => {
+                        state.wallet = response.data.data;
+                    })
+                }
             }
         },
         loadCategories: state => {

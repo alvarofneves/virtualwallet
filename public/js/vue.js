@@ -2017,13 +2017,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2083,13 +2076,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     changeLoginState: function changeLoginState(user) {
       this.$store.commit("setUser", user);
-      this.$store.commit("setWallet", user.wallet);
+
+      if (this.$store.state.user.type == "u") {
+        this.$store.commit("setWallet", user.wallet);
+      }
+
       this.isLogged = true;
     }
   },
   mounted: function mounted() {
     this.getUsers();
-    console.log(this.wallets);
 
     if (sessionStorage.getItem("token")) {
       this.$store.commit("loadTokenAndUserFromSession");
@@ -2865,7 +2861,7 @@ __webpack_require__.r(__webpack_exports__);
       this.currentMovement = movement;
       this.editingMovement = true;
       this.showSuccess = false;
-      console.log(this.$store.state.categories);
+      console.log(this.categories);
     },
     movementDetail: function movementDetail(movement) {
       if (movement.transfer_wallet_id != null) {
@@ -3665,6 +3661,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveUser: function saveUser() {
+      console.log(this.user);
       this.$emit("save-user", this.user);
     },
     cancelEdit: function cancelEdit() {
@@ -3847,7 +3844,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.editingUser = false;
-      axios.put("api/users/" + user.id, user).then(function (response) {
+      console.log(user);
+      axios.put("api/users/" + user.id, {
+        name: user.name,
+        email: user.email,
+        type: user.type,
+        photo: user.photo
+      }).then(function (response) {
+        console.log(response);
         _this2.showSuccess = true;
         _this2.successMessage = "User Saved"; // Copies response.data.data properties to this.currentUser
         // without changing this.currentUser reference
@@ -54838,9 +54842,7 @@ var render = function() {
                           : _vm._e(),
                         _vm._v(" "),
                         this.$store.state.user.type == "o"
-                          ? _c("div", [
-                              _c("h1", [_vm._v(" MAN WHAT DA HELL IS THIS! ")])
-                            ])
+                          ? _c("div", [_c("wallets")], 1)
                           : _vm._e(),
                         _vm._v(" "),
                         this.$store.state.user.type == "a"
@@ -55993,11 +55995,15 @@ var render = function() {
       _c("div", { staticClass: "jumbotron" }, [
         _c("h1", [_vm._v(_vm._s(_vm.title))]),
         _vm._v(" "),
-        _c("h2", [
-          _vm._v(
-            "Current Balance: " + _vm._s(this.$store.state.wallet.balance) + "€"
-          )
-        ])
+        this.$store.state.user.typer == "u"
+          ? _c("h2", [
+              _vm._v(
+                "Current Balance: " +
+                  _vm._s(this.$store.state.wallet.balance) +
+                  "€"
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _vm.popupActivo
@@ -56112,7 +56118,7 @@ var render = function() {
       _vm.editingMovement
         ? _c("movement-edit", {
             attrs: {
-              categories: this.$store.state.categories,
+              categories: this.categories,
               movement: _vm.currentMovement
             },
             on: {
@@ -76773,8 +76779,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       }
     },
     clearToken: function clearToken(state) {
+      state.user = null;
+      state.wallet = null;
       state.token = "";
+      sessionStorage.removeItem('user');
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('wallet');
       axios.defaults.headers.common.Authorization = undefined;
       state.isLogged = false;
     },
@@ -76808,9 +76818,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       if (user) {
         state.user = JSON.parse(user);
         state.isLogged = true;
-        axios.get("api/wallets/" + state.user.id).then(function (response) {
-          state.wallet = response.data.data;
-        });
+
+        if (user.type == "u") {
+          axios.get("api/wallets/" + state.user.id).then(function (response) {
+            state.wallet = response.data.data;
+          });
+        }
       }
     },
     loadCategories: function loadCategories(state) {

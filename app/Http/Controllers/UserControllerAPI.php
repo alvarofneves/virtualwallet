@@ -79,17 +79,19 @@ class UserControllerAPI extends Controller
                 //'type' => 'enum('u','o','a')'
         ]);
         $user = User::findOrFail($id);
+
         //testar
-        /* if($request->name){
-            $user->update($request->name());
+        if($user->name != $request->name){
+            $user->name = $request->name;
         }
-        if($request->type){
-            $user->update($request->type());
+        if($user->type != $request->type){
+            $user->type = $request->type;
         }
-        if($request->email){
-            $user->update($request->email());
-        } */
-        if($request->photo != null){
+        if($user->email != $request->email){
+            $user->email = $request->email;
+        }
+
+        if($request->photo != null && $user->photo != $request->photo){
             $exploded = explode(',', $request->photo);
             $decoded = base64_decode($exploded[1]);
             if(str_contains($exploded[0], 'jpeg'))
@@ -111,7 +113,7 @@ class UserControllerAPI extends Controller
             $user->password = Hash::make($user->password);
             $user->update($request->password);
         }
-        if($request->photo != null){
+        if($request->photo != null && $user->photo != $request->photo){
             $user->photo = $fileName;
             $user->update($request->photo);
         }

@@ -62,6 +62,7 @@ export default {
     },
     methods: {
         saveUser() {
+            console.log(this.user)
             this.$emit("save-user", this.user);
         },
         cancelEdit() {

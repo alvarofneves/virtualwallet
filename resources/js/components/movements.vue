@@ -2,7 +2,7 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
-            <h2>Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
+            <h2 v-if="this.$store.state.user.typer == 'u'">Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
         </div>
 
         <stack-modal
@@ -49,7 +49,7 @@
 
         <movement-edit
             v-if="editingMovement"
-            :categories="this.$store.state.categories"
+            :categories="this.categories"
             :movement="currentMovement"
             @save-movement="saveMovement"
             @cancel-edit="cancelEditMovement"
@@ -135,7 +135,7 @@ export default {
             this.currentMovement = movement;
             this.editingMovement = true;
             this.showSuccess = false;
-            console.log(this.$store.state.categories);
+            console.log(this.categories);
         },
         movementDetail: function(movement) {
             if(movement.transfer_wallet_id != null){
