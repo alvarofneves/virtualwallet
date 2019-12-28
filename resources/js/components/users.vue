@@ -4,6 +4,13 @@
             <h1>{{ title }}</h1>
         </div>
         <div>
+            <user-edit
+            v-if="editingUser"
+            :user="currentUser"
+            @save-user="saveUser"
+            @cancel-edit="cancelEdit"
+        >
+        </user-edit>
             <user-list
                 :users="users"
                 :current-user="currentUser"
@@ -17,13 +24,7 @@
                 @next="getUsers">
             </pagination>
         </div>
-        <user-edit
-            v-if="editingUser"
-            :user="currentUser"
-            @save-user="saveUser"
-            @cancel-edit="cancelEdit"
-        >
-        </user-edit>
+        
 
         <div class="alert alert-success" v-if="showSuccess">
             <button
@@ -107,10 +108,9 @@ export default {
             })
             .then(response => {
                 this.users = response.data.data;
-                this.meta_data.last_page = response.data.last_page;
-                this.meta_data.current_page = response.data.current_page;
-                this.meta_data.prev_page_url = response.data.prev_page_url;
-                console.log(response.data);
+                this.meta_data.last_page = response.data.meta.last_page;
+                this.meta_data.current_page = response.data.meta.current_page;
+                this.meta_data.prev_page_url = response.data.meta.prev_page_url;
             });
             
         }
