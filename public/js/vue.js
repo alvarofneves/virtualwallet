@@ -2017,6 +2017,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3929,12 +3932,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['wallets'],
   data: function data() {
     return {};
   },
-  methods: {}
+  methods: {
+    addIncome: function addIncome(wallet) {}
+  }
 });
 
 /***/ }),
@@ -54842,7 +54850,18 @@ var render = function() {
                           : _vm._e(),
                         _vm._v(" "),
                         this.$store.state.user.type == "o"
-                          ? _c("div", [_c("wallets")], 1)
+                          ? _c(
+                              "div",
+                              [
+                                _c("wallets", {
+                                  attrs: {
+                                    users: _vm.users,
+                                    wallets: _vm.wallets
+                                  }
+                                })
+                              ],
+                              1
+                            )
                           : _vm._e(),
                         _vm._v(" "),
                         this.$store.state.user.type == "a"
@@ -57336,7 +57355,23 @@ var render = function() {
         return _c("tr", { key: wallet.id }, [
           _c("td", [_vm._v(_vm._s(wallet.email))]),
           _vm._v(" "),
-          _c("td", [_vm._v(_vm._s(wallet.balance))])
+          _c("td", [_vm._v(_vm._s(wallet.balance))]),
+          _vm._v(" "),
+          _c("td", [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.addIncome(wallet)
+                  }
+                }
+              },
+              [_vm._v("Add Income")]
+            )
+          ])
         ])
       }),
       0

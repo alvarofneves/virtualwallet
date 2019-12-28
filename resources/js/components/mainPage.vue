@@ -25,7 +25,10 @@
                         <movements :users="users" />
                     </div>
                     <div v-if="this.$store.state.user.type == 'o'">
-                        <wallets />
+                        <wallets 
+                            :users="users" 
+                            :wallets="wallets"
+                        />
                     </div>
                     <div v-if="this.$store.state.user.type == 'a'">
                         <users />

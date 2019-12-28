@@ -10,6 +10,9 @@
             <tr v-for="wallet in wallets" :key="wallet.id">
                 <td>{{ wallet.email }}</td>
                 <td>{{ wallet.balance }}</td>
+                <td>
+                    <a class="btn btn-primary" v-on:click.prevent="addIncome(wallet)">Add Income</a>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -23,6 +26,9 @@
             }
         },
         methods: {
+            addIncome: function(wallet){
+
+            }
         }
     }
 </script>
