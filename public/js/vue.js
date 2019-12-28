@@ -2320,13 +2320,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ //Vuelidate REGEX validations:
 
+var isIbanValid = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("isIbanValid", /^[A-Z]{2}(?:[ ]?[0-9]){23}$/);
+var mbEntityCodeLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("mbEntityCodeLength", /^[0-9]{5}$/);
+var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("mbEntityReferenceLength", /^[0-9]{9}$/);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['movement', 'categories'],
+  props: ['movements', 'categories'],
   data: function data() {
     return {
       typeOfMovement: "external",
-      newMovement: "",
+      newMovement: [],
       tranferValue: this.tranferValue,
       category: "",
       description: "",
@@ -2340,85 +2367,103 @@ __webpack_require__.r(__webpack_exports__);
   validations: {
     tranferValue: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
-      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(0),
-      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(5000)
+      between: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["between"])(0.01, 5000)
+    },
+    description: {
+      required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
+        if (this.typeOfMovement === "transfer") return true;
+      })
     },
     iban: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
-      length: 23
+      isIbanValid: isIbanValid,
+      required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
+        if (this.typeOfMovement === "transfer") return true;
+      })
     },
     destEmail: {
+      required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
+        if (this.typeOfMovement === "transfer") return true;
+      }),
       email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
     },
     mBEntityCode: {
-      length: 5
+      mbEntityCodeLength: mbEntityCodeLength,
+      required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
+        if (this.typeOfMovement === "external") return true;
+      })
     },
     mBEntityReference: {
-      length: 9
+      mbEntityReferenceLength: mbEntityReferenceLength,
+      required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
+        if (this.typeOfMovement === "external") return true;
+      })
     }
   },
   methods: {
     saveMovement: function saveMovement() {
       this.isSubmitted = true;
-      this.newMovement.type = "e";
+      console.log("DEBUG - Category: " + this.category.id);
+      /* this.newMovement.type = "e";
       this.newMovement.wallet_id = this.$store.state.wallet.id;
       this.newMovement.tranferValue = this.tranferValue;
       this.newMovement.start_balance = this.$store.state.wallet.balance;
       this.newMovement.end_balance = this.newMovement.start_balance - this.tranferValue;
-      this.newMovement.category_id = this.category.id;
+      this.newMovement.category_id = category.id;
       this.newMovement.category = this.category;
-      this.newMovement.description = this.description; //Get today's Date
+      this.newMovement.description = this.description; */
 
-      /*var today = new Date();
+      this.iban = this.iban.split(' ').join(''); //console.log("DEBUG: "+ this.iban);
+      //Get today's Date
+
+      var today = new Date();
       var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var dateTime = date + ' ' + time;*/
-      //this.newMovement.date = dateTime;
-
-      if (typeOfMovement == "external") {
-        axios.post("api/movements", {
-          wallet_id: this.$store.state.wallet.id,
-          email: this.email,
-          transfer_wallet_id: this.transfer_wallet_id,
-          type: "e",
-          transfer: 0,
-          type_payment: "mb",
-          category_id: this.category_id,
-          category: this.category,
-          iban: this.iban,
-          mb_entity_code: this.mBEntityCode,
-          mb_payment_reference: this.mBEntityReference,
-          description: this.description,
-          date: this.date,
-          start_balance: this.$store.state.wallet.balance,
-          end_balance: this.$store.state.wallet.balance - this.value,
-          value: this.value
-        }).then(function (response) {
-          console.log(response.data);
-        });
-      } else {
-        //this.newMovement.email = 
-        axios.post("api/movements", {
-          wallet_id: this.$store.state.wallet.id,
-          email: this.email,
-          transfer_wallet_id: this.transfer_wallet_id,
-          type: "e",
-          transfer: 1,
-          type_payment: "bt",
-          category_id: this.category_id,
-          category: this.category,
-          iban: this.iban,
-          mb_entity_code: this.mb_entity_code,
-          mb_payment_reference: this.mb_payment_reference,
-          description: this.description,
-          date: this.date,
-          start_balance: this.$store.state.wallet.balance,
-          end_balance: this.$store.state.wallet.balance - this.value,
-          value: this.value
-        }).then(function (response) {
-          console.log(response.data);
-        });
-      }
+      var dateTime = date + ' ' + time;
+      this.newMovement.date = dateTime;
+      /* if(typeOfMovement == "external"){
+          axios.post("api/movements", {
+              wallet_id: this.$store.state.wallet.id,
+              email: this.destEmail,
+              transfer_wallet_id: this.transfer_wallet_id,
+              type: "e",
+              transfer: 0,
+              type_payment: "mb",
+              category_id: this.category_id,
+              category: this.category,
+              iban: this.iban,
+              mb_entity_code: this.mBEntityCode,
+              mb_payment_reference: this.mBEntityReference,
+              description: this.description,
+              date: this.date,
+              start_balance: this.$store.state.wallet.balance,
+              end_balance: (this.$store.state.wallet.balance - this.value),
+              value: this.value
+          }).then(response => {
+                  console.log(response.data);
+              })
+       }else{
+          //this.newMovement.email = 
+           axios.post("api/movements", {
+              wallet_id: this.$store.state.wallet.id,
+              email: this.email,
+              transfer_wallet_id: this.transfer_wallet_id,
+              type: "e",
+              transfer: 1,
+              type_payment: "bt",
+              category_id: this.category_id,
+              category: this.category,
+              iban: this.iban,
+              mb_entity_code: this.mb_entity_code,
+              mb_payment_reference: this.mb_payment_reference,
+              description: this.description,
+              date: this.date,
+              start_balance: this.$store.state.wallet.balance,
+              end_balance: (this.$store.state.wallet.balance - this.value),
+              value: this.value
+          }).then(response => {
+                  console.log(response.data);
+              })
+      } */
 
       this.$emit("save-movement", this.movement);
     },
@@ -32728,6 +32773,25 @@ exports.push([module.i, "\n.px-2 {\n    padding-top: 30px;\n}\n", ""]);
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\np[data-v-b618ffd4] {\n    color: red;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movements.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movements.vue?vue&type=style&index=0&lang=css& ***!
@@ -53781,6 +53845,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movements.vue?vue&type=style&index=0&lang=css&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movements.vue?vue&type=style&index=0&lang=css& ***!
@@ -54989,7 +55083,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
     _c("pre", [
-      _vm._v("            " + _vm._s(_vm.$v.tranferValue) + "\n        ")
+      _vm._v("            " + _vm._s(_vm.$v.description) + "\n        ")
     ]),
     _vm._v(" "),
     _c("h2", [_vm._v("Create Movement")]),
@@ -55002,11 +55096,29 @@ var render = function() {
       _c(
         "select",
         {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.typeOfMovement,
+              expression: "typeOfMovement"
+            }
+          ],
           staticClass: "form-control",
           attrs: { id: "category_id", name: "category_id" },
           on: {
             change: function($event) {
-              return _vm.onChangeTypeMovement()
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.typeOfMovement = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
             }
           }
         },
@@ -55062,12 +55174,8 @@ var render = function() {
       ? _c("p", [_vm._v("Value required")])
       : _vm._e(),
     _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.tranferValue.minLength
-      ? _c("p", [_vm._v("Min value 0,01€")])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.tranferValue.maxLength
-      ? _c("p", [_vm._v("Max value 5000€")])
+    _vm.isSubmitted && !_vm.$v.tranferValue.between
+      ? _c("p", [_vm._v("Transfer value must be between 0,01€ and 5000€")])
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -55096,13 +55204,58 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Description:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.description,
+            expression: "description"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          name: "description",
+          id: "inputDescription",
+          placeholder: "Description"
+        },
+        domProps: { value: _vm.description },
+        on: {
+          change: function($event) {
+            return _vm.$v.description.$touch()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.description = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.description.required
+      ? _c("p", [_vm._v("Description required")])
+      : _vm._e(),
     _vm._v(" "),
     _vm.typeOfMovement == "transfer"
       ? _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "inputValue" } }, [_vm._v("IBAN:")]),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model.trim",
+                value: _vm.iban,
+                expression: "iban",
+                modifiers: { trim: true }
+              }
+            ],
             staticClass: "form-control",
             attrs: {
               required: "",
@@ -55110,9 +55263,32 @@ var render = function() {
               name: "iban",
               id: "inputIban",
               placeholder: "IBAN"
+            },
+            domProps: { value: _vm.iban },
+            on: {
+              change: function($event) {
+                return _vm.$v.iban.$touch()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.iban = $event.target.value.trim()
+              },
+              blur: function($event) {
+                return _vm.$forceUpdate()
+              }
             }
           })
         ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.iban.required
+      ? _c("p", [_vm._v("IBAN required")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.iban.isIbanValid
+      ? _c("p", [_vm._v("Check IBAN format")])
       : _vm._e(),
     _vm._v(" "),
     _vm.typeOfMovement == "transfer"
@@ -55122,6 +55298,14 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.destEmail,
+                expression: "destEmail"
+              }
+            ],
             staticClass: "form-control",
             attrs: {
               required: "",
@@ -55129,9 +55313,29 @@ var render = function() {
               name: "destEmail",
               id: "inputDestEmail",
               placeholder: "Destination's E-mail"
+            },
+            domProps: { value: _vm.destEmail },
+            on: {
+              change: function($event) {
+                return _vm.$v.destEmail.$touch()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.destEmail = $event.target.value
+              }
             }
           })
         ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.destEmail.required
+      ? _c("p", [_vm._v("EMAIL required")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.destEmail.email
+      ? _c("p", [_vm._v("Invalid EMAIL")])
       : _vm._e(),
     _vm._v(" "),
     _vm.typeOfMovement == "external"
@@ -55141,14 +55345,42 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.mBEntityCode,
+                expression: "mBEntityCode"
+              }
+            ],
             staticClass: "form-control",
             attrs: {
               name: "mBEntityCode",
               id: "inputMBentityCode",
               placeholder: "MB Entity Code"
+            },
+            domProps: { value: _vm.mBEntityCode },
+            on: {
+              change: function($event) {
+                return _vm.$v.mBEntityCode.$touch()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.mBEntityCode = $event.target.value
+              }
             }
           })
         ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.mBEntityCode.required
+      ? _c("p", [_vm._v("MB entity code required")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.mBEntityCode.mbEntityCodeLength
+      ? _c("p", [_vm._v("MB entity code must have 5 digits")])
       : _vm._e(),
     _vm._v(" "),
     _vm.typeOfMovement == "external"
@@ -55158,15 +55390,43 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.mBEntityReference,
+                expression: "mBEntityReference"
+              }
+            ],
             staticClass: "form-control",
             attrs: {
               type: "text",
               name: "mBEntityReference",
               id: "inputMBEntityReference",
               placeholder: "MB Entity Reference"
+            },
+            domProps: { value: _vm.mBEntityReference },
+            on: {
+              change: function($event) {
+                return _vm.$v.mBEntityReference.$touch()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.mBEntityReference = $event.target.value
+              }
             }
           })
         ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.mBEntityReference.required
+      ? _c("p", [_vm._v("MB entity reference required")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.mBEntityReference.mbEntityReferenceLength
+      ? _c("p", [_vm._v("MB entity refrence must have 9 digits")])
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -55200,26 +55460,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Description:")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "description",
-          id: "inputDescription",
-          placeholder: "Description"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -75385,7 +75626,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _movementCreate_vue_vue_type_template_id_b618ffd4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./movementCreate.vue?vue&type=template&id=b618ffd4&scoped=true& */ "./resources/js/components/movementCreate.vue?vue&type=template&id=b618ffd4&scoped=true&");
 /* harmony import */ var _movementCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movementCreate.vue?vue&type=script&lang=js& */ "./resources/js/components/movementCreate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css& */ "./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -75393,7 +75636,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _movementCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _movementCreate_vue_vue_type_template_id_b618ffd4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _movementCreate_vue_vue_type_template_id_b618ffd4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -75422,6 +75665,22 @@ component.options.__file = "resources/js/components/movementCreate.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./movementCreate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementCreate.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css& ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementCreate.vue?vue&type=style&index=0&id=b618ffd4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_movementCreate_vue_vue_type_style_index_0_id_b618ffd4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
