@@ -229,7 +229,7 @@ export default {
 
             this.newMovement.date = dateTime;
 
-            if(typeOfMovement == "external"){
+            if(this.typeOfMovement == "external"){
                 axios.post("api/movements", {
                     wallet_id: this.$store.state.wallet.id,
                     email: this.destEmail,
@@ -250,10 +250,7 @@ export default {
                 }).then(response => {
                         console.log(response.data);
                     })
-
             }else{
-                //this.newMovement.email = 
-
                 axios.post("api/movements", {
                     wallet_id: this.$store.state.wallet.id,
                     email: this.email,

@@ -2420,7 +2420,7 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
       var dateTime = date + ' ' + time;
       this.newMovement.date = dateTime;
 
-      if (typeOfMovement == "external") {
+      if (this.typeOfMovement == "external") {
         axios.post("api/movements", {
           wallet_id: this.$store.state.wallet.id,
           email: this.destEmail,
@@ -2442,7 +2442,6 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
           console.log(response.data);
         });
       } else {
-        //this.newMovement.email = 
         axios.post("api/movements", {
           wallet_id: this.$store.state.wallet.id,
           email: this.email,
