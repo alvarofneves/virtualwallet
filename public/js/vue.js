@@ -2020,6 +2020,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2342,16 +2343,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  //Vuelidate REGEX validations:
 
 var isIbanValid = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("isIbanValid", /^[A-Z]{2}(?:[ ]?[0-9]){23}$/);
 var mbEntityCodeLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("mbEntityCodeLength", /^[0-9]{5}$/);
 var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("mbEntityReferenceLength", /^[0-9]{9}$/);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['movements', 'categories'],
+  props: ['users', 'categories'],
   data: function data() {
     return {
       typeOfMovement: "external",
+      typeOfPayment: "bt",
       newMovement: [],
       tranferValue: "",
       category: null,
@@ -2360,7 +2373,8 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
       destEmail: "",
       mBEntityCode: "",
       mBEntityReference: "",
-      isSubmitted: false
+      isSubmitted: false,
+      validUserEmailAndWallet: false
     };
   },
   validations: {
@@ -2400,6 +2414,9 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
   },
   methods: {
     saveMovement: function saveMovement() {
+      var _this = this;
+
+      this.validUserEmailAndWallet = false;
       this.isSubmitted = true;
       console.log(this.categories);
       /* this.newMovement.type = "e";
@@ -2421,47 +2438,73 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
       this.newMovement.date = dateTime;
 
       if (this.typeOfMovement == "external") {
-        axios.post("api/movements", {
-          wallet_id: this.$store.state.wallet.id,
-          email: this.destEmail,
-          transfer_wallet_id: this.transfer_wallet_id,
-          type: "e",
-          transfer: 0,
-          type_payment: "mb",
-          category_id: this.category_id,
-          category: this.category,
-          iban: this.iban,
-          mb_entity_code: this.mBEntityCode,
-          mb_payment_reference: this.mBEntityReference,
-          description: this.description,
-          date: this.date,
-          start_balance: this.$store.state.wallet.balance,
-          end_balance: this.$store.state.wallet.balance - this.value,
-          value: this.value
-        }).then(function (response) {
-          console.log(response.data);
-        });
+        if (this.typeOfPayment == "bt") {
+          axios.post("api/movements", {
+            wallet_id: this.$store.state.wallet.id,
+            type: "e",
+            transfer: 0,
+            type_payment: this.typeOfPayment,
+            category_id: this.category.id,
+            category: this.category.name,
+            mb_entity_code: this.mBEntityCode,
+            mb_payment_reference: this.mBEntityReference,
+            description: this.description,
+            date: this.date,
+            start_balance: this.$store.state.wallet.balance,
+            end_balance: this.$store.state.wallet.balance - this.value,
+            value: this.value
+          }).then(function (response) {
+            console.log(response.data);
+          });
+        } else {
+          axios.post("api/movements", {
+            wallet_id: this.$store.state.wallet.id,
+            type: "e",
+            transfer: 0,
+            type_payment: this.typeOfPayment,
+            category_id: this.category.id,
+            category: this.category.name,
+            mb_entity_code: this.mBEntityCode,
+            mb_payment_reference: this.mBEntityReference,
+            description: this.description,
+            date: this.date,
+            start_balance: this.$store.state.wallet.balance,
+            end_balance: this.$store.state.wallet.balance - this.value,
+            value: this.value
+          }).then(function (response) {
+            console.log(response.data);
+          });
+        }
       } else {
-        axios.post("api/movements", {
-          wallet_id: this.$store.state.wallet.id,
-          email: this.email,
-          transfer_wallet_id: this.transfer_wallet_id,
-          type: "e",
-          transfer: 1,
-          type_payment: "bt",
-          category_id: this.category_id,
-          category: this.category,
-          iban: this.iban,
-          mb_entity_code: this.mb_entity_code,
-          mb_payment_reference: this.mb_payment_reference,
-          description: this.description,
-          date: this.date,
-          start_balance: this.$store.state.wallet.balance,
-          end_balance: this.$store.state.wallet.balance - this.value,
-          value: this.value
-        }).then(function (response) {
-          console.log(response.data);
+        users.forEach(function (user) {
+          if (user.email == _this.destEmail) {
+            if (user.type == "u") {
+              _this.validUserEmailAndWallet = true;
+            }
+          }
         });
+
+        if (this.validUserEmailAndWallet == true) {
+          axios.post("api/movements", {
+            wallet_id: this.$store.state.wallet.id,
+            email: this.email,
+            transfer_wallet_id: this.transfer_wallet_id,
+            type: "e",
+            transfer: 1,
+            category_id: this.category_id,
+            category: this.category,
+            iban: this.iban,
+            mb_entity_code: this.mb_entity_code,
+            mb_payment_reference: this.mb_payment_reference,
+            description: this.description,
+            date: this.date,
+            start_balance: this.$store.state.wallet.balance,
+            end_balance: this.$store.state.wallet.balance - this.value,
+            value: this.value
+          }).then(function (response) {
+            console.log(response.data);
+          });
+        }
       }
 
       this.$emit("save-movement", this.movement);
@@ -54875,7 +54918,10 @@ var render = function() {
                         "div",
                         [
                           _c("movementCreate", {
-                            attrs: { categories: this.$store.state.categories }
+                            attrs: {
+                              users: this.users,
+                              categories: this.$store.state.categories
+                            }
                           })
                         ],
                         1
@@ -55202,12 +55248,56 @@ var render = function() {
             _vm._v(" External Entity ")
           ]),
           _vm._v(" "),
-          _c("option", { attrs: { value: "transfer" } }, [
-            _vm._v(" Bank Transfer ")
-          ])
+          _c("option", { attrs: { value: "transfer" } }, [_vm._v(" Transfer ")])
         ]
       )
     ]),
+    _vm._v(" "),
+    _vm.typeOfMovement == "external"
+      ? _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "category_id" } }, [
+            _vm._v("Type of Payment:")
+          ]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.typeOfPayment,
+                  expression: "typeOfPayment"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { id: "category_id", name: "category_id" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.typeOfPayment = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "bt" } }, [
+                _vm._v(" Bank Transfer ")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "mb" } }, [_vm._v(" MB Payment ")])
+            ]
+          )
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value:")]),
@@ -55344,7 +55434,7 @@ var render = function() {
       ? _c("p", [_vm._v("Description required")])
       : _vm._e(),
     _vm._v(" "),
-    _vm.typeOfMovement == "transfer"
+    _vm.typeOfPayment == "bt" && _vm.typeOfMovement == "external"
       ? _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "inputValue" } }, [_vm._v("IBAN:")]),
           _vm._v(" "),
@@ -55440,7 +55530,7 @@ var render = function() {
       ? _c("p", [_vm._v("Invalid EMAIL")])
       : _vm._e(),
     _vm._v(" "),
-    _vm.typeOfMovement == "external"
+    _vm.typeOfPayment == "mb" && _vm.typeOfMovement == "external"
       ? _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "inputValue" } }, [
             _vm._v("MB Entity Code:")
@@ -55485,7 +55575,7 @@ var render = function() {
       ? _c("p", [_vm._v("MB entity code must have 5 digits")])
       : _vm._e(),
     _vm._v(" "),
-    _vm.typeOfMovement == "external"
+    _vm.typeOfPayment == "mb" && _vm.typeOfMovement == "external"
       ? _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "inputValue" } }, [
             _vm._v("MB Entity Reference:")

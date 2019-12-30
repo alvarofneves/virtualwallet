@@ -11,7 +11,18 @@
                     name="category_id" 
                     v-model="typeOfMovement">
 	            <option value="external"> External Entity </option>
-                <option value="transfer"> Bank Transfer </option>
+                <option value="transfer"> Transfer </option>
+	        </select>
+        </div>
+
+        <div v-if="typeOfMovement == 'external'" class="form-group">
+            <label for="category_id">Type of Payment:</label>
+            <select class="form-control" 
+                    id="category_id" 
+                    name="category_id" 
+                    v-model="typeOfPayment">
+	            <option value="bt"> Bank Transfer </option>
+                <option value="mb"> MB Payment </option>
 	        </select>
         </div>
 
@@ -57,7 +68,7 @@
         </div>
         <p v-if="isSubmitted && !$v.description.required">Description required</p>
 
-        <div v-if="typeOfMovement == 'transfer'" class="form-group">
+        <div v-if="typeOfPayment == 'bt' && typeOfMovement == 'external'" class="form-group">
             <label for="inputValue">IBAN:</label>
             <input
                 required
@@ -89,7 +100,7 @@
         <p v-if="isSubmitted && !$v.destEmail.required">EMAIL required</p>
         <p v-if="isSubmitted && !$v.destEmail.email">Invalid EMAIL</p>
 
-        <div v-if="typeOfMovement == 'external'" class="form-group">
+        <div v-if="typeOfPayment == 'mb' && typeOfMovement == 'external'" class="form-group">
             <label for="inputValue">MB Entity Code:</label>
             <input
                 class="form-control"
@@ -103,7 +114,7 @@
         <p v-if="isSubmitted && !$v.mBEntityCode.required">MB entity code required</p>
         <p v-if="isSubmitted && !$v.mBEntityCode.mbEntityCodeLength">MB entity code must have 5 digits</p>
 
-        <div v-if="typeOfMovement == 'external'" class="form-group">
+        <div v-if="typeOfPayment == 'mb' && typeOfMovement == 'external'" class="form-group">
             <label for="inputValue">MB Entity Reference:</label>
             <input
                 type="text"
@@ -148,10 +159,11 @@ const mbEntityCodeLength = helpers.regex("mbEntityCodeLength", /^[0-9]{5}$/);
 const mbEntityReferenceLength = helpers.regex("mbEntityReferenceLength", /^[0-9]{9}$/);
 
 export default {
-    props: ['movements', 'categories'],
+    props: ['users', 'categories'],
     data: function() {
         return {
             typeOfMovement: "external",
+            typeOfPayment: "bt",
             newMovement: [],
             tranferValue: "",
             category: null,
@@ -160,7 +172,8 @@ export default {
             destEmail: "",
             mBEntityCode: "",
             mBEntityReference: "",
-            isSubmitted: false
+            isSubmitted: false,
+            validUserEmailAndWallet: false
         };
     },
     validations: {
@@ -205,6 +218,7 @@ export default {
     },
     methods: {
         saveMovement() {
+            this.validUserEmailAndWallet = false;
             this.isSubmitted = true;
 
             console.log(this.categories);
@@ -230,47 +244,76 @@ export default {
             this.newMovement.date = dateTime;
 
             if(this.typeOfMovement == "external"){
-                axios.post("api/movements", {
-                    wallet_id: this.$store.state.wallet.id,
-                    email: this.destEmail,
-                    transfer_wallet_id: this.transfer_wallet_id,
-                    type: "e",
-                    transfer: 0,
-                    type_payment: "mb",
-                    category_id: this.category_id,
-                    category: this.category,
-                    iban: this.iban,
-                    mb_entity_code: this.mBEntityCode,
-                    mb_payment_reference: this.mBEntityReference,
-                    description: this.description,
-                    date: this.date,
-                    start_balance: this.$store.state.wallet.balance,
-                    end_balance: (this.$store.state.wallet.balance - this.value),
-                    value: this.value
-                }).then(response => {
+                if(this.typeOfPayment == "bt"){
+                    axios.post("api/movements", {
+                        wallet_id: this.$store.state.wallet.id,
+                        type: "e",
+                        transfer: 0,
+                        type_payment: this.typeOfPayment,
+                        category_id: this.category.id,
+                        category: this.category.name,
+                        mb_entity_code: this.mBEntityCode,
+                        mb_payment_reference: this.mBEntityReference,
+                        description: this.description,
+                        date: this.date,
+                        start_balance: this.$store.state.wallet.balance,
+                        end_balance: (this.$store.state.wallet.balance - this.value),
+                        value: this.value
+                    }).then(response => {
                         console.log(response.data);
                     })
+                }else{
+                    axios.post("api/movements", {
+                        wallet_id: this.$store.state.wallet.id,
+                        type: "e",
+                        transfer: 0,
+                        type_payment: this.typeOfPayment,
+                        category_id: this.category.id,
+                        category: this.category.name,
+                        mb_entity_code: this.mBEntityCode,
+                        mb_payment_reference: this.mBEntityReference,
+                        description: this.description,
+                        date: this.date,
+                        start_balance: this.$store.state.wallet.balance,
+                        end_balance: (this.$store.state.wallet.balance - this.value),
+                        value: this.value
+                    }).then(response => {
+                        console.log(response.data);
+                    })
+                }
+
+                
             }else{
-                axios.post("api/movements", {
-                    wallet_id: this.$store.state.wallet.id,
-                    email: this.email,
-                    transfer_wallet_id: this.transfer_wallet_id,
-                    type: "e",
-                    transfer: 1,
-                    type_payment: "bt",
-                    category_id: this.category_id,
-                    category: this.category,
-                    iban: this.iban,
-                    mb_entity_code: this.mb_entity_code,
-                    mb_payment_reference: this.mb_payment_reference,
-                    description: this.description,
-                    date: this.date,
-                    start_balance: this.$store.state.wallet.balance,
-                    end_balance: (this.$store.state.wallet.balance - this.value),
-                    value: this.value
-                }).then(response => {
+                users.forEach(user => {
+                    if(user.email == this.destEmail){
+                        if(user.type == "u"){
+                            this.validUserEmailAndWallet = true;
+                        }
+                    }
+                })
+
+                if(this.validUserEmailAndWallet == true){
+                    axios.post("api/movements", {
+                        wallet_id: this.$store.state.wallet.id,
+                        email: this.email,
+                        transfer_wallet_id: this.transfer_wallet_id,
+                        type: "e",
+                        transfer: 1,
+                        category_id: this.category_id,
+                        category: this.category,
+                        iban: this.iban,
+                        mb_entity_code: this.mb_entity_code,
+                        mb_payment_reference: this.mb_payment_reference,
+                        description: this.description,
+                        date: this.date,
+                        start_balance: this.$store.state.wallet.balance,
+                        end_balance: (this.$store.state.wallet.balance - this.value),
+                        value: this.value
+                    }).then(response => {
                         console.log(response.data);
                     })
+                }
+                
             } 
 
             this.$emit("save-movement", this.movement);
