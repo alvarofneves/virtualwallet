@@ -36,6 +36,7 @@
                 </div>
                 <div v-if="this.$store.state.isCreateMovement">
                     <movementCreate
+                        :users="this.users"
                         :categories="this.$store.state.categories"
                     />
                 </div>
