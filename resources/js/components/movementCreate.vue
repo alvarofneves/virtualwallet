@@ -34,10 +34,10 @@
 
         <div class="form-group">
             <label for="category_id">Category:</label>
-            <select class="form-control" id="category_id" name="category_id" >
+            <select class="form-control" id="category_id" name="category_id" v-model="category">
 	            <option v-for="category in typeExpense(categories)" 
                         :key="category.id" 
-                        v-bind:value="category.id"> 
+                        v-bind:value="category"> 
                     {{ category.name }}
                 </option>
 	        </select>
@@ -48,7 +48,7 @@
             <input
                 type="text"
                 class="form-control"
-                v-model="description"
+                v-model.trim="description"
                 @change="$v.description.$touch()"
                 name="description"
                 id="inputDescription"
@@ -153,8 +153,8 @@ export default {
         return {
             typeOfMovement: "external",
             newMovement: [],
-            tranferValue: this.tranferValue,
-            category: "",
+            tranferValue: "",
+            category: null,
             description: "",
             iban: "",
             destEmail: "",
@@ -207,7 +207,7 @@ export default {
         saveMovement() {
             this.isSubmitted = true;
 
-            console.log("DEBUG - Category: "+ this.category.id);
+            console.log(this.categories);
 
 
             /* this.newMovement.type = "e";
@@ -229,7 +229,7 @@ export default {
 
             this.newMovement.date = dateTime;
 
-            /* if(typeOfMovement == "external"){
+            if(typeOfMovement == "external"){
                 axios.post("api/movements", {
                     wallet_id: this.$store.state.wallet.id,
                     email: this.destEmail,
@@ -274,7 +274,7 @@ export default {
                 }).then(response => {
                         console.log(response.data);
                     })
-            } */
+            } 
 
             this.$emit("save-movement", this.movement);
         },
