@@ -152,7 +152,7 @@ export default {
                 this.showFailure = false;
                 this.usersOnRegister.forEach(element => {
                 if(this.email == element.email){
-                    this.message = "EMAIL JA REGISTADO!";
+                    this.message = "This Email is already registered!";
                     this.showFailure = true;
                 }
                 });
