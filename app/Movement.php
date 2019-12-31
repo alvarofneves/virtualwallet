@@ -20,7 +20,6 @@ class Movement extends Authenticatable
     public $timestamps = false;    
 
     protected $fillable = [
-        'id',
         'wallet_id',
         'type',
         'transfer',
@@ -44,9 +43,6 @@ class Movement extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 
      public function wallet()
      {

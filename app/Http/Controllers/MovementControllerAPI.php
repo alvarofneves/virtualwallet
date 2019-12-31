@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Movement;
 use App\StoreUserRequest;
-use Hash;
+use Carbon\Carbon;
 
 class MovementControllerAPI extends Controller
 {
@@ -31,25 +31,36 @@ class MovementControllerAPI extends Controller
 
     public function store(Request $request)
     {
-      /*   $request->validate([
-                'email' => 'required|email|unique:users,email',
-                ''
-                
-            ]);
-        $user = new User();
-        $user->fill($request->all());
-        $user->password = Hash::make($user->password);
-        $user->save();
-        return response()->json(new UserResource($user), 201);*/
+        $request->validate([
+            'wallet_id' => 'required',
+            'type' => 'required',
+            'transfer' => 'required',
+            'value' => 'required',
+            'start_balance' => 'required',
+            'end_balance' => 'required'
+        ]);
+
+        $movement = new Movement();
+        $movement->fill($request->all());
+        $movement->date = (Carbon::now()->toDateTimeString());
+
+        $movement->save();
+        return response()->json(new MovementResource($movement), 201);
     }
  
     public function update(Request $request, $id)
     {
         $request->validate([
-                'description' => 'string',
-                'category_id' => 'integer'
+            'wallet_id' => 'required',
+            'type' => 'required',
+            'transfer' => 'required',
+            'value' => 'required',
+            'start_balance' => 'required',
+            'end_balance' => 'required'
         ]);
+
         $movement = Movement::findOrFail($id);
+
         $movement->update($request->all());
         return new MovementResource($movement);
     }
