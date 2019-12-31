@@ -2351,16 +2351,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
  //Vuelidate REGEX validations:
 
 var isIbanValid = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("isIbanValid", /^[A-Z]{2}(?:[ ]?[0-9]){23}$/);
 var mbEntityCodeLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("mbEntityCodeLength", /^[0-9]{5}$/);
 var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("mbEntityReferenceLength", /^[0-9]{9}$/);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['users', 'categories'],
+  props: ['users', 'categories', 'movements'],
   data: function data() {
     return {
       typeOfMovement: "external",
@@ -2391,7 +2388,7 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
     iban: {
       isIbanValid: isIbanValid,
       required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
-        if (this.typeOfMovement === "transfer") return true;
+        if (this.typeOfMovement === "external" && this.typeOfPayment === "bt") return true;
       })
     },
     destEmail: {
@@ -2403,13 +2400,13 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
     mBEntityCode: {
       mbEntityCodeLength: mbEntityCodeLength,
       required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
-        if (this.typeOfMovement === "external") return true;
+        if (this.typeOfMovement === "external" && this.typeOfPayment === "mb") return true;
       })
     },
     mBEntityReference: {
       mbEntityReferenceLength: mbEntityReferenceLength,
       required: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["requiredIf"])(function () {
-        if (this.typeOfMovement === "external") return true;
+        if (this.typeOfMovement === "external" && this.typeOfPayment === "mb") return true;
       })
     }
   },
@@ -2419,7 +2416,7 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
 
       this.validUserEmailAndWallet = false;
       this.isSubmitted = true;
-      console.log(this.categories);
+      console.log(this.$store.state.user.wallet);
       /* this.newMovement.type = "e";
       this.newMovement.wallet_id = this.$store.state.wallet.id;
       this.newMovement.tranferValue = this.tranferValue;
@@ -2436,12 +2433,12 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
       var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var dateTime = date + ' ' + time;
-      console.log(dateTime);
 
       if (this.typeOfMovement == "external") {
         if (this.typeOfPayment == "bt") {
           axios.post("api/movements", {
-            wallet_id: this.$store.state.wallet.id,
+            //wallet_id: this.$store.state.wallet.id,
+            value: this.tranferValue,
             type: "e",
             transfer: 0,
             type_payment: this.typeOfPayment,
@@ -2449,8 +2446,7 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
             iban: this.iban,
             description: this.description,
             start_balance: this.$store.state.wallet.balance,
-            end_balance: this.$store.state.wallet.balance - this.value,
-            value: this.value
+            end_balance: this.$store.state.wallet.balance - this.tranferValue
           }).then(function (response) {
             console.log(response.data);
           });
@@ -2492,7 +2488,7 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
             description: this.description,
             start_balance: this.$store.state.wallet.balance,
             end_balance: this.$store.state.wallet.balance - this.value,
-            value: this.value
+            value: this.tranferValue
           }).then(function (response) {
             axios.put("api/wallet" + _this.$store.state.wallet.id, {
               balance: _this.$store.state.wallet.balance - _this.value
@@ -55221,10 +55217,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
-    _c("pre", [
-      _vm._v("            " + _vm._s(_vm.$v.description) + "\n        ")
-    ]),
-    _vm._v(" "),
     _c("h2", [_vm._v("Create Movement")]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -76917,7 +76909,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     token: sessionStorage.getItem('token') || null,
     user: {},
-    wallet: 0,
+    wallet: {},
     isLogged: false,
     isEdditingProfile: false,
     isCreateMovement: false

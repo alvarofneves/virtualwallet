@@ -32,12 +32,14 @@ class MovementControllerAPI extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'wallet_id' => 'required',
+            //'wallet_id' => 'required',
             'type' => 'required',
             'transfer' => 'required',
             'value' => 'required',
             'start_balance' => 'required',
-            'end_balance' => 'required'
+            'end_balance' => 'required',
+            'type_payment' => 'required',
+            'description' => 'required'
         ]);
 
         $movement = new Movement();

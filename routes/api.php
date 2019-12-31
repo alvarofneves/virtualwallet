@@ -46,7 +46,6 @@ Route::get('categories', 'CategoryControllerAPI@index');
 Route::post('login', 'LoginControllerAPI@login');
 Route::middleware('auth:api')->post('logout', 'LoginControllerAPI@logout');
 //PHOTOS API
-Route::post('users/{id}/photo','FileController@storePhoto');
 Route::get('/{fileName}', 'ProfileController@viewPhoto');
 //TODO: Get route para conseguir onbter as imagens 
 /*

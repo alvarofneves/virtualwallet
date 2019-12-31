@@ -40,8 +40,8 @@ class UserControllerAPI extends Controller
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
                 'email' =>'required|email|unique:users,email',
                 /* 'type' => 'alpha_num('u','o','a')', */
-                'password' => 'min:3'/* ,
-                'nif' => 'min:9' */
+                'password' => 'min:3',
+                'nif' => 'min:9' 
             ]);
             //\Log::info($request->all()); DEBUG!!
         $exploded = explode(',', $request->photo);

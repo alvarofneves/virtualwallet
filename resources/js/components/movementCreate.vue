@@ -1,8 +1,5 @@
 <template>
     <div class="jumbotron">
-        <pre>
-            {{ $v.description }}
-        </pre>
         <h2>Create Movement</h2>
         <div class="form-group">
             <label for="category_id">Type of Movement:</label>
@@ -159,7 +156,7 @@ const mbEntityCodeLength = helpers.regex("mbEntityCodeLength", /^[0-9]{5}$/);
 const mbEntityReferenceLength = helpers.regex("mbEntityReferenceLength", /^[0-9]{9}$/);
 
 export default {
-    props: ['users', 'categories'],
+    props: ['users','categories','movements'],
     data: function() {
         return {
             typeOfMovement: "external",
@@ -191,7 +188,7 @@ export default {
         iban: {
             isIbanValid,
             required: requiredIf(function(){
-                if(this.typeOfMovement === "transfer")
+                if(this.typeOfMovement === "external" && this.typeOfPayment ==="bt")
                     return true;
             }),
         },
@@ -205,14 +202,14 @@ export default {
         mBEntityCode: {
             mbEntityCodeLength,
             required: requiredIf(function(){
-                if(this.typeOfMovement === "external")
+                if(this.typeOfMovement === "external" && this.typeOfPayment ==="mb")
                     return true;
             }),
         },
         mBEntityReference:{
             mbEntityReferenceLength,
             required: requiredIf(function(){
-                if(this.typeOfMovement === "external")
+                if(this.typeOfMovement === "external" && this.typeOfPayment ==="mb")
                     return true;
             }),
         }
@@ -222,7 +219,7 @@ export default {
             this.validUserEmailAndWallet = false;
             this.isSubmitted = true;
 
-            console.log(this.categories);
+            console.log(this.$store.state.user.wallet);
 
 
             /* this.newMovement.type = "e";
@@ -237,19 +234,18 @@ export default {
             this.iban = this.iban.split(' ').join('');
             
             //console.log("DEBUG: "+ this.iban);
-            //Get today's Date
 
+            //Get today's Date
             var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date + ' ' + time;
 
-            console.log(dateTime);
-
             if(this.typeOfMovement == "external"){
                 if(this.typeOfPayment == "bt"){
                     axios.post("api/movements", {
-                        wallet_id: this.$store.state.wallet.id,
+                        //wallet_id: this.$store.state.wallet.id,
+                        value: this.tranferValue,
                         type: "e",
                         transfer: 0,
                         type_payment: this.typeOfPayment,
@@ -257,8 +253,7 @@ export default {
                         iban: this.iban,
                         description: this.description,
                         start_balance: this.$store.state.wallet.balance,
-                        end_balance: (this.$store.state.wallet.balance - this.value),
-                        value: this.value
+                        end_balance: (this.$store.state.wallet.balance - this.tranferValue),
                     }).then(response => {
                         console.log(response.data);
                     })
@@ -300,7 +295,7 @@ export default {
                         description: this.description,
                         start_balance: this.$store.state.wallet.balance,
                         end_balance: (this.$store.state.wallet.balance - this.value),
-                        value: this.value
+                        value: this.tranferValue
                     }).then(response => {
                         axios.put("api/wallet" + this.$store.state.wallet.id, {
                             balance: (this.$store.state.wallet.balance - this.value)

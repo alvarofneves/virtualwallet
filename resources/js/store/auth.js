@@ -9,7 +9,7 @@ export default new Vuex.Store({
     state: { 
         token: sessionStorage.getItem('token') || null,
         user: {},
-        wallet: 0,
+        wallet: {},
         isLogged: false,
         isEdditingProfile: false,
         isCreateMovement: false
