@@ -70,13 +70,13 @@ export default {
                         axios.get("api/user")
                         .then(response =>{
                             console.log(response)
-                            axios.get("api/wallets/" + response.data.id)
-                            .then(response => {
-                                this.$store.commit("setWallet", response.data.data);
-                            })
-                            
+                            if(response.data.type == "u"){
+                                axios.get("api/wallets/" + response.data.id)
+                                .then(response => {
+                                    this.$store.commit("setWallet", response.data.data);
+                                })
+                            }
                             this.$store.commit("setUser", response.data);
-
                         })
                         .catch(error =>{
                             console.log(error.response.data);

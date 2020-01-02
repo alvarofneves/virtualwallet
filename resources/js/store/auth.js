@@ -60,6 +60,7 @@ export default new Vuex.Store({
         },
         setWallet: (state, wallet) =>{
             state.wallet = wallet;
+
             sessionStorage.setItem('wallet', JSON.stringify(wallet));
         },
         setToken: (state, token) => {
@@ -89,11 +90,6 @@ export default new Vuex.Store({
                     })
                 }
             }
-        },
-        loadCategories: state => {
-            axios.get("api/categories").then(response => {
-                state.categories = response.data.data;
-            });
         }
     } 
 });

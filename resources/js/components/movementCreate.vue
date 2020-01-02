@@ -156,7 +156,7 @@ const mbEntityCodeLength = helpers.regex("mbEntityCodeLength", /^[0-9]{5}$/);
 const mbEntityReferenceLength = helpers.regex("mbEntityReferenceLength", /^[0-9]{9}$/);
 
 export default {
-    props: ['users','categories','movements'],
+    props: ['users','categories'],
     data: function() {
         return {
             typeOfMovement: "external",
@@ -164,7 +164,7 @@ export default {
             newMovement: [],
             walletDest: [],
             tranferValue: "",
-            category: null,
+            category: [],
             description: "",
             iban: "",
             destEmail: "",
@@ -219,9 +219,6 @@ export default {
             this.validUserEmailAndWallet = false;
             this.isSubmitted = true;
 
-            console.log(this.$store.state.user.wallet);
-
-
             /* this.newMovement.type = "e";
             this.newMovement.wallet_id = this.$store.state.wallet.id;
             this.newMovement.tranferValue = this.tranferValue;
@@ -241,10 +238,19 @@ export default {
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             var dateTime = date + ' ' + time;
 
+            console.log("DEBUG")
+
+            console.log(this.tranferValue)
+            console.log(this.category)
+            console.log(this.$store.state.wallet.balance)
+            console.log(this.$store.state.wallet.balance - this.tranferValue)
+
+            console.log("END DEBUG")
+
             if(this.typeOfMovement == "external"){
                 if(this.typeOfPayment == "bt"){
                     axios.post("api/movements", {
-                        //wallet_id: this.$store.state.wallet.id,
+                        wallet_id: this.$store.state.wallet.id,
                         value: this.tranferValue,
                         type: "e",
                         transfer: 0,
@@ -255,7 +261,13 @@ export default {
                         start_balance: this.$store.state.wallet.balance,
                         end_balance: (this.$store.state.wallet.balance - this.tranferValue),
                     }).then(response => {
-                        console.log(response.data);
+                        axios.put("api/wallets/" + this.$store.state.wallet.id, {
+                            balance: (this.$store.state.wallet.balance - this.tranferValue)
+                        }).then(response => {
+                            this.$store.commit("setWallet", response.data.data);
+                        }).catch(error => {
+                            console.log(error.response.data);
+                        })
                     })
                 }else{
                     axios.post("api/movements", {
@@ -268,14 +280,21 @@ export default {
                         mb_payment_reference: this.mBEntityReference,
                         description: this.description,
                         start_balance: this.$store.state.wallet.balance,
-                        end_balance: (this.$store.state.wallet.balance - this.value),
-                        value: this.value
+                        end_balance: (this.$store.state.wallet.balance - this.tranferValue),
+                        value: this.tranferValue
                     }).then(response => {
-                        console.log(response.data);
+                        axios.put("api/wallets/" + this.$store.state.wallet.id, {
+                            balance: (this.$store.state.wallet.balance - this.tranferValue)
+                        }).then(response => {
+                            this.$store.commit("setWallet", response.data.data);
+                        }).catch(error => {
+                            console.log(error.response.data);
+                        })
                     })
                 }
             }else{
-                users.forEach(user => {
+                this.validUserEmailAndWallet = false;
+                this.users.forEach(user => {
                     if(user.email == this.destEmail){
                         if(user.type == "u"){
                             this.validUserEmailAndWallet = true;
@@ -291,19 +310,23 @@ export default {
                         transfer_wallet_id: this.walletDest.id,
                         type: "e",
                         transfer: 1,
-                        category_id: this.category_id,
+                        category_id: this.category.id,
                         description: this.description,
                         start_balance: this.$store.state.wallet.balance,
-                        end_balance: (this.$store.state.wallet.balance - this.value),
+                        end_balance: (this.$store.state.wallet.balance - this.tranferValue),
                         value: this.tranferValue
                     }).then(response => {
-                        axios.put("api/wallet" + this.$store.state.wallet.id, {
-                            balance: (this.$store.state.wallet.balance - this.value)
+                        axios.put("api/wallets/" + this.$store.state.wallet.id, {
+                            balance: (this.$store.state.wallet.balance - this.tranferValue)
                         }).then(response => {
                             this.$store.commit("setWallet", response.data.data);
                         }).catch(error => {
                             console.log(error.response.data);
                         })
+
+                        console.log(this.walletDest)
+                        console.log(this.walletDest.balance)
+                        console.log((parseFloat(this.walletDest.balance) + parseFloat(this.tranferValue)))
 
                         axios.post("api/movements", {
                             wallet_id: this.walletDest.id,
@@ -311,14 +334,14 @@ export default {
                             transfer_wallet_id: this.$store.state.wallet.id,
                             type: "i",
                             transfer: 1,
-                            category_id: this.category_id,
+                            category_id: this.category.id,
                             source_description: this.description,
                             start_balance: this.walletDest.balance,
-                            end_balance: (this.walletDest.balance + this.value),
-                            value: this.value
+                            end_balance: (parseFloat(this.walletDest.balance) + parseFloat(this.tranferValue)),
+                            value: this.tranferValue
                         }).then(response => {
-                            axios.put("api/wallet" + this.walletDest.id, {
-                                balance: (this.$store.state.wallet.balance + this.value)
+                            axios.put("api/wallets/" + this.walletDest.id, {
+                                balance: (parseFloat(this.walletDest.balance) + parseFloat(this.tranferValue))
                             }).then(response => {
                                 console.log(response.data.data)
                             }).catch(error => {

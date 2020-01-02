@@ -39,16 +39,16 @@ class WalletControllerAPI extends Controller
         $wallet->save();
         return response()->json(new WalletResource($wallet), 201);
     }
-/* 
+ 
     public function update(Request $request, $id)
     {
         $request->validate([
-                'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
-                'email' => 'required|email|unique:users,email,'.$id,
-                //'type' => 'enum('u','o','a')'
-            ]);
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        return new UserResource($user);
-    }*/
+            'balance'=> 'numeric'
+        ]);
+
+        $wallet = Wallet::findOrFail($id);
+        $wallet->update($request->all());
+        
+        return new WalletResource($wallet);
+    }
 }

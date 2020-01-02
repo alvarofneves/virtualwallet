@@ -27,7 +27,7 @@
         },
         methods: {
             addIncome: function(wallet){
-
+                
             }
         }
     }

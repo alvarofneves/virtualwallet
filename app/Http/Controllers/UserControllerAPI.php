@@ -74,13 +74,13 @@ class UserControllerAPI extends Controller
         $user = User::findOrFail($id);
 
         //testar
-        if($user->name != $request->name){
+        if($user->name != $request->name && $request->name != null){
             $user->name = $request->name;
         }
-        if($user->type != $request->type){
+        if($user->type != $request->type && $request->type != null){
             $user->type = $request->type;
         }
-        if($user->email != $request->email){
+        if($user->email != $request->email && $request->email != null){
             $user->email = $request->email;
         }
 

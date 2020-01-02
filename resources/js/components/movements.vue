@@ -2,7 +2,7 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
-            <h2 v-if="this.$store.state.user.typer == 'u'">Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
+            <h2 v-if="this.$store.state.user.type == 'u'">Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
         </div>
 
         <stack-modal
@@ -86,7 +86,7 @@ import MovementEditComponent from "./movementEdit";
 import PaginationComponent from "./pagination";
 
 export default {
-    props: ["users"],
+    props: ["users","categories"],
     data: function() {
         return {
             title: "Movements",
@@ -99,7 +99,6 @@ export default {
             currentMovementPhoto: "",
             movementToPut: null,
             movements: [],
-            categories: [],
             popupActivo: false,
             meta_data: {
                 last_page: null,

@@ -16,30 +16,28 @@ class MovementControllerAPI extends Controller
 {
     public function index(Request $request)
     {
-            return MovementResource::collection(Movement::paginate(10));
+        return MovementResource::collection(Movement::orderBy('date','DESC')->paginate(10));
     }
 
     public function show($id)
     {
-        return new MovementResource(Movement::find($id));
+        return new MovementResource(Movement::find($id)->orderBy('date','DESC'));
     }
 
     public function show_movement_id($id)
     {
-        return MovementResource::collection(Movement::where('wallet_id', $id)->paginate(10));
+        return MovementResource::collection(Movement::where('wallet_id', $id)->orderBy('date','DESC')->paginate(10));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            //'wallet_id' => 'required',
+            'wallet_id' => 'required',
             'type' => 'required',
             'transfer' => 'required',
             'value' => 'required',
             'start_balance' => 'required',
-            'end_balance' => 'required',
-            'type_payment' => 'required',
-            'description' => 'required'
+            'end_balance' => 'required'
         ]);
 
         $movement = new Movement();

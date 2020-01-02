@@ -12,7 +12,7 @@
             </div>
             <div v-if="registerUserState">
                 <register
-                    :users="users"
+                    :users="this.users"
                     @cancel-register-user="cancelRegisterUser"
                 />
             </div>
@@ -22,12 +22,15 @@
             <div v-if="!this.$store.state.isEdditingProfile">
                 <div v-if="!this.$store.state.isCreateMovement">
                     <div v-if="this.$store.state.user.type == 'u'">
-                        <movements :users="users" />
+                        <movements 
+                            :users="this.users"
+                            :categories="this.categories"
+                        />
                     </div>
                     <div v-if="this.$store.state.user.type == 'o'">
                         <wallets 
-                            :users="users" 
-                            :wallets="wallets"
+                            :users="this.users" 
+                            :wallets="this.wallets"
                         />
                     </div>
                     <div v-if="this.$store.state.user.type == 'a'">
@@ -37,7 +40,7 @@
                 <div v-if="this.$store.state.isCreateMovement">
                     <movementCreate
                         :users="this.users"
-                        :categories="this.$store.state.categories"
+                        :categories="this.categories"
                     />
                 </div>
             </div>
@@ -69,6 +72,7 @@ export default {
             failMessage: "",
             currentUser: null,
             users: [],
+            categories: [],
             movements: [],
             registerUserState: false,
             createMovementState: false,
@@ -85,11 +89,19 @@ export default {
                     this.users.forEach(user => {
                         this.wallets.forEach(wallet => {
                             if (user.email == wallet.email) {
+                                if(wallet.email == this.$store.state.user.email){
+                                    this.$store.commit("setWallet", wallet);
+                                }
                                 user.wallet = wallet;
                             }
                         });
                     });
                 });
+            });
+        },
+        loadCategories: function() {
+            axios.get("api/categories").then(response => {
+                this.categories = response.data.data;
             });
         },
         beginRegisterUser: function() {
@@ -104,16 +116,10 @@ export default {
         cancelCreateMovement: function() {
             this.createMovementState = false;
         },
-        changeLoginState: function(user) {
-            this.$store.commit("setUser", user);
-            if(this.$store.state.user.type =="u"){
-                this.$store.commit("setWallet", user.wallet);
-            }
-            this.isLogged = true;
-        }
     },
     mounted() {
         this.getUsers();
+        this.loadCategories();
         if (sessionStorage.getItem("token")) {
             this.$store.commit("loadTokenAndUserFromSession");
         }
