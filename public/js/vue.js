@@ -77138,8 +77138,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
