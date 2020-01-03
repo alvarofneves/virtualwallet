@@ -2029,6 +2029,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -33463,7 +33494,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\np[data-v-45f069b2] {\r\n    color: red;\n}\nimg[data-v-45f069b2]{\r\n    width: 128px\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-45f069b2] {\n    color: red;\n}\nimg[data-v-45f069b2]{\n    width: 128px\n}\n", ""]);
 
 // exports
 
@@ -33482,7 +33513,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\np[data-v-278021cd] {\r\n    color: red;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-278021cd] {\n    color: red;\n}\n", ""]);
 
 // exports
 
