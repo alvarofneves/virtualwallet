@@ -25,7 +25,7 @@
                 placeholder="Name"
             />
         </div>
-        <p v-if="isSubmitted && !$v.name.alpha">Only letters acceptable</p>
+        <p v-if="isSubmitted && !$v.name.isNameValid">Only letters and spaces acceptable</p>
         <br />
         <label>Current Password</label>
         <input
@@ -73,8 +73,7 @@
                 placeholder="NIF"
             />
         </div>
-        <p v-if="isSubmitted && $v.nif.minlength">Must have -9 digits</p>
-        <p v-if="isSubmitted && !$v.nif.maxlength">Must have +9 digits</p>
+        <p v-if="isSubmitted && !$v.nif.nifLength">Must have 9 digits</p>
         <p v-if="isSubmitted && !$v.nif.numeric">Can only have numeric characters</p>
         <div class="form-group">
             <a class="btn btn-primary" v-on:click.prevent="updateUser()"
@@ -88,14 +87,17 @@
 </template>
 <script>
 import {
-    alpha,
     email,
     sameAs,
     numeric,
     minLength,
     maxLength,
-    requiredIf
+    requiredIf,
+    helpers
 } from "vuelidate/lib/validators";
+
+const isNameValid = helpers.regex("isNameValid", /^[a-zA-Z ]+$/);
+const nifLength = helpers.regex("nif", /^[0-9]{9}$/);
 
 export default {
     props: ["users"],
@@ -114,7 +116,7 @@ export default {
     },
     validations: {
         name: {
-            alpha: alpha
+            isNameValid
         },
         currentPassword:{
             minlength: minLength(3)
@@ -127,8 +129,7 @@ export default {
             sameAs: sameAs("newPassword")
         },
         nif:{
-            minLength: minLength(8),
-            maxlength: maxLength(10),
+            nifLength,
             numeric
         },
     },
