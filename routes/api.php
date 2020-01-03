@@ -30,6 +30,7 @@ Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@show');
 Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
+Route::put('users/active/{id}', 'UserControllerAPI@toggleActive');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 Route::get('users/me', 'UserControllerAPI@me');
 

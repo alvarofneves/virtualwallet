@@ -2,17 +2,16 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Email</th>
-                <th>Balance</th>
+                <th>Wallet's ID</th>
+                <th>User's Email</th>
+                <th>Wallet Created At</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="wallet in wallets" :key="wallet.id">
+                <td>{{ wallet.id }}</td>
                 <td>{{ wallet.email }}</td>
-                <td>{{ wallet.balance }}</td>
-                <td>
-                    <a class="btn btn-primary" v-on:click.prevent="addIncome(wallet)">Add Income</a>
-                </td>
+                <td>{{wallet.created_at.substring(0,10) + " | " + wallet.created_at.substring(11,19)}}</td>
             </tr>
         </tbody>
     </table>
@@ -27,7 +26,7 @@
         },
         methods: {
             addIncome: function(wallet){
-                
+                this.$emit("wallet-income", wallet);
             }
         }
     }

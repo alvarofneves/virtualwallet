@@ -26,22 +26,34 @@
 
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto ml-md-0">
-        <b-navbar-nav>
-            <b-nav-item-dropdown text="Movements" right>
-                <b-dropdown-item v-if="this.$store.state.isCreateMovement == false" v-on:click.prevent="createMovement()">Create Movement</b-dropdown-item>
-                <b-dropdown-item v-if="this.$store.state.isCreateMovement == true" v-on:click.prevent="createMovement()">Wallets</b-dropdown-item>
-                <b-dropdown-item v-on:click.prevent="">Statistics</b-dropdown-item>
+        <b-navbar-nav v-if="this.$store.state.user.type == 'a'">
+            <b-nav-item-dropdown text="Modifications" right>
+                <b-dropdown-item v-if="!this.$store.state.adminIsCreatingAccount" v-on:click.prevent="adminIsCreatingAccount()">Create Account</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.adminIsCreatingAccount" v-on:click.prevent="adminIsCreatingAccount()">Users List</b-dropdown-item>
+                <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
-        <b-navbar-nav>
+        <b-navbar-nav v-if="this.$store.state.user.type != 'a'">
+            <b-nav-item-dropdown text="Movements" right>
+                <b-dropdown-item v-if="this.$store.state.isCreateMovement == false && this.$store.state.user.type == 'u'" v-on:click.prevent="createMovement()">Create Movement</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.user.type == 'u' && this.$store.state.isCreateMovement == true" v-on:click.prevent="createMovement()">Movements</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.isCreateIncome == false && this.$store.state.user.type == 'o'" v-on:click.prevent="createIncome()">Create Income</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.user.type == 'o' && this.$store.state.isCreateIncome == true" v-on:click.prevent="createIncome()">Wallets</b-dropdown-item>
+                
+                <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="">Statistics</b-dropdown-item>
+            </b-nav-item-dropdown>
+        </b-navbar-nav>
+        <b-navbar-nav v-if="this.$store.state.user.type == 'u'">
             <b-nav-item-dropdown text="Notifications" right>
                 <b-dropdown-item v-on:click.prevent="">Movements</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
         <b-navbar-nav>
-            <b-nav-item-dropdown text="User" right>
+            <b-nav-item-dropdown text="Account" right>
                 <b-dropdown-item v-if="this.$store.state.isEdditingProfile == false" v-on:click.prevent="profile()">Profile</b-dropdown-item>
-                <b-dropdown-item v-if="this.$store.state.isEdditingProfile == true" v-on:click.prevent="profile()">Wallets</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.isEdditingProfile == true && this.$store.state.user.type == 'u'" v-on:click.prevent="profile()">Movements</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.isEdditingProfile == true && this.$store.state.user.type == 'o'" v-on:click.prevent="profile()">Wallets</b-dropdown-item>
+                <b-dropdown-item v-if="this.$store.state.isEdditingProfile == true && this.$store.state.user.type == 'a'" v-on:click.prevent="profile()">Users</b-dropdown-item>
                 <b-dropdown-item v-on:click.prevent="logout()">Logout</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -60,6 +72,12 @@ export default {
         },
         createMovement: function(){
             this.$store.commit("createMovementToggle");
+        },
+        createIncome: function(){
+            this.$store.commit("createIncomeToggle");
+        },
+        adminIsCreatingAccount: function(){
+            this.$store.commit("adminIsCreatingAccountToggle");
         },
         logout: function(){
             axios.post("api/logout", this.$store.state.user

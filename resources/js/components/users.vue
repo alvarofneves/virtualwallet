@@ -14,8 +14,8 @@
             <user-list
                 :users="users"
                 :current-user="currentUser"
-                @delete-user="deleteUser"
                 @edit-user="editUser"
+                @toggle-active-user="toggleActiveUser"
                 ref="userListReference"
             >
             </user-list>
@@ -68,13 +68,6 @@ export default {
             this.editingUser = true;
             this.showSuccess = false;
         },
-        deleteUser: function(user) {
-            axios.delete("api/users/" + user.id).then(response => {
-                this.showSuccess = true;
-                this.successMessage = "User Deleted";
-                this.getUsers();
-            });
-        },
         saveUser: function(user) {
             this.editingUser = false;
             console.log(user)
@@ -96,6 +89,27 @@ export default {
                 //this.$refs.UserListReference.currentUser = null;
             });
         },
+        toggleActiveUser: function(user){
+            console.log(user.name)
+            if(user.active == 0){
+                axios.put("api/users/active/" + user.id, {
+                    active: 1
+                })
+                .then(response => {
+                    user.active = 1;
+                    console.log(response)
+                });
+            }else{
+                axios.put("api/users/active/" + user.id, {
+                    active: 0
+                })
+                .then(response => {
+                    user.active = 0;
+                    console.log(response)
+                });
+            }
+            
+        },
         cancelEdit: function() {
             this.showSuccess = false;
             this.editingUser = false;
@@ -116,6 +130,13 @@ export default {
             })
             .then(response => {
                 this.users = response.data.data;
+                this.users.forEach(user => {
+                    if(user.type == "u"){
+                        axios.get("api/wallets/" + user.id).then(response => {
+                            user.wallet = response.data.data;
+                        })
+                    }
+                })
                 this.meta_data.last_page = response.data.meta.last_page;
                 this.meta_data.current_page = response.data.meta.current_page;
                 this.meta_data.prev_page_url = response.data.meta.prev_page_url;

@@ -12,9 +12,9 @@ export default new Vuex.Store({
         wallet: {},
         isLogged: false,
         isEdditingProfile: false,
-        isCreateMovement: false
-
-       
+        isCreateMovement: false,
+        isCreateIncome: false,
+        adminIsCreatingAccount: false
     },
     mutations: { 
         clearUserAndToken: (state) => {
@@ -29,6 +29,13 @@ export default new Vuex.Store({
             sessionStorage.removeItem('user');
             
         },
+        adminIsCreatingAccountToggle: (state) => {
+            if(state.adminIsCreatingAccount == false){
+                state.adminIsCreatingAccount = true;
+            }else{
+                state.adminIsCreatingAccount = false;
+            }
+        },
         edditingProfileToggle: (state) => {
             if(state.isEdditingProfile == false){
                 state.isEdditingProfile = true;
@@ -41,6 +48,13 @@ export default new Vuex.Store({
                 state.isCreateMovement = true;
             }else{
                 state.isCreateMovement = false;
+            }
+        },
+        createIncomeToggle: (state) => {
+            if(state.isCreateIncome == false){
+                state.isCreateIncome = true;
+            }else{
+                state.isCreateIncome = false;
             }
         },
         clearToken: (state) => {

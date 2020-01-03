@@ -69,7 +69,6 @@ class UserControllerAPI extends Controller
         $request->validate([
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
                 'email' => 'required|email|unique:users,email,'.$id,
-                //'type' => 'enum('u','o','a')'
         ]);
         $user = User::findOrFail($id);
 
@@ -112,6 +111,20 @@ class UserControllerAPI extends Controller
         }
         
         $user->update($request->except('currentPassword','password','photo','name','type','email'));
+
+        $user->save();
+        return new UserResource($user);
+    }
+
+    public function toggleActive(Request $request, $id)
+    {
+        $request->validate([
+                'active' => 'required',
+        ]);
+
+        $user = User::findOrFail($id);
+        
+        $user->active = $request->active;
 
         $user->save();
         return new UserResource($user);

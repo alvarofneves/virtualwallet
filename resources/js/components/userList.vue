@@ -5,7 +5,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Type</th>
-                <th>Active</th>
+                <th>Wallet</th>
                 <th>NIF</th>
             </tr>
         </thead>
@@ -15,31 +15,45 @@
                 :key="user.id"
                 :class="{ active: currentUser === user }"
             >
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <div v-if="user.type == 'a'">
-                    <td>Administator</td>
+                <td v-if="$store.state.user.id != user.id">{{ user.name }}</td>
+                <td v-if="$store.state.user.id != user.id">{{ user.email }}</td>
+                <div v-if="$store.state.user.id != user.id">
+                    <div v-if="user.type == 'a'">
+                        <td>Administator</td>
+                    </div>
+                    <div v-if="user.type == 'o'">
+                        <td>Operator</td>
+                    </div>
+                    <div v-if="user.type == 'u'">
+                        <td>User</td>
+                    </div>
                 </div>
-                <div v-if="user.type == 'o'">
-                    <td>Operator</td>
+                <td v-if="$store.state.user.id != user.id && user.type == 'u' && user.wallet.balance > 0"> Has Money </td>
+                <td v-if="$store.state.user.id != user.id && user.type == 'u' && user.wallet.balance <= 0"> Empty </td>
+                <td v-if="$store.state.user.id != user.id && user.type != 'u'"> --- </td>
+
+                <td v-if="$store.state.user.id != user.id && user.type == 'u'">{{ user.nif }}</td>
+                <td v-if="$store.state.user.id != user.id && user.type != 'u'"> --- </td>
+                <div v-if="$store.state.user.id != user.id">
+                    <td v-if="$store.state.user.type == 'a'">
+                        <a
+                            class="btn btn-sm btn-primary"
+                            v-on:click.prevent="editUser(user)"
+                            >Edit</a
+                        >
+                        <a v-if="user.active == '1'"
+                            class="btn btn-sm btn-danger"
+                            v-on:click.prevent="toggleActiveUser(user)"
+                            >Desativate</a
+                        >
+
+                        <a v-if="user.active == '0'"
+                            class="btn btn-sm btn-warning"
+                            v-on:click.prevent="toggleActiveUser(user)"
+                            >Activate</a
+                        >
+                    </td>
                 </div>
-                <div v-if="user.type == 'u'">
-                    <td>User</td>
-                </div>
-                <td>{{ user.active }}</td>
-                <td>{{ user.nif }}</td>
-                <td v-if="$store.state.user.type == 'a'">
-                    <a
-                        class="btn btn-sm btn-primary"
-                        v-on:click.prevent="editUser(user)"
-                        >Edit</a
-                    >
-                    <a
-                        class="btn btn-sm btn-danger"
-                        v-on:click.prevent="deleteUser(user)"
-                        >Delete</a
-                    >
-                </td>
             </tr>
         </tbody>
     </table>
@@ -54,14 +68,12 @@ export default {
     },
     methods: {
         editUser(user) {
+            console.log(users)
             this.$emit("edit-user", user);
         },
-        deleteUser(user) {
-            this.$emit("delete-user", user);
-        } /* ,
-            definePlayer(user, playerNumber){
-                this.$root['player' + playerNumber];
-            } */
+        toggleActiveUser(user) {
+            this.$emit("toggle-active-user", user);
+        }
     }
 };
 </script>

@@ -8,14 +8,6 @@
             :wallets="wallets" 
             ref="walletListReference">
         </wallet-list>
-
-
-        <div class="alert alert-success" v-if="showSuccess">
-            <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
-            <strong>{{ successMessage }}</strong>
-        </div>
-
-        
     </div>
 </template>
 
@@ -27,10 +19,6 @@
         data: function () {
             return {
                 title: 'Wallets',
-                showSuccess: false,
-                showFailure: false,
-                successMessage: '',
-                failMessage: '',
                 wallets: [],
             };
         },
@@ -38,13 +26,13 @@
             getWallets: function () {
                 axios.get('api/wallets')
                     .then(response => { this.wallets = response.data.data; });
-            },
+            }
         },
         mounted() {
             this.getWallets();
         },
         components:{
-            'wallet-list':WalletListComponent,
+            'wallet-list':WalletListComponent
         }
 
     }

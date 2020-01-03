@@ -32,7 +32,6 @@ class MovementControllerAPI extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'wallet_id' => 'required',
             'type' => 'required',
             'transfer' => 'required',
             'value' => 'required',
@@ -51,7 +50,6 @@ class MovementControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'wallet_id' => 'required',
             'type' => 'required',
             'transfer' => 'required',
             'value' => 'required',
