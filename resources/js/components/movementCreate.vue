@@ -39,6 +39,7 @@
         </div>
          <p v-if="isSubmitted && !$v.tranferValue.required">Value required</p>
          <p v-if="isSubmitted && !$v.tranferValue.between">Transfer value must be between 0,01€ and 5000€</p>
+         <p v-if="moneyError == true">Não tem dinheiro suficiente para este movimento! Balance: {{this.$store.state.wallet.balance}}€</p>
 
         <div class="form-group">
             <label for="category_id">Category:</label>
@@ -171,7 +172,8 @@ export default {
             mBEntityCode: "",
             mBEntityReference: "",
             isSubmitted: false,
-            validUserEmailAndWallet: false
+            validUserEmailAndWallet: false,
+            moneyError: false
         };
     },
     validations: {
@@ -216,36 +218,11 @@ export default {
     },
     methods: {
         saveMovement() {
+            this.moneyError = false;
             this.validUserEmailAndWallet = false;
             this.isSubmitted = true;
 
-            /* this.newMovement.type = "e";
-            this.newMovement.wallet_id = this.$store.state.wallet.id;
-            this.newMovement.tranferValue = this.tranferValue;
-            this.newMovement.start_balance = this.$store.state.wallet.balance;
-            this.newMovement.end_balance = this.newMovement.start_balance - this.tranferValue;
-            this.newMovement.category_id = category.id;
-            this.newMovement.category = this.category;
-            this.newMovement.description = this.description; */
-
             this.iban = this.iban.split(' ').join('');
-            
-            //console.log("DEBUG: "+ this.iban);
-
-            //Get today's Date
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date + ' ' + time;
-
-            console.log("DEBUG")
-
-            console.log(this.tranferValue)
-            console.log(this.category)
-            console.log(this.$store.state.wallet.balance)
-            console.log(this.$store.state.wallet.balance - this.tranferValue)
-
-            console.log("END DEBUG")
 
             if(this.$store.state.wallet.balance >= this.tranferValue){
                 if(this.typeOfMovement == "external"){
@@ -266,6 +243,7 @@ export default {
                                 balance: (this.$store.state.wallet.balance - this.tranferValue)
                             }).then(response => {
                                 this.$store.commit("setWallet", response.data.data);
+                                this.$store.commit("createMovementToggle");
                             }).catch(error => {
                                 console.log(error.response.data);
                             })
@@ -288,6 +266,7 @@ export default {
                                 balance: (this.$store.state.wallet.balance - this.tranferValue)
                             }).then(response => {
                                 this.$store.commit("setWallet", response.data.data);
+                                this.$store.commit("createMovementToggle");
                             }).catch(error => {
                                 console.log(error.response.data);
                             })
@@ -345,6 +324,7 @@ export default {
                                     balance: (parseFloat(this.walletDest.balance) + parseFloat(this.tranferValue))
                                 }).then(response => {
                                     console.log(response.data.data)
+                                    this.$store.commit("createMovementToggle");
                                 }).catch(error => {
                                     console.log(error.response.data)
                                 })
@@ -353,7 +333,7 @@ export default {
                     }
                 }
             }else{
-                console.log("NAO TEM DINHEIRO SUFICIENTE!")
+                this.moneyError = true;
             }
 
             

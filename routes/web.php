@@ -13,5 +13,3 @@
 
 Route::get('/','VueController@index');
 
-Route::get('/tictactoe','VueController@tictactoe');
-

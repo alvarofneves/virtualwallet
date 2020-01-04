@@ -36,7 +36,7 @@ export default new Vuex.Store({
                 state.adminIsCreatingAccount = false;
             }
         },
-        edditingProfileToggle: (state) => {
+        editingProfileToggle: (state) => {
             if(state.isEdditingProfile == false){
                 state.isEdditingProfile = true;
             }else{

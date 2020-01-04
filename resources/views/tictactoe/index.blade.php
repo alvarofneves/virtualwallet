@@ -8,5 +8,5 @@
 
 @endsection
 @section('pagescript')
-<script src="js/tictactoe.js"></script>
+
 @stop  

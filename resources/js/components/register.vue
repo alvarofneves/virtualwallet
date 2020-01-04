@@ -172,7 +172,32 @@ export default {
                             balance: 0
                         })
                         .then(response =>{
-                            //this.$store.commit("setUser", userAboutToLogin); TODO BETTER CODE!
+                            axios.post("api/login", {
+                            email: this.email,
+                            password: this.password
+                        })
+                        .then(response =>{
+                            this.$store.commit("setToken", response.data.access_token);
+                            axios.get("api/user")
+                            .then(response =>{
+                                console.log(response)
+                                if(response.data.type == "u"){
+                                    axios.get("api/wallets/" + response.data.id)
+                                    .then(response => {
+                                        this.$store.commit("setWallet", response.data.data);
+                                    })
+                                }
+                                this.$store.commit("setUser", response.data);
+                            })
+                            .catch(error =>{
+                                console.log(error.response.data);
+                                console.log("Cannot get user");
+                            })
+                        })
+                        .catch(error =>{
+                            console.log(error.response.data);
+                            console.log("Cannot log in");
+                        })
                         })
                     })
                     .catch(error=>{

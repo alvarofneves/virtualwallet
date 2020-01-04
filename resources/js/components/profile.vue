@@ -152,6 +152,7 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     this.$store.commit("setUser", response.data.data);
+                    this.$store.commit("editingProfileToggle");
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -161,7 +162,6 @@ export default {
             }
         },
         cancelEdit() {
-            console.log(this.$store.state.user.photo)
             this.$store.commit("editingProfileToggle");
         },
         uploadImage: function(event){

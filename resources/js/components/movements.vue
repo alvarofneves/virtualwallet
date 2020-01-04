@@ -2,7 +2,7 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
-            <h2 v-if="this.$store.state.user.type == 'u'">Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
+            <h2 v-if="this.$store.state.user.type == 'u' && this.$store.state.wallet != null">Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
         </div>
 
         <stack-modal
@@ -48,9 +48,9 @@
         </stack-modal>
 
         <movement-edit
-            v-if="editingMovement"
+            v-if="this.editingMovement"
             :categories="this.categories"
-            :movement="currentMovement"
+            :movement="this.currentMovement"
             @save-movement="saveMovement"
             @cancel-edit="cancelEditMovement"
         >
@@ -58,9 +58,9 @@
 
         <div>
             <movement-list
-                :movements="movements"
-                :users="users"
-                :current-movement="currentMovement"
+                :movements="this.movements"
+                :users="this.users"
+                :current-movement="this.currentMovement"
                 @edit-movement="editMovement"
                 @movement-detail="movementDetail"
                 ref="moventsListReference"
@@ -115,7 +115,6 @@ export default {
                     }
             })
                 .then(response => {
-                    console.log(response)
                     this.movements = response.data.data;
 
                     this.meta_data.last_page = response.data.meta.last_page;
@@ -126,7 +125,6 @@ export default {
         getPhoto: function(id){
             axios.get("api/users/" + id)
             .then(response => {
-                console.log(response)
                 this.currentMovementPhoto = response.data.data.photo;
             })
         },
@@ -134,7 +132,6 @@ export default {
             this.currentMovement = movement;
             this.editingMovement = true;
             this.showSuccess = false;
-            console.log(this.categories);
         },
         movementDetail: function(movement) {
             if(movement.transfer_wallet_id != null){
@@ -145,7 +142,6 @@ export default {
         },
         saveMovement: function(movement) {
             this.editingMovement = false;
-            console.log(movement);
 
             axios
                 .put("api/movements/" + movement.id, movement)

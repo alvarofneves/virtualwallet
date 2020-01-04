@@ -3,7 +3,7 @@
 
         <a class="navbar-brand mr-1" >
             <h1 style="color:white;">
-                <img height="60" width="60" :src="'/storage/fotos/' + this.$store.state.user.photo">
+                <img v-on:click.prevent="profile()" height="60" width="60" :src="'/storage/fotos/' + this.$store.state.user.photo">
                 Welcome, {{ this.$store.state.user.name }}
             </h1>
         </a>
@@ -14,7 +14,7 @@
 
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
+        <div v-if="this.$store.state.isEdditingProfile == false" class="input-group">
             <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
             <div class="input-group-append">
             <button v-on:click.prevent="" class="btn btn-primary" type="button">
@@ -26,14 +26,14 @@
 
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto ml-md-0">
-        <b-navbar-nav v-if="this.$store.state.user.type == 'a'">
+        <b-navbar-nav v-if="this.$store.state.isEdditingProfile == false && this.$store.state.user.type == 'a'">
             <b-nav-item-dropdown text="Modifications" right>
                 <b-dropdown-item v-if="!this.$store.state.adminIsCreatingAccount" v-on:click.prevent="adminIsCreatingAccount()">Create Account</b-dropdown-item>
                 <b-dropdown-item v-if="this.$store.state.adminIsCreatingAccount" v-on:click.prevent="adminIsCreatingAccount()">Users List</b-dropdown-item>
                 <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
-        <b-navbar-nav v-if="this.$store.state.user.type != 'a'">
+        <b-navbar-nav v-if="this.$store.state.isEdditingProfile == false && this.$store.state.user.type != 'a'">
             <b-nav-item-dropdown text="Movements" right>
                 <b-dropdown-item v-if="this.$store.state.isCreateMovement == false && this.$store.state.user.type == 'u'" v-on:click.prevent="createMovement()">Create Movement</b-dropdown-item>
                 <b-dropdown-item v-if="this.$store.state.user.type == 'u' && this.$store.state.isCreateMovement == true" v-on:click.prevent="createMovement()">Movements</b-dropdown-item>
@@ -43,10 +43,15 @@
                 <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
-        <b-navbar-nav v-if="this.$store.state.user.type == 'u'">
+        <b-navbar-nav v-if="this.$store.state.isEdditingProfile == false && this.$store.state.user.type == 'u'">
             <b-nav-item-dropdown text="Notifications" right>
                 <b-dropdown-item v-on:click.prevent="">Movements</b-dropdown-item>
             </b-nav-item-dropdown>
+        </b-navbar-nav>
+        <b-navbar-nav v-if="this.$store.state.isEdditingProfile == true" v-on:click.prevent="profile()">
+            <b-nav-item right>
+                &lt&lt
+            </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
             <b-nav-item-dropdown text="Account" right>
@@ -68,7 +73,7 @@ export default {
     methods: {
         profile: function(){
             console.log(this.$store.state.user);
-            this.$store.commit("edditingProfileToggle");
+            this.$store.commit("editingProfileToggle");
         },
         createMovement: function(){
             this.$store.commit("createMovementToggle");

@@ -157,6 +157,7 @@
             if (sessionStorage.getItem("token")) {
                 this.$store.commit("loadTokenAndUserFromSession");
             }
+            console.log(this.$store.state)
         },
         computed: {
             isLogged: function() {
