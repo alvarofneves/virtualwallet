@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'D:\\laragon\\www\\virtualwallet\\resources\\js\\tictactoe.js'");
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/resources/js/tictactoe.js'");
 
 /***/ }),
 
@@ -104,7 +104,7 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\tictactoe.js */"./resources/js/tictactoe.js");
+module.exports = __webpack_require__(/*! /Users/eliomartins/Desktop/EI/DAD/Project/virtualwallet/resources/js/tictactoe.js */"./resources/js/tictactoe.js");
 
 
 /***/ })
