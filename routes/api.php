@@ -39,8 +39,9 @@ Route::get('movements', 'MovementControllerAPI@index');
 Route::get('movements/{id}', 'MovementControllerAPI@show_movement_id');
 Route::post('movements', 'MovementControllerAPI@store');
 Route::put('movements/{id}', 'MovementControllerAPI@update');
-
-
+//STATISTICS API
+Route::get('statistics/income/{id}', 'StatisticControllerAPI@income');
+Route::get('statistics/expense/{id}', 'StatisticControllerAPI@expense');
 //CATEGORY API
 Route::get('categories', 'CategoryControllerAPI@index');
 //LOGIN API

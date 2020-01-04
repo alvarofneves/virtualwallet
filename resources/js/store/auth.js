@@ -14,6 +14,7 @@ export default new Vuex.Store({
         isEdditingProfile: false,
         isCreateMovement: false,
         isCreateIncome: false,
+        statistic:false,
         adminIsCreatingAccount: false
     },
     mutations: { 
@@ -48,6 +49,13 @@ export default new Vuex.Store({
                 state.isCreateMovement = true;
             }else{
                 state.isCreateMovement = false;
+            }
+        },
+        statisticsToggle: (state) => {
+            if(state.statistic == false){
+                state.statistic = true;
+            }else{
+                state.statistic = false;
             }
         },
         createIncomeToggle: (state) => {

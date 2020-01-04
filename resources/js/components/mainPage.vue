@@ -41,6 +41,12 @@
                             :categories="this.categories"
                         />
                     </div>
+                    <!-- Movement Create -->
+                    <div v-if="this.$store.state.statistic">
+                        <statistic
+
+                        />
+                    </div>
                 </div>
                 <!-- OPERATORS -->
                 <div v-if="this.$store.state.user.type == 'o'">
@@ -92,7 +98,7 @@
 
     import MovementsComponent from "./movements";
     import MovementCreateComponent from "./movementCreate";
-
+    import StatisticsComponent from "./statistics/statistics";
     import MenuNavComponent from "./menuNav";
 
     export default {
@@ -174,7 +180,8 @@
             movements: MovementsComponent,
             movementCreate: MovementCreateComponent,
             walletIncome: WalletIncomeComponent,
-            userCreate: UserCreateComponent
+            userCreate: UserCreateComponent,
+            statistics: StatisticsComponent
         }
     };
 </script>
