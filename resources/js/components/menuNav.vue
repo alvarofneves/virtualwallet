@@ -30,7 +30,7 @@
             <b-nav-item-dropdown text="Modifications" right>
                 <b-dropdown-item v-if="!this.$store.state.adminIsCreatingAccount" v-on:click.prevent="adminIsCreatingAccount()">Create Account</b-dropdown-item>
                 <b-dropdown-item v-if="this.$store.state.adminIsCreatingAccount" v-on:click.prevent="adminIsCreatingAccount()">Users List</b-dropdown-item>
-                <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="">Statistics</b-dropdown-item>
+                <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="statistics()">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
         <b-navbar-nav v-if="this.$store.state.isEdditingProfile == false && this.$store.state.user.type != 'a'">
@@ -40,7 +40,7 @@
                 <b-dropdown-item v-if="this.$store.state.isCreateIncome == false && this.$store.state.user.type == 'o'" v-on:click.prevent="createIncome()">Create Income</b-dropdown-item>
                 <b-dropdown-item v-if="this.$store.state.user.type == 'o' && this.$store.state.isCreateIncome == true" v-on:click.prevent="createIncome()">Wallets</b-dropdown-item>
                 
-                <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="">Statistics</b-dropdown-item>
+                <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="statistics()">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
         <b-navbar-nav v-if="this.$store.state.isEdditingProfile == false && this.$store.state.user.type == 'u'">

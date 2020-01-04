@@ -29,22 +29,24 @@
                 <div v-if="this.$store.state.user.type == 'u'">
                     <!-- Movement List -->
                     <div v-if="!this.$store.state.isCreateMovement">
-                        <movements 
-                            :users="this.users"
-                            :categories="this.categories"
-                        />
+                        <div v-if="!this.$store.state.statistic">
+                            <movements 
+                                :users="this.users"
+                                :categories="this.categories"
+                            />
+                        </div>
+                        <!-- Statistics -->
+                        <div v-if="this.$store.state.statistic">
+                            <userStatistics
+
+                            />
+                        </div>
                     </div>
                     <!-- Movement Create -->
                     <div v-if="this.$store.state.isCreateMovement">
                         <movementCreate
                             :users="this.users"
                             :categories="this.categories"
-                        />
-                    </div>
-                    <!-- Movement Create -->
-                    <div v-if="this.$store.state.statistic">
-                        <statistic
-
                         />
                     </div>
                 </div>
@@ -67,9 +69,16 @@
                 <div v-if="this.$store.state.user.type == 'a'">
                     <!-- User List -->
                     <div v-if="!this.$store.state.adminIsCreatingAccount">
-                        <users 
-                            :users="this.users">
-                        </users>
+                        <div v-if="!this.$store.state.statistic">
+                            <users 
+                                :users="this.users">
+                            </users>
+                        </div>
+                        <div v-if="this.$store.state.statistic">
+                            <adminStatistics
+
+                            />
+                        </div>
                     </div>
                     <div v-if="this.$store.state.adminIsCreatingAccount">
                         <userCreate
@@ -98,7 +107,8 @@
 
     import MovementsComponent from "./movements";
     import MovementCreateComponent from "./movementCreate";
-    import StatisticsComponent from "./statistics/statistics";
+    import UserStatisticsComponent from "./statistics/userStatistics";
+    import AdminStatisticsComponent from "./statistics/adminStatistics";
     import MenuNavComponent from "./menuNav";
 
     export default {
@@ -182,7 +192,8 @@
             movementCreate: MovementCreateComponent,
             walletIncome: WalletIncomeComponent,
             userCreate: UserCreateComponent,
-            statistics: StatisticsComponent
+            userStatistics: UserStatisticsComponent,
+            adminStatistics: AdminStatisticsComponent
         }
     };
 </script>
