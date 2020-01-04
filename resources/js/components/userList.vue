@@ -28,8 +28,8 @@
                         <td>User</td>
                     </div>
                 </div>
-                <td v-if="$store.state.user.id != user.id && user.type == 'u' && user.wallet.balance > 0"> Has Money </td>
-                <td v-if="$store.state.user.id != user.id && user.type == 'u' && user.wallet.balance <= 0"> Empty </td>
+                <td v-if="$store.state.user.id != user.id && user.wallet != null && user.type == 'u' && user.wallet.balance > 0"> Has Money </td>
+                <td v-if="$store.state.user.id != user.id && user.wallet != null && user.type == 'u' && user.wallet.balance <= 0"> Empty </td>
                 <td v-if="$store.state.user.id != user.id && user.type != 'u'"> --- </td>
 
                 <td v-if="$store.state.user.id != user.id && user.type == 'u'">{{ user.nif }}</td>

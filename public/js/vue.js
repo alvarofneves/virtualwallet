@@ -1975,7 +1975,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _walletIncome__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./walletIncome */ "./resources/js/components/walletIncome.vue");
 /* harmony import */ var _movements__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./movements */ "./resources/js/components/movements.vue");
 /* harmony import */ var _movementCreate__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./movementCreate */ "./resources/js/components/movementCreate.vue");
-/* harmony import */ var _menuNav__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./menuNav */ "./resources/js/components/menuNav.vue");
+/* harmony import */ var _statistics_statistics__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./statistics/statistics */ "./resources/js/components/statistics/statistics.vue");
+/* harmony import */ var _menuNav__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./menuNav */ "./resources/js/components/menuNav.vue");
 //
 //
 //
@@ -2058,6 +2059,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2151,12 +2159,13 @@ __webpack_require__.r(__webpack_exports__);
     users: _users__WEBPACK_IMPORTED_MODULE_1__["default"],
     register: _register__WEBPACK_IMPORTED_MODULE_4__["default"],
     wallets: _wallets__WEBPACK_IMPORTED_MODULE_5__["default"],
-    menuNav: _menuNav__WEBPACK_IMPORTED_MODULE_9__["default"],
+    menuNav: _menuNav__WEBPACK_IMPORTED_MODULE_10__["default"],
     profile: _profile__WEBPACK_IMPORTED_MODULE_3__["default"],
     movements: _movements__WEBPACK_IMPORTED_MODULE_7__["default"],
     movementCreate: _movementCreate__WEBPACK_IMPORTED_MODULE_8__["default"],
     walletIncome: _walletIncome__WEBPACK_IMPORTED_MODULE_6__["default"],
-    userCreate: _userCreate__WEBPACK_IMPORTED_MODULE_2__["default"]
+    userCreate: _userCreate__WEBPACK_IMPORTED_MODULE_2__["default"],
+    statistics: _statistics_statistics__WEBPACK_IMPORTED_MODULE_9__["default"]
   }
 });
 
@@ -2251,6 +2260,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     createIncome: function createIncome() {
       this.$store.commit("createIncomeToggle");
+    },
+    statistics: function statistics() {
+      this.$store.commit("statisticsToggle");
     },
     adminIsCreatingAccount: function adminIsCreatingAccount() {
       this.$store.commit("adminIsCreatingAccountToggle");
@@ -3799,7 +3811,7 @@ __webpack_require__.r(__webpack_exports__);
     incomes: function incomes() {
       var _this = this;
 
-      axios.get("api/statistics/income/" + $store.state.user.id).then(function (response) {
+      axios.get("api/statistics/income/" + this.$store.state.user.id).then(function (response) {
         _this.subject = "Income By Categories";
         _this.statistics = response.data;
       });
@@ -3954,14 +3966,11 @@ var isNameValid = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers
     }
   },
   methods: {
-    updateUser: function updateUser() {
+    createUser: function createUser() {
       var _this = this;
 
-      this.isSubmitted = true; //this.$emit('save-user', this.user);
-
-      if (!this.$v.$invalid) {
-        this.editingUser = false;
-        axios.get("api/users/").then(function (response) {
+      if (this.photo != null) {
+        axios.get("api/users").then(function (response) {
           _this.usersOnRegister = response.data.data;
           _this.showFailure = false;
 
@@ -3980,18 +3989,11 @@ var isNameValid = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers
               photo: _this.photo,
               type: _this.typeOfUser
             }).then(function (response) {
-              console.log("UserCreate Successful!");
-              console.log(response.data);
-            })["catch"](function (error) {
-              console.log(error.response.data);
+              console.log(response.data.data);
             });
-          } else {}
-        })["catch"](function (error) {
-          console.log(error.response.data);
+          }
         });
-      } else {
-        console.log("Invalid Credentials");
-      }
+      } else {}
     },
     cancelCreate: function cancelCreate() {
       console.log(this.$store.state.user.photo);
@@ -55644,6 +55646,10 @@ var render = function() {
                               ],
                               1
                             )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        this.$store.state.statistic
+                          ? _c("div", [_c("statistic")], 1)
                           : _vm._e()
                       ])
                     : _vm._e(),
@@ -58359,7 +58365,7 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.updateUser()
+              return _vm.createUser()
             }
           }
         },
@@ -58624,12 +58630,14 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _vm.$store.state.user.id != user.id &&
+            user.wallet != null &&
             user.type == "u" &&
             user.wallet.balance > 0
               ? _c("td", [_vm._v(" Has Money ")])
               : _vm._e(),
             _vm._v(" "),
             _vm.$store.state.user.id != user.id &&
+            user.wallet != null &&
             user.type == "u" &&
             user.wallet.balance <= 0
               ? _c("td", [_vm._v(" Empty ")])
@@ -78770,6 +78778,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     isEdditingProfile: false,
     isCreateMovement: false,
     isCreateIncome: false,
+    statistic: false,
     adminIsCreatingAccount: false
   },
   mutations: {
@@ -78803,6 +78812,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         state.isCreateMovement = true;
       } else {
         state.isCreateMovement = false;
+      }
+    },
+    statisticsToggle: function statisticsToggle(state) {
+      if (state.statistic == false) {
+        state.statistic = true;
+      } else {
+        state.statistic = false;
       }
     },
     createIncomeToggle: function createIncomeToggle(state) {
@@ -78980,8 +78996,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -84,7 +84,7 @@
         </p>
         <br />
         <div class="form-group">
-            <a class="btn btn-primary" v-on:click.prevent="updateUser()"
+            <a class="btn btn-primary" v-on:click.prevent="createUser()"
                 >Save</a
             >
             <a class="btn btn-light" v-on:click.prevent="cancelCreate()"
@@ -140,13 +140,11 @@ export default {
         }
     },
     methods: {
-        updateUser() {
-             this.isSubmitted = true;
-            //this.$emit('save-user', this.user);
-            if(!this.$v.$invalid){
-                this.editingUser = false;
-                axios.get("api/users/")
-                .then(response=>{
+        createUser() {
+
+            if(this.photo != null){
+                axios.get("api/users")
+                .then(response => {
                     this.usersOnRegister = response.data.data;
                     this.showFailure = false;
                     this.usersOnRegister.forEach(element => {
@@ -156,29 +154,20 @@ export default {
                     }
                     });
                     if(this.showFailure == false){
-                    axios.post("api/users", {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password,
-                        photo: this.photo,
-                        type: this.typeOfUser
-                    })
-                    .then(response=>{
-                        console.log("UserCreate Successful!");
-                        console.log(response.data);
-                    })
-                    .catch(error=>{
-                        console.log(error.response.data)
-                    })
-                    }else{
-
+                        axios.post("api/users", {
+                            name: this.name,
+                            email: this.email,
+                            password: this.password,
+                            photo: this.photo,
+                            type: this.typeOfUser
+                        })
+                        .then(response => {
+                            console.log(response.data.data)
+                        })
                     }
                 })
-                .catch(error=>{
-                    console.log(error.response.data)
-                })
             }else{
-                console.log("Invalid Credentials")
+                
             }
         },
         cancelCreate() {

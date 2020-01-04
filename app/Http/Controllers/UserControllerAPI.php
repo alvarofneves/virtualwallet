@@ -44,8 +44,10 @@ class UserControllerAPI extends Controller
                 'nif' => 'min:9' 
             ]);
             //\Log::info($request->all()); DEBUG!!
+
         $exploded = explode(',', $request->photo);
         $decoded = base64_decode($exploded[1]);
+        
         if(str_contains($exploded[0], 'jpeg'))
             $extension = '.jpg';
         else
