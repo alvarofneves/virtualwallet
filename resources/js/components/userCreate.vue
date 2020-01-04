@@ -2,6 +2,18 @@
     <div class="jumbotron">
         <h2>User Create</h2>
         <!-- TODO: Atenção, mudar depois do deploy-->
+        <div class="form-group">
+            <label for="typeOfUser">Type of User:</label>
+            <select
+                class="form-control"
+                id="typeOfUser"
+                name="typeOfUser"
+                v-model="typeOfUser"
+            >
+                <option value="o"> Operator </option>
+                <option value="a"> Administrator </option>
+            </select>
+        </div>
         <label>Email:</label>
         <input
             type="email"
@@ -11,7 +23,13 @@
             name="email"
             id="email"
             placeholder="Email"
-            />
+        />
+        <div class="alert alert-failure" v-if="showFailure">
+                <button type="button" class="close-btn" v-on:click="showFailure=false">&times;</button>
+                <p>{{ message }}</p>
+        </div>
+        <p v-if="isSubmitted && !$v.email.required">Email required</p>
+        <p v-if="isSubmitted && !$v.email.email">Invalid Email</p>
         <label>Photo:</label>
         <input
             type="file"
@@ -31,7 +49,10 @@
                 placeholder="Name"
             />
         </div>
-        <p v-if="isSubmitted && !$v.name.alpha">Only letters acceptable</p>
+        <p v-if="isSubmitted && !$v.name.required">Account name required!</p>
+        <p v-if="isSubmitted && !$v.name.isNameValid">
+            Account name must contain letters and spaces only!
+        </p>
         <label>Password:</label>
         <input
             type="password"
@@ -42,7 +63,9 @@
             id="password"
             placeholder="Password"
         />
-        <p v-if="isSubmitted && !$v.newPassword.minlength">Must have more than 3 characters</p>
+        <p v-if="isSubmitted && !$v.password.minlength">
+            Must have more than 3 characters
+        </p>
         <label>Confirm password:</label>
         <input
             type="password"
@@ -53,23 +76,18 @@
             id="confirmPassword"
             placeholder="Confirm Password"
         />
-        <p v-if="isSubmitted && !$v.confirmNewPassword.minlength">Must have more than 3 characters</p>
-        <div class="form-group">
-            <label for="typeOfUser">Type of User:</label>
-            <select class="form-control" 
-                    id="typeOfUser" 
-                    name="typeOfUser" 
-                    v-model="typeOfUser">
-	            <option value="o"> Operator </option>
-                <option value="a"> Administrator </option>
-	        </select>
-        </div>
+        <p v-if="isSubmitted && !$v.confirmPassword.minlength">
+            Must have more than 3 characters
+        </p>
+        <p v-if="isSubmitted && !$v.confirmPassword.sameAs">
+            Password doesn't match!
+        </p>
         <br />
         <div class="form-group">
             <a class="btn btn-primary" v-on:click.prevent="updateUser()"
                 >Save</a
             >
-            <a class="btn btn-light" v-on:click.prevent="cancelEdit()"
+            <a class="btn btn-light" v-on:click.prevent="cancelCreate()"
                 >Cancel</a
             >
         </div>
@@ -80,11 +98,12 @@ import {
     alpha,
     email,
     sameAs,
-    numeric,
     minLength,
-    maxLength,
-    requiredIf
+    helpers,
+    required
 } from "vuelidate/lib/validators";
+
+const isNameValid = helpers.regex("isNameValid", /^[a-zA-Z ]+$/);
 
 export default {
     props: ["users"],
@@ -94,60 +113,75 @@ export default {
             email: "",
             password: "",
             confirmPassword: "",
-            nif: "",
             isSubmitted: false,
             photo: "",
-            typeOfUser: "o"
+            typeOfUser: "o",
+            usersOnRegister: [],
+            message: "",
+            showFailure: false,
+            showSuccess: false
         };
     },
     validations: {
+        email:{
+            required,
+            email
+        },
         name: {
-            alpha: alpha
+            isNameValid,
+            required
         },
-        currentPassword:{
+        password: {
             minlength: minLength(3)
         },
-        newPassword: {
-            minlength: minLength(3)
-        },
-        confirmNewPassword: {
+        confirmPassword: {
             minlength: minLength(3),
-            sameAs: sameAs("newPassword")
-        },
-        nif:{
-            minLength: minLength(8),
-            maxlength: maxLength(10),
-            numeric
-        },
+            sameAs: sameAs("password")
+        }
     },
     methods: {
         updateUser() {
-            this.isSubmitted = true;
+             this.isSubmitted = true;
             //this.$emit('save-user', this.user);
             if(!this.$v.$invalid){
                 this.editingUser = false;
-            axios
-                .put("api/users/" + this.$store.state.user.id, {
-                    name: this.name,
-                    email: this.$store.state.user.email,
-                    currentPassword: this.currentPassword,
-                    password: this.newPassword,
-                    nif: this.nif,
-                    photo: this.photo,
-                    //updated_at: Date.now
+                axios.get("api/users/")
+                .then(response=>{
+                    this.usersOnRegister = response.data.data;
+                    this.showFailure = false;
+                    this.usersOnRegister.forEach(element => {
+                    if(this.email == element.email){
+                        this.message = "This Email is already registered!";
+                        this.showFailure = true;
+                    }
+                    });
+                    if(this.showFailure == false){
+                    axios.post("api/users", {
+                        name: this.name,
+                        email: this.email,
+                        password: this.password,
+                        photo: this.photo,
+                        type: this.typeOfUser
+                    })
+                    .then(response=>{
+                        console.log("UserCreate Successful!");
+                        console.log(response.data);
+                    })
+                    .catch(error=>{
+                        console.log(error.response.data)
+                    })
+                    }else{
+
+                    }
                 })
-                .then(response => {
-                    console.log(response.data);
-                    this.$store.commit("setUser", response.data.data);
+                .catch(error=>{
+                    console.log(error.response.data)
                 })
-                .catch(error => {
-                    console.log(error.response.data);
-                });
             }else{
                 console.log("Invalid Credentials")
             }
         },
-        cancelEdit() {
+        cancelCreate() {
             console.log(this.$store.state.user.photo)
             this.$store.commit("editingProfileToggle");
         },
@@ -167,7 +201,7 @@ export default {
 p {
     color: red;
 }
-img{
-    width: 128px
+img {
+    width: 128px;
 }
 </style>

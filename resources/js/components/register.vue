@@ -14,10 +14,6 @@
             />
             <p v-if="isSubmitted && !$v.name.required">Name required</p>
             <label>Email</label>
-            <div class="alert alert-failure" v-if="showFailure">
-                <button type="button" class="close-btn" v-on:click="showFailure=false">&times;</button>
-                <strong>{{ message }}</strong>
-            </div>
             <input
                 required
                 type="email"
@@ -27,6 +23,10 @@
                 placeholder="Email"
                 value
             />
+            <div class="alert alert-failure" v-if="showFailure">
+                <button type="button" class="close-btn" v-on:click="showFailure=false">&times;</button>
+                <p>{{ message }}</p>
+            </div>
             <p v-if="isSubmitted && !$v.email.required">Email required</p>
             <p v-if="isSubmitted && !$v.email.email">Invalid Email</p>
             <label>Password</label>

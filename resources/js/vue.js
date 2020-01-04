@@ -19,7 +19,8 @@ import MainPage from './components/mainPage';
 import Wallets from './components/wallets';
 import Movements from './components/movements';
 import BootstrapVue from 'bootstrap-vue';
-import StackModal from '@innologica/vue-stackable-modal'
+import StackModal from '@innologica/vue-stackable-modal';
+import Statistics from './components/statistics/statistics';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -41,7 +42,8 @@ const routes = [
     {path:'/login', component:Login},
     {path:'/register', component:Register},
     {path:'/mainPage', component:MainPage},
-    {path:'/movements', component:Movements}
+    {path:'/movements', component:Movements},
+    {path:'/statistics', component:Statistics}
 ]
 
 const router = new VueRouter({

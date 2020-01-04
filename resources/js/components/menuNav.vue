@@ -81,6 +81,9 @@ export default {
         createIncome: function(){
             this.$store.commit("createIncomeToggle");
         },
+        statistics: function(){
+            this.$store.commit("statisticsToggle");
+        },
         adminIsCreatingAccount: function(){
             this.$store.commit("adminIsCreatingAccountToggle");
         },
