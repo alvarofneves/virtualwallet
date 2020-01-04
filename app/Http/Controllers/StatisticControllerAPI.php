@@ -21,16 +21,19 @@ class StatisticControllerAPI extends Controller
         return MovementResource::collection(Movement::orderBy('date','DESC')->paginate(10));
     }
 
-    public function income($id)
+    public function income($id, $from, $to)
     {           
             /* return $income = Movement::where('wallet_id',$id)
                 ->where('type','i')
                 ->get();   */  
+                $from = date('2019-01-01');
+                $to = date('2019-12-31');
 
                 $categoryIncome= DB::table('movements')
                 ->leftJoin('categories','movements.category_id','=','categories.id')
                 ->where('movements.type','i')
-                ->select('movements.value','categories.name')
+                ->whereBetween('movements.date',[$from, $to])
+                ->select('movements.value','categories.name','movements.date')
                 ->get();
 
                 /*  $incomes = Movement::where('wallet_id',$id)
