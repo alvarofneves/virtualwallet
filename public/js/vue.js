@@ -3819,7 +3819,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
+var isNameValid = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("isNameValid", /^[a-zA-Z ]+$/);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["users"],
   data: function data() {
@@ -3828,30 +3847,30 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "",
       confirmPassword: "",
-      nif: "",
       isSubmitted: false,
       photo: "",
-      typeOfUser: "o"
+      typeOfUser: "o",
+      usersOnRegister: [],
+      message: "",
+      showFailure: false,
+      showSuccess: false
     };
   },
   validations: {
+    email: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
+    },
     name: {
-      alpha: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["alpha"]
+      isNameValid: isNameValid,
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
     },
-    currentPassword: {
+    password: {
       minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(3)
     },
-    newPassword: {
-      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(3)
-    },
-    confirmNewPassword: {
+    confirmPassword: {
       minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(3),
-      sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])("newPassword")
-    },
-    nif: {
-      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(8),
-      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(10),
-      numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])("password")
     }
   },
   methods: {
@@ -3862,18 +3881,31 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.$v.$invalid) {
         this.editingUser = false;
-        axios.put("api/users/" + this.$store.state.user.id, {
-          name: this.name,
-          email: this.$store.state.user.email,
-          currentPassword: this.currentPassword,
-          password: this.newPassword,
-          nif: this.nif,
-          photo: this.photo //updated_at: Date.now
+        axios.get("api/users/").then(function (response) {
+          _this.usersOnRegister = response.data.data;
+          _this.showFailure = false;
 
-        }).then(function (response) {
-          console.log(response.data);
+          _this.usersOnRegister.forEach(function (element) {
+            if (_this.email == element.email) {
+              _this.message = "This Email is already registered!";
+              _this.showFailure = true;
+            }
+          });
 
-          _this.$store.commit("setUser", response.data.data);
+          if (_this.showFailure == false) {
+            axios.post("api/users", {
+              name: _this.name,
+              email: _this.email,
+              password: _this.password,
+              photo: _this.photo,
+              type: _this.typeOfUser
+            }).then(function (response) {
+              console.log("UserCreate Successful!");
+              console.log(response.data);
+            })["catch"](function (error) {
+              console.log(error.response.data);
+            });
+          } else {}
         })["catch"](function (error) {
           console.log(error.response.data);
         });
@@ -3881,7 +3913,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log("Invalid Credentials");
       }
     },
-    cancelEdit: function cancelEdit() {
+    cancelCreate: function cancelCreate() {
       console.log(this.$store.state.user.photo);
       this.$store.commit("editingProfileToggle");
     },
@@ -33494,7 +33526,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\np[data-v-45f069b2] {\n    color: red;\n}\nimg[data-v-45f069b2]{\n    width: 128px\n}\n", ""]);
+exports.push([module.i, "\np[data-v-45f069b2] {\n    color: red;\n}\nimg[data-v-45f069b2] {\n    width: 128px;\n}\n", ""]);
 
 // exports
 
@@ -57882,151 +57914,6 @@ var render = function() {
   return _c("div", { staticClass: "jumbotron" }, [
     _c("h2", [_vm._v("User Create")]),
     _vm._v(" "),
-    _c("label", [_vm._v("Email:")]),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.email,
-          expression: "email"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: {
-        type: "email",
-        name: "email",
-        id: "email",
-        placeholder: "Email"
-      },
-      domProps: { value: _vm.email },
-      on: {
-        change: function($event) {
-          return _vm.$v.email.$touch()
-        },
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.email = $event.target.value
-        }
-      }
-    }),
-    _vm._v(" "),
-    _c("label", [_vm._v("Photo:")]),
-    _vm._v(" "),
-    _c("input", {
-      staticClass: "form-control",
-      attrs: { type: "file", accept: "image/*" },
-      on: { change: _vm.uploadImage }
-    }),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputName" } }, [_vm._v("Name:")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.name,
-            expression: "name"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", name: "name", id: "name", placeholder: "Name" },
-        domProps: { value: _vm.name },
-        on: {
-          change: function($event) {
-            return _vm.$v.name.$touch()
-          },
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.name = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.name.alpha
-      ? _c("p", [_vm._v("Only letters acceptable")])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("label", [_vm._v("Password:")]),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.password,
-          expression: "password"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: {
-        type: "password",
-        name: "password",
-        id: "password",
-        placeholder: "Password"
-      },
-      domProps: { value: _vm.password },
-      on: {
-        change: function($event) {
-          return _vm.$v.password.$touch()
-        },
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.password = $event.target.value
-        }
-      }
-    }),
-    _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.newPassword.minlength
-      ? _c("p", [_vm._v("Must have more than 3 characters")])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("label", [_vm._v("Confirm password:")]),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.confirmPassword,
-          expression: "confirmPassword"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: {
-        type: "password",
-        name: "confirmPassword",
-        id: "confirmPassword",
-        placeholder: "Confirm Password"
-      },
-      domProps: { value: _vm.confirmPassword },
-      on: {
-        change: function($event) {
-          return _vm.$v.confirmPassword.$touch()
-        },
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.confirmPassword = $event.target.value
-        }
-      }
-    }),
-    _vm._v(" "),
-    _vm.isSubmitted && !_vm.$v.confirmNewPassword.minlength
-      ? _c("p", [_vm._v("Must have more than 3 characters")])
-      : _vm._e(),
-    _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("label", { attrs: { for: "typeOfUser" } }, [_vm._v("Type of User:")]),
       _vm._v(" "),
@@ -58067,6 +57954,191 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
+    _c("label", [_vm._v("Email:")]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.email,
+          expression: "email"
+        }
+      ],
+      staticClass: "form-control",
+      attrs: {
+        type: "email",
+        name: "email",
+        id: "email",
+        placeholder: "Email"
+      },
+      domProps: { value: _vm.email },
+      on: {
+        change: function($event) {
+          return _vm.$v.email.$touch()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.email = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _vm.showFailure
+      ? _c("div", { staticClass: "alert alert-failure" }, [
+          _c(
+            "button",
+            {
+              staticClass: "close-btn",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.showFailure = false
+                }
+              }
+            },
+            [_vm._v("×")]
+          ),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.message))])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.email.required
+      ? _c("p", [_vm._v("Email required")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.email.email
+      ? _c("p", [_vm._v("Invalid Email")])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("label", [_vm._v("Photo:")]),
+    _vm._v(" "),
+    _c("input", {
+      staticClass: "form-control",
+      attrs: { type: "file", accept: "image/*" },
+      on: { change: _vm.uploadImage }
+    }),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputName" } }, [_vm._v("Name:")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.name,
+            expression: "name"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", name: "name", id: "name", placeholder: "Name" },
+        domProps: { value: _vm.name },
+        on: {
+          change: function($event) {
+            return _vm.$v.name.$touch()
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.name = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.name.required
+      ? _c("p", [_vm._v("Account name required!")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.name.isNameValid
+      ? _c("p", [
+          _vm._v(
+            "\n        Account name must contain letters and spaces only!\n    "
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("label", [_vm._v("Password:")]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.password,
+          expression: "password"
+        }
+      ],
+      staticClass: "form-control",
+      attrs: {
+        type: "password",
+        name: "password",
+        id: "password",
+        placeholder: "Password"
+      },
+      domProps: { value: _vm.password },
+      on: {
+        change: function($event) {
+          return _vm.$v.password.$touch()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.password = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.password.minlength
+      ? _c("p", [_vm._v("\n        Must have more than 3 characters\n    ")])
+      : _vm._e(),
+    _vm._v(" "),
+    _c("label", [_vm._v("Confirm password:")]),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.confirmPassword,
+          expression: "confirmPassword"
+        }
+      ],
+      staticClass: "form-control",
+      attrs: {
+        type: "password",
+        name: "confirmPassword",
+        id: "confirmPassword",
+        placeholder: "Confirm Password"
+      },
+      domProps: { value: _vm.confirmPassword },
+      on: {
+        change: function($event) {
+          return _vm.$v.confirmPassword.$touch()
+        },
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.confirmPassword = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.confirmPassword.minlength
+      ? _c("p", [_vm._v("\n        Must have more than 3 characters\n    ")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isSubmitted && !_vm.$v.confirmPassword.sameAs
+      ? _c("p", [_vm._v("\n        Password doesn't match!\n    ")])
+      : _vm._e(),
+    _vm._v(" "),
     _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -58091,7 +58163,7 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.cancelEdit()
+              return _vm.cancelCreate()
             }
           }
         },
