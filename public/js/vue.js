@@ -3911,6 +3911,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-apexcharts */ "./node_modules/vue-apexcharts/dist/vue-apexcharts.js");
+/* harmony import */ var vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_apexcharts__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -3941,24 +3943,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {},
+  props: ['wallets'],
+  components: {
+    apexchart: vue_apexcharts__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   data: function data() {
     return {
-      title: "Statistics",
-      statistics: [],
-      subject: ""
+      initial_date: null,
+      final_date: null,
+      series: [{
+        name: "Value",
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      }],
+      chartOptions: {
+        chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Income by Month',
+          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'],
+            // takes an array which will be repeated on columns
+            opacity: 0.5
+          }
+        },
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+        }
+      }
     };
   },
   methods: {
-    incomes: function incomes() {
-      var _this = this;
-
-      axios.get("api/statistics/income/" + this.$store.state.user.id).then(function (response) {
-        _this.subject = "Income By Categories";
-        _this.statistics = response.data;
-      });
-      console.log(statistics);
+    updateChart: function updateChart() {
+      console.log(this.movements);
     }
   },
   mounted: function mounted() {}
@@ -58530,57 +58570,103 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "jumbotron" }, [
-      _c("h1", [_vm._v(_vm._s(_vm.title))])
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", [
+      _c("label", [_vm._v("Data Inicial")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.initial_date,
+            expression: "initial_date"
+          }
+        ],
+        staticClass: "col-sm-2 col-form-label",
+        attrs: {
+          required: "",
+          type: "date",
+          name: "initial_date",
+          id: "initial_date",
+          placeholder: "Date"
+        },
+        domProps: { value: _vm.initial_date },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.initial_date = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _c("label", [_vm._v("Data Inicial")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.final_date,
+            expression: "final_date"
+          }
+        ],
+        staticClass: "col-sm-2 col-form-label",
+        attrs: {
+          required: "",
+          type: "date",
+          name: "final_date",
+          id: "final_date",
+          placeholder: "Date"
+        },
+        domProps: { value: _vm.final_date },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.final_date = $event.target.value
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-primary",
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.updateChart()
+            }
+          }
+        },
+        [_vm._v("Estatisticas")]
+      )
     ]),
     _vm._v(" "),
     _c(
-      "a",
-      {
-        staticClass: "btn btn-sm btn-info",
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.incomes()
+      "div",
+      { attrs: { id: "chart" } },
+      [
+        _c("apexchart", {
+          attrs: {
+            type: "line",
+            height: "350",
+            options: _vm.chartOptions,
+            series: _vm.series
           }
-        }
-      },
-      [_vm._v("Incomes")]
-    ),
-    _vm._v(" "),
-    _c(
-      "a",
-      {
-        staticClass: "btn btn-sm btn-info",
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.expenses()
-          }
-        }
-      },
-      [_vm._v("Expenses")]
-    ),
-    _vm._v(" "),
-    _c("td", [_c("h4", [_vm._v(_vm._s(_vm.subject))])]),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("table", { staticClass: "table table-striped" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.statistics, function(movement) {
-          return _c("tr", { key: movement }, [
-            _c("td", [_vm._v(_vm._s(_vm.category))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.value))])
-          ])
-        }),
-        0
-      )
-    ])
+        })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -58588,12 +58674,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Category")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Value")])
-      ])
+    return _c("div", { staticClass: "jumbotron" }, [
+      _c("h1", [_vm._v("User Statistics")])
     ])
   }
 ]
@@ -79579,8 +79661,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
