@@ -76,7 +76,7 @@
                         </div>
                         <div v-if="this.$store.state.statistic">
                             <adminStatistics
-
+                                :wallets="this.wallets"
                             />
                         </div>
                     </div>
