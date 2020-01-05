@@ -28,7 +28,7 @@
             />
         </div>
         <div class="form-group">
-            <a class="btn btn-primary" v-on:click.prevent="updateChart()">Estatisticas</a>
+            <a class="btn btn-primary" v-on:click.prevent="getBalanceBetweenDates()">Estatisticas</a>
         </div>
         <div id="chart">
         <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
@@ -45,9 +45,10 @@ export default {
         },
         data: function() {
             return { 
-          
+            balance: [],
+            balance_dates:[],
             initial_date:null,
-                    final_date:null,
+            final_date:null,
             series: [{
                 name: "Value",
                 data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
@@ -85,9 +86,22 @@ export default {
         }
         },
         methods:{
-            updateChart(){
-                console.log(this.movements );
-            }
+            getBalanceBetweenDates(initial_date,final_date) {
+                    console.log(this.$store.state.user);
+                        axios.get("api/statistics/balance/" + this.this.$store.state.user.id)
+                        .then(response => {
+                            this.balances = response.data.data;})
+                            .then(reponse => {
+                                axios.get("api/statistics/balance/dates/" + this.this.$store.state.user.id)
+                                .then(response => {
+                                this.balances_dates = response.data.data;
+                                })
+                            });
+                            
+                console.log(this.balances);
+                console.log(this.balances_dates);
+                console.log(this.$store.state.user);
+            },
 
         },
     mounted() {},

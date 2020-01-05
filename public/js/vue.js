@@ -3959,6 +3959,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      balance: [],
+      balance_dates: [],
       initial_date: null,
       final_date: null,
       series: [{
@@ -3997,8 +3999,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    updateChart: function updateChart() {
-      console.log(this.movements);
+    getBalanceBetweenDates: function getBalanceBetweenDates(initial_date, final_date) {
+      var _this = this;
+
+      console.log(this.$store.state.user);
+      axios.get("api/statistics/balance/" + this["this"].$store.state.user.id).then(function (response) {
+        _this.balances = response.data.data;
+      }).then(function (reponse) {
+        axios.get("api/statistics/balance/dates/" + _this["this"].$store.state.user.id).then(function (response) {
+          _this.balances_dates = response.data.data;
+        });
+      });
+      console.log(this.balances);
+      console.log(this.balances_dates);
+      console.log(this.$store.state.user);
     }
   },
   mounted: function mounted() {}
@@ -58644,7 +58658,7 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.updateChart()
+              return _vm.getBalanceBetweenDates()
             }
           }
         },

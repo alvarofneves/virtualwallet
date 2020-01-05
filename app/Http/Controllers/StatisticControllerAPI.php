@@ -52,4 +52,34 @@ class StatisticControllerAPI extends Controller
                 ->where('type','e')
                 ->get();            
     }
+    public function balance($id)
+    {           
+            /* return $income = Movement::where('wallet_id',$id)
+                ->where('type','i')
+                ->get();   */  
+                $from = date('2019-01-01');
+                $to = date('2019-12-31');
+
+                $balance = Movement::where('wallet_id',$id)
+                ->whereBetween('date',[$from, $to])
+                ->orderBy('date','ASC')
+                ->select('value')
+                ->get();
+                return $balance;
+    }
+    public function balanceDates($id)
+    {           
+            /* return $income = Movement::where('wallet_id',$id)
+                ->where('type','i')
+                ->get();   */  
+                $from = date('2019-01-01');
+                $to = date('2019-12-31');
+
+                $balanceDates = Movement::where('wallet_id',$id)
+                ->whereBetween('date',[$from, $to])
+                ->orderBy('date','ASC')
+                ->select('value','date')
+                ->get();
+                return $balanceDates;
+    }
 }
