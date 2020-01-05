@@ -22,7 +22,22 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 window.Vue = require('vue');
 
-/* Vue.component('pagination', require('laravel-vue-pagination')); */
+import VueSocketIO from "vue-socket.io";
+
+Vue.use(
+    new VueSocketIO({
+        debug: true,
+        connection: "http://127.0.0.1:8080"
+    })
+);
+
+import Toasted from "vue-toasted";
+Vue.use(Toasted, {
+    position: "bottom-center",
+    duration: 5000,
+    type: "info"
+});
+
 Vue.use(Vuelidate)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
@@ -42,6 +57,38 @@ const app = new Vue({
     el: '#app',
     store,
     router,
+    sockets: {
+        privateMessage(dataFromServer) {
+            let name =
+                dataFromServer[1] === null ? "Unknown" : dataFromServer[1].name;
+            this.$toasted.show(
+                'Message "' + dataFromServer[0] + '" sent from "' + name + '"'
+            );
+        },
+        privateMessage_unavailable(destUser) {
+            this.$toasted.error(
+                'User "' + destUser.name + '" is not available'
+            );
+        },
+        privateMessage_sent(dataFromServer) {
+            this.$toasted.success(
+                'Message "' +
+                    dataFromServer[0] +
+                    '" was sent to "' +
+                    dataFromServer[1].name +
+                    '"'
+            );
+        },
+        user_changed(dataFromServer) {
+            this.$toasted.show(
+                'User "' +
+                    dataFromServer.name +
+                    '" (ID= ' +
+                    dataFromServer.id +
+                    ") has changed"
+            );
+        }
+    },
     created() {
         
     }
