@@ -44,23 +44,12 @@ app.listen(8080, function(){
 let loggedUsers = new LoggedUsers();
 
 io.on('connection', function (socket) {
-    console.log('client has connected (socket ID = '+socket.id+')' );
+    console.log('client has connected --- (socket ID = '+socket.id+')' );
+    console.log('hola tomas');
 
-    // Emit message to the same cliente 
-    //socket.emit('my_active_games_changed');
-
-    // Handle message sent from the client to the server
-    // socket.on('messageType_from_client_to_server', function (data){
-
-    // });
     socket.on('chat',(msg)=>{
     	console.log(msg);
     	socket.broadcast.emit('chat',msg);
-    })
-    socket.on('chat_user_type',(msg,user)=>{
-    	if(user){
-    		socket.to(`user_type_${user.department_id}`).emit('chat',msg);
-    	}
     })
 
     socket.on('pm',(user,msg)=>{
@@ -75,4 +64,9 @@ io.on('connection', function (socket) {
     	socket.leave(`user_type_${user.type}`);
     	loggedUsers.addUserInfo(user, socket.id);
     })
+    socket.on('create_movement', function(movement){
+        console.log(movement);
+        socket.broadcast.emit('create_movement', movement);
+    })
 });
+

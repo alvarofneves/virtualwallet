@@ -58,36 +58,25 @@ const app = new Vue({
     store,
     router,
     sockets: {
-        privateMessage(dataFromServer) {
-            let name =
-                dataFromServer[1] === null ? "Unknown" : dataFromServer[1].name;
-            this.$toasted.show(
-                'Message "' + dataFromServer[0] + '" sent from "' + name + '"'
-            );
+        connect(){
+            console.log(this.$socket.id);
         },
-        privateMessage_unavailable(destUser) {
-            this.$toasted.error(
-                'User "' + destUser.name + '" is not available'
-            );
+        create_movement(movement) {  
+            if(movement.data.id === this.$store.state.user.id){
+                console.log('----------------here--------------------');
+                console.log(movement);
+                this.$toasted.show(
+                    'Recebeste o valor ' + movement.data.balance + ' na tua virtual wallet!!!'
+                ,{
+                    theme: "outline", 
+                    position: "top-right", 
+                    duration : 5000
+                });
+            }
+
         },
-        privateMessage_sent(dataFromServer) {
-            this.$toasted.success(
-                'Message "' +
-                    dataFromServer[0] +
-                    '" was sent to "' +
-                    dataFromServer[1].name +
-                    '"'
-            );
-        },
-        user_changed(dataFromServer) {
-            this.$toasted.show(
-                'User "' +
-                    dataFromServer.name +
-                    '" (ID= ' +
-                    dataFromServer.id +
-                    ") has changed"
-            );
-        }
+        
+        
     },
     created() {
         

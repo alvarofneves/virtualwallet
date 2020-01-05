@@ -154,6 +154,7 @@ export default {
                     this.currentMovement = null;
                     this.editingMovement = false;
                 });
+
         },
         cancelEditMovement: function() {
             this.showSuccess = false;

@@ -2642,7 +2642,13 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
                 axios.put("api/wallets/" + _this.walletDest.id, {
                   balance: parseFloat(_this.walletDest.balance) + parseFloat(_this.tranferValue)
                 }).then(function (response) {
-                  console.log(response.data.data);
+                  console.log('hola'); //console.log(response.data.data)
+
+                  console.log('hola123');
+                  console.log(response.data);
+                  console.log('hola123');
+
+                  _this.$socket.emit('create_movement', response.data);
 
                   _this.$store.commit("createMovementToggle");
                 })["catch"](function (error) {
@@ -79697,18 +79703,19 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   store: _store_auth__WEBPACK_IMPORTED_MODULE_1__["default"],
   router: router,
   sockets: {
-    privateMessage: function privateMessage(dataFromServer) {
-      var name = dataFromServer[1] === null ? "Unknown" : dataFromServer[1].name;
-      this.$toasted.show('Message "' + dataFromServer[0] + '" sent from "' + name + '"');
+    connect: function connect() {
+      console.log(this.$socket.id);
     },
-    privateMessage_unavailable: function privateMessage_unavailable(destUser) {
-      this.$toasted.error('User "' + destUser.name + '" is not available');
-    },
-    privateMessage_sent: function privateMessage_sent(dataFromServer) {
-      this.$toasted.success('Message "' + dataFromServer[0] + '" was sent to "' + dataFromServer[1].name + '"');
-    },
-    user_changed: function user_changed(dataFromServer) {
-      this.$toasted.show('User "' + dataFromServer.name + '" (ID= ' + dataFromServer.id + ") has changed");
+    create_movement: function create_movement(movement) {
+      if (movement.data.id === this.$store.state.user.id) {
+        console.log('----------------here--------------------');
+        console.log(movement);
+        this.$toasted.show('Recebeste o valor ' + movement.data.balance + ' na tua virtual wallet!!!', {
+          theme: "outline",
+          position: "top-right",
+          duration: 5000
+        });
+      }
     }
   },
   created: function created() {}
