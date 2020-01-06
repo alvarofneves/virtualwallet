@@ -2283,11 +2283,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['users', 'wallets'],
   methods: {
@@ -3833,8 +3828,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['wallets'],
@@ -3843,20 +3836,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      anos: [],
+      years: [],
       nWallets: [],
       chartOptions: {
         chart: {
-          id: 'vuechart-example'
+          id: 'N of Wallets per Year'
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-          name: 'Months'
+          name: 'Months',
+          categories: []
         }
       },
       series: [{
         name: 'Wallets',
-        data: [30, 40, 45, 50, 49, 60, 70, 81]
+        data: []
       }]
     };
   },
@@ -3866,45 +3859,41 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(this.wallets);
       this.wallets.forEach(function (wallet) {
-        //console.log(wallet.created_at.substring(0, 4))
-        if (_this.anos.includes(wallet.created_at.substring(0, 4))) {} else {
-          _this.anos.push(wallet.created_at.substring(0, 4));
+        if (_this.years.includes(wallet.created_at.substring(0, 4))) {} else {
+          _this.years.push(wallet.created_at.substring(0, 4));
         }
       });
-      this.anos = this.sortAnos();
-      console.log(this.anos);
+      this.years = this.sortYears();
       var index = 0;
-      this.anos.forEach(function (ano) {
+      this.years.forEach(function (year) {
         _this.nWallets[index] = 0;
 
         _this.wallets.forEach(function (wallet) {
-          if (ano == wallet.created_at.substring(0, 4)) {
+          if (year == wallet.created_at.substring(0, 4)) {
             _this.nWallets[index]++;
           }
         });
 
         index++;
       });
-      console.log(this.nWallets);
-      var max = 90;
-      var min = 20;
-      var newData = this.series[0].data.map(function () {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      });
-      var colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0']; // Make sure to update the whole options config and not just a single property to allow the Vue watch catch the change.
-
+      this.series[0].data = this.nWallets;
+      this.chartOptions.xaxis.categories = this.years;
+      var colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
       this.chartOptions = {
-        colors: [colors[Math.floor(Math.random() * colors.length)]]
-      }; // In the same way, update the series option
-
-      this.series = [{
-        data: newData
-      }];
+        colors: [colors[Math.floor(Math.random() * colors.length)]],
+        xaxis: {
+          categories: this.years,
+          name: 'Months'
+        }
+      };
     },
-    sortAnos: function sortAnos() {
-      var copy = this.anos.slice();
+    sortYears: function sortYears() {
+      var copy = this.years;
       return copy.sort();
     }
+  },
+  created: function created() {
+    this.updateChart();
   }
 });
 
@@ -3959,6 +3948,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['wallets'],
@@ -3967,13 +3958,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      dates: [],
+      valid: true,
+      msg: "",
+      incomeMovements: [],
+      totalIncomes: [],
+      expenseMovements: [],
+      totalExpenses: [],
       balance: [],
       balance_dates: [],
       initial_date: null,
       final_date: null,
       series: [{
-        name: "Value",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        name: "Income",
+        data: []
+      }, {
+        name: "Expense",
+        data: []
       }],
       chartOptions: {
         chart: {
@@ -3990,40 +3991,123 @@ __webpack_require__.r(__webpack_exports__);
           curve: 'straight'
         },
         title: {
-          text: 'Income by Month',
-          align: 'left'
+          text: 'Income by Day',
+          align: 'center'
         },
         grid: {
           row: {
-            colors: ['#f3f3f3', 'transparent'],
+            colors: [],
             // takes an array which will be repeated on columns
             opacity: 0.5
           }
         },
         xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+          categories: []
         }
       }
     };
   },
   methods: {
-    getBalanceBetweenDates: function getBalanceBetweenDates(initial_date, final_date) {
+    getMovementsBetweenDates: function getMovementsBetweenDates() {
       var _this = this;
 
-      console.log(this.$store.state.user);
-      axios.get("api/statistics/balance/" + this["this"].$store.state.user.id).then(function (response) {
-        _this.balances = response.data.data;
-      }).then(function (reponse) {
-        axios.get("api/statistics/balance/dates/" + _this["this"].$store.state.user.id).then(function (response) {
-          _this.balances_dates = response.data.data;
+      this.valid = true;
+
+      if (this.initial_date > this.final_date) {
+        this.valid = false;
+        this.msg = "Não pode inserir uma data Inicial maior que uma data Final";
+      }
+
+      if (this.initial_date == null) {
+        this.valid = false;
+        this.msg = "Insira a Data Inicial";
+      }
+
+      if (this.final_date == null) {
+        this.valid = false;
+        this.msg = "Insira a Data Final";
+      }
+
+      if (this.valid == true) {
+        axios.get("api/statistics/income/" + this.$store.state.wallet.id, {
+          params: {
+            from: this.initial_date,
+            to: this.final_date
+          }
+        }).then(function (response) {
+          _this.incomeMovements = response.data;
+          axios.get("api/statistics/expense/" + _this.$store.state.wallet.id, {
+            params: {
+              from: _this.initial_date,
+              to: _this.final_date
+            }
+          }).then(function (response) {
+            console.log(_this.incomeMovements);
+            console.log(_this.expenseMovements);
+            _this.expenseMovements = response.data;
+
+            _this.incomeMovements.forEach(function (movement) {
+              if (_this.dates.includes(movement.date.substring(0, 10))) {} else {
+                _this.dates.push(movement.date.substring(0, 10));
+              }
+            });
+
+            _this.expenseMovements.forEach(function (movement) {
+              if (_this.dates.includes(movement.date.substring(0, 10))) {} else {
+                _this.dates.push(movement.date.substring(0, 10));
+              }
+            });
+
+            var index = 0;
+
+            _this.dates.forEach(function (date) {
+              _this.totalIncomes[index] = 0;
+
+              _this.incomeMovements.forEach(function (movement) {
+                if (date == movement.date.substring(0, 10)) {
+                  _this.totalIncomes[index] = +movement.value;
+                }
+              });
+
+              index++;
+            });
+
+            index = 0;
+
+            _this.dates.forEach(function (date) {
+              _this.totalExpenses[index] = 0;
+
+              _this.expenseMovements.forEach(function (movement) {
+                if (date == movement.date.substring(0, 10)) {
+                  _this.totalExpenses[index] = +movement.value;
+                }
+              });
+
+              index++;
+            });
+
+            console.log(_this.dates);
+            console.log(_this.totalIncomes);
+            console.log(_this.totalExpenses);
+            _this.series[0].data = _this.totalIncomes;
+            _this.series[1].data = _this.totalExpenses;
+            _this.chartOptions.xaxis.categories = _this.dates;
+            var colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+            _this.chartOptions = {
+              colors: ['#008FFB', '#FF4560'],
+              xaxis: {
+                categories: _this.dates,
+                name: 'Date'
+              }
+            };
+          });
         });
-      });
-      console.log(this.balances);
-      console.log(this.balances_dates);
-      console.log(this.$store.state.user);
+      } else {}
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    console.log(this.$store.state.user);
+  }
 });
 
 /***/ }),
@@ -33801,6 +33885,25 @@ exports.push([module.i, "\n.jumbotron[data-v-aacc3324] {\r\n    padding-top: 2%;
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nb[data-v-451cde02] {\r\n    color: red;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/userCreate.vue?vue&type=style&index=0&id=45f069b2&scoped=true&lang=css&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/userCreate.vue?vue&type=style&index=0&id=45f069b2&scoped=true&lang=css& ***!
@@ -54955,6 +55058,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/userCreate.vue?vue&type=style&index=0&id=45f069b2&scoped=true&lang=css&":
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/userCreate.vue?vue&type=style&index=0&id=45f069b2&scoped=true&lang=css& ***!
@@ -56452,34 +56585,6 @@ var render = function() {
                             [_vm._v("Statistics")]
                           )
                         : _vm._e()
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          this.$store.state.isEdditingProfile == false &&
-          this.$store.state.user.type == "u"
-            ? _c(
-                "b-navbar-nav",
-                [
-                  _c(
-                    "b-nav-item-dropdown",
-                    { attrs: { text: "Notifications", right: "" } },
-                    [
-                      _c(
-                        "b-dropdown-item",
-                        {
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                            }
-                          }
-                        },
-                        [_vm._v("Movements")]
-                      )
                     ],
                     1
                   )
@@ -58535,24 +58640,24 @@ var render = function() {
     _vm._v(" "),
     _c("table", { staticClass: "table table-striped" }, [
       _c("tbody", [
+        _c("h1", { attrs: { align: "center" } }, [
+          _vm._v("Nº Wallets Per Year")
+        ]),
+        _vm._v(" "),
         _c(
           "div",
           { staticClass: "app" },
           [
             _c("apexcharts", {
               attrs: {
-                width: "550",
+                align: "center",
+                width: "1000",
+                height: "500",
                 type: "bar",
                 options: _vm.chartOptions,
                 series: _vm.series
               }
-            }),
-            _vm._v(" "),
-            _c("div", [
-              _c("button", { on: { click: _vm.updateChart } }, [
-                _vm._v("Update!")
-              ])
-            ])
+            })
           ],
           1
         )
@@ -58576,10 +58681,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&":
-/*!****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02& ***!
-  \****************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -58627,7 +58732,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", [
-      _c("label", [_vm._v("Data Inicial")]),
+      _c("label", [_vm._v("Data Final ")]),
       _vm._v(" "),
       _c("input", {
         directives: [
@@ -58658,6 +58763,8 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
         "a",
@@ -58666,13 +58773,17 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.getBalanceBetweenDates()
+              return _vm.getMovementsBetweenDates()
             }
           }
         },
-        [_vm._v("Estatisticas")]
+        [_vm._v("Get Statistics From Date")]
       )
     ]),
+    _vm._v(" "),
+    this.valid == false
+      ? _c("b", [_vm._v(" " + _vm._s(_vm.msg) + " ")])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -78918,9 +79029,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _userStatistics_vue_vue_type_template_id_451cde02___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./userStatistics.vue?vue&type=template&id=451cde02& */ "./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&");
+/* harmony import */ var _userStatistics_vue_vue_type_template_id_451cde02_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./userStatistics.vue?vue&type=template&id=451cde02&scoped=true& */ "./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&scoped=true&");
 /* harmony import */ var _userStatistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./userStatistics.vue?vue&type=script&lang=js& */ "./resources/js/components/statistics/userStatistics.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css& */ "./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -78928,13 +79041,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _userStatistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _userStatistics_vue_vue_type_template_id_451cde02___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _userStatistics_vue_vue_type_template_id_451cde02___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _userStatistics_vue_vue_type_template_id_451cde02_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _userStatistics_vue_vue_type_template_id_451cde02_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "451cde02",
   null
   
 )
@@ -78960,19 +79073,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02& ***!
-  \**********************************************************************************************/
+/***/ "./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css&":
+/*!************************************************************************************************************************!*\
+  !*** ./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css& ***!
+  \************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=style&index=0&id=451cde02&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_style_index_0_id_451cde02_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&scoped=true&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&scoped=true& ***!
+  \**********************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_template_id_451cde02___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./userStatistics.vue?vue&type=template&id=451cde02& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_template_id_451cde02___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_template_id_451cde02_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./userStatistics.vue?vue&type=template&id=451cde02&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/statistics/userStatistics.vue?vue&type=template&id=451cde02&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_template_id_451cde02_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_template_id_451cde02___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userStatistics_vue_vue_type_template_id_451cde02_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -79747,8 +79876,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

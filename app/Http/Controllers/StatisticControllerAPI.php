@@ -21,65 +21,35 @@ class StatisticControllerAPI extends Controller
         return MovementResource::collection(Movement::orderBy('date','DESC')->paginate(10));
     }
 
-    public function income($id, $from, $to)
-    {           
-            /* return $income = Movement::where('wallet_id',$id)
-                ->where('type','i')
-                ->get();   */  
-                $from = date('2019-01-01');
-                $to = date('2019-12-31');
+    public function income(Request $request, $id)
+    {
+        $request->from = Carbon::createFromFormat('Y-m-d', $request->from)->format('Y-m-d H:i:s');
+        $request->to = Carbon::createFromFormat('Y-m-d', $request->to)->format('Y-m-d H:i:s');
 
-                $categoryIncome= DB::table('movements')
-                ->leftJoin('categories','movements.category_id','=','categories.id')
-                ->where('movements.type','i')
-                ->whereBetween('movements.date',[$from, $to])
-                ->select('movements.value','categories.name','movements.date')
-                ->get();
-
-                /*  $incomes = Movement::where('wallet_id',$id)
-                ->where('type','i')
-                ->get();
-                foreach($incomes as $i){
-                    $categoryValue=Category::where('category_id','=',$i->category_id)
-                    ->where()
-                }     
-                 */
-                return $categoryIncome;
+        $categoryIncome= DB::table('movements')
+        ->leftJoin('categories','movements.category_id','=','categories.id')
+        ->where('movements.type','i')
+        ->where('wallet_id', $id)
+        ->whereBetween('movements.date',[date($request->from), date($request->to)])
+        ->select('movements.value','categories.name','movements.date')
+        ->get();
+                
+        return $categoryIncome;
     }
-    public function expense($id)
-    {           
-            return $expenses = Movement::where('wallet_id',$id)
-                ->where('type','e')
-                ->get();            
-    }
-    public function balance($id)
-    {           
-            /* return $income = Movement::where('wallet_id',$id)
-                ->where('type','i')
-                ->get();   */  
-                $from = date('2019-01-01');
-                $to = date('2019-12-31');
+    
+    public function expense(Request $request, $id)
+    {
+        $request->from = Carbon::createFromFormat('Y-m-d', $request->from)->format('Y-m-d H:i:s');
+        $request->to = Carbon::createFromFormat('Y-m-d', $request->to)->format('Y-m-d H:i:s');
 
-                $balance = Movement::where('wallet_id',$id)
-                ->whereBetween('date',[$from, $to])
-                ->orderBy('date','ASC')
-                ->select('value')
-                ->get();
-                return $balance;
-    }
-    public function balanceDates($id)
-    {           
-            /* return $income = Movement::where('wallet_id',$id)
-                ->where('type','i')
-                ->get();   */  
-                $from = date('2019-01-01');
-                $to = date('2019-12-31');
-
-                $balanceDates = Movement::where('wallet_id',$id)
-                ->whereBetween('date',[$from, $to])
-                ->orderBy('date','ASC')
-                ->select('value','date')
-                ->get();
-                return $balanceDates;
+        $categoryExpense= DB::table('movements')
+        ->leftJoin('categories','movements.category_id','=','categories.id')
+        ->where('movements.type','e')
+        ->where('wallet_id', $id)
+        ->whereBetween('movements.date',[date($request->from), date($request->to)])
+        ->select('movements.value','categories.name','movements.date')
+        ->get();
+                
+        return $categoryExpense;
     }
 }

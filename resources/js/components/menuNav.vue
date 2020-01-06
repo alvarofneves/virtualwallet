@@ -43,11 +43,6 @@
                 <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="statistics()">Statistics</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
-        <b-navbar-nav v-if="this.$store.state.isEdditingProfile == false && this.$store.state.user.type == 'u'">
-            <b-nav-item-dropdown text="Notifications" right>
-                <b-dropdown-item v-on:click.prevent="">Movements</b-dropdown-item>
-            </b-nav-item-dropdown>
-        </b-navbar-nav>
         <b-navbar-nav v-if="this.$store.state.isEdditingProfile == true" v-on:click.prevent="profile()">
             <b-nav-item right>
                 &lt&lt

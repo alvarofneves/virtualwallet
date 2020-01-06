@@ -5,11 +5,9 @@
         </div>
         <table class="table table-striped">
             <tbody>
+                <h1 align="center">Nº Wallets Per Year</h1>
                 <div class="app">
-                    <apexcharts width="550" type="bar" :options="chartOptions" :series="series"></apexcharts>
-                    <div>
-                        <button @click="updateChart">Update!</button>
-                    </div>
+                    <apexcharts align="center" width="1000" height="500" type="bar" :options="chartOptions" :series="series"></apexcharts>
                 </div>
             </tbody>
         </table>
@@ -25,20 +23,20 @@ export default {
     },
     data: function() {
         return {
-            anos: [],
+            years: [],
             nWallets:[],
             chartOptions: {
                 chart: {
-                    id: 'vuechart-example',
+                    id: 'N of Wallets per Year',
                 },
                 xaxis: {
-                    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-                    name: 'Months'
+                    name: 'Months',
+                    categories: []
                 },
             },
             series: [{
                 name: 'Wallets',
-                data: [30, 40, 45, 50, 49, 60, 70, 81]
+                data: []
             }]
         }
     },
@@ -46,49 +44,47 @@ export default {
         updateChart() {
             console.log(this.wallets)
             this.wallets.forEach(wallet => {
-                //console.log(wallet.created_at.substring(0, 4))
-                if(this.anos.includes(wallet.created_at.substring(0, 4))){
+                if(this.years.includes(wallet.created_at.substring(0, 4))){
 
                 }else{
-                    this.anos.push(wallet.created_at.substring(0, 4));
+                    this.years.push(wallet.created_at.substring(0, 4));
                 }
             })
-            this.anos = this.sortAnos();
-            console.log(this.anos);
+
+            this.years = this.sortYears();
+            
             let index = 0;
-            this.anos.forEach(ano => {
+            this.years.forEach(year => {
                 this.nWallets[index] = 0;
                 this.wallets.forEach(wallet => {
-                    if(ano == wallet.created_at.substring(0, 4)){
+                    if(year == wallet.created_at.substring(0, 4)){
                         this.nWallets[index]++;
                     }
                 })
                 index++;
             })
 
-            console.log(this.nWallets)
-
-            const max = 90;
-            const min = 20;
-            const newData = this.series[0].data.map(() => {
-            return Math.floor(Math.random() * (max - min + 1)) + min
-            })
+            this.series[0].data = this.nWallets;
+            this.chartOptions.xaxis.categories = this.years;
 
             const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0']
 
-            // Make sure to update the whole options config and not just a single property to allow the Vue watch catch the change.
             this.chartOptions = {
-            colors: [colors[Math.floor(Math.random()*colors.length)]]
+                colors: [colors[Math.floor(Math.random()*colors.length)]],
+                xaxis: {
+                    categories: this.years,
+                    name: 'Months'
+                },
             };
-            // In the same way, update the series option
-            this.series = [{
-            data: newData
-            }]
+            
         },
-        sortAnos(){
-            let copy = this.anos.slice()
+        sortYears(){
+            let copy = this.years;
             return copy.sort();
         }
+    },
+    created() {
+        this.updateChart();
     }
 };
 </script>

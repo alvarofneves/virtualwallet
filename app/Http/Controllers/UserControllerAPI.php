@@ -104,8 +104,8 @@ class UserControllerAPI extends Controller
         }
 
         if($request->password != null){
+            $user->password = $request->password;
             $user->password = Hash::make($user->password);
-            $user->update($request->password);
         }
         if($request->photo != null && $user->photo != $request->photo){
             $user->photo = $fileName;
