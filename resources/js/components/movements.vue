@@ -2,7 +2,7 @@
     <div>
         <div class="jumbotron">
             <h1>{{ title }}</h1>
-            <h2 v-if="this.$store.state.user.type == 'u' && this.$store.state.wallet != null">Current Balance: {{ this.$store.state.wallet.balance }}€</h2>
+            <h2 v-if="this.$store.state.user.type == 'u' && this.$store.state.wallet != null">Current Balance: {{ parseFloat(this.$store.state.wallet.balance).toFixed(2) }}€</h2>
         </div>
 
         <stack-modal
