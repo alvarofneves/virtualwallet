@@ -2542,8 +2542,10 @@ var mbEntityReferenceLength = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_
       this.validUserEmailAndWallet = false;
       this.isSubmitted = true;
       this.iban = this.iban.split(' ').join('');
+      console.log(this.tranferValue);
+      console.log(this.$store.state.wallet.balance);
 
-      if (this.$store.state.wallet.balance >= this.tranferValue) {
+      if (parseFloat(this.tranferValue) <= this.$store.state.wallet.balance) {
         if (this.typeOfMovement == "external") {
           if (this.typeOfPayment == "bt") {
             axios.post("api/movements", {
@@ -79589,6 +79591,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       state.wallet = wallet;
       sessionStorage.setItem('wallet', JSON.stringify(wallet));
     },
+    addValueToWallet: function addValueToWallet(state, value) {
+      state.wallet.balance = value;
+    },
     setToken: function setToken(state, token) {
       state.token = token;
       sessionStorage.setItem('token', token);
@@ -79710,6 +79715,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       if (movement.data.id === this.$store.state.user.id) {
         console.log('----------------here--------------------');
         console.log(movement);
+        this.$store.commit("addValueToWallet", parseFloat(movement.data.balance));
         this.$toasted.show('Recebeste o valor ' + movement.data.balance + ' na tua virtual wallet!!!', {
           theme: "outline",
           position: "top-right",

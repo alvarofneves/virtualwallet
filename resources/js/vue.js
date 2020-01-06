@@ -65,6 +65,9 @@ const app = new Vue({
             if(movement.data.id === this.$store.state.user.id){
                 console.log('----------------here--------------------');
                 console.log(movement);
+
+                this.$store.commit("addValueToWallet", parseFloat(movement.data.balance));
+
                 this.$toasted.show(
                     'Recebeste o valor ' + movement.data.balance + ' na tua virtual wallet!!!'
                 ,{

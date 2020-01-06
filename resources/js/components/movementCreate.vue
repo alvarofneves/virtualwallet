@@ -224,7 +224,10 @@ export default {
 
             this.iban = this.iban.split(' ').join('');
 
-            if(this.$store.state.wallet.balance >= this.tranferValue){
+            console.log(this.tranferValue)
+            console.log(this.$store.state.wallet.balance)
+
+            if(parseFloat(this.tranferValue) <= this.$store.state.wallet.balance){
                 if(this.typeOfMovement == "external"){
                     if(this.typeOfPayment == "bt"){
                         axios.post("api/movements", {

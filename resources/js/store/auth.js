@@ -85,6 +85,9 @@ export default new Vuex.Store({
 
             sessionStorage.setItem('wallet', JSON.stringify(wallet));
         },
+        addValueToWallet: (state, value) => {
+            state.wallet.balance = value;
+        },
         setToken: (state, token) => {
             state.token= token;
             sessionStorage.setItem('token', token);
