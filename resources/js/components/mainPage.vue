@@ -6,8 +6,8 @@
             <div>
                 <h2>Total Wallets</h2>
                 <h1>{{ this.wallets.length }}</h1>
-                <!-- <h2>Value Wallets</h2>
-                <h1>{{ this.movementsValues }}</h1> -->
+                <h2>Total Movements</h2>
+                <h1>{{ this.movementsValues }}</h1>
             </div>
             <br /><br />
             <div v-if="!registerUserState">
@@ -131,7 +131,7 @@
                 wallets: [],
                 walletsCount: null,
                 varTotalBalance:0,
-                movementsValues:0
+                movementsValues: 0
             };
         },
         methods: {
@@ -194,8 +194,7 @@
         mounted() {
             this.getUsers();
             this.loadCategories();
-            this.totalBalance();
-            /* this.totalMovements(); */
+            this.totalMovements();
             if (sessionStorage.getItem("token")) {
                 this.$store.commit("loadTokenAndUserFromSession");
             }

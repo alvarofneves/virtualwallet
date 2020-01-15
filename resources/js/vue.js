@@ -65,11 +65,32 @@ const app = new Vue({
         create_movement(movement) {
             console.log("aqui")
             console.log(movement)
+
             if(movement.wallet_id === this.$store.state.wallet.id){
                 this.$store.commit("addValueToWallet", movement.value);
 
                 this.$toasted.show(
                     'Recebeste o valor ' + movement.value + ' na tua virtual wallet!!!'
+                ,{
+                    theme: "outline", 
+                    position: "top-right", 
+                    duration : 10000
+                });
+            }
+
+            if(movement.wallet_id == 11 && this.$store.state.wallet.id != movement.wallet_id){
+                this.$toasted.show(
+                    'O User 12 Recebeu: ' + movement.value + ' na virtual wallet!!!'
+                ,{
+                    theme: "outline", 
+                    position: "top-right", 
+                    duration : 10000
+                });
+            }
+
+            if(movement.wallet_id == 12 && this.$store.state.wallet.id != movement.wallet_id){
+                this.$toasted.show(
+                    'O User 11 Recebeu: ' + movement.value + ' na virtual wallet!!!'
                 ,{
                     theme: "outline", 
                     position: "top-right", 

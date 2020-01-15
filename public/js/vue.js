@@ -2204,8 +2204,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getUsers();
     this.loadCategories();
-    this.totalBalance();
-    /* this.totalMovements(); */
+    this.totalMovements();
 
     if (sessionStorage.getItem("token")) {
       this.$store.commit("loadTokenAndUserFromSession");
@@ -2800,6 +2799,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -56211,7 +56214,11 @@ var render = function() {
           _c("div", [
             _c("h2", [_vm._v("Total Wallets")]),
             _vm._v(" "),
-            _c("h1", [_vm._v(_vm._s(this.wallets.length))])
+            _c("h1", [_vm._v(_vm._s(this.wallets.length))]),
+            _vm._v(" "),
+            _c("h2", [_vm._v("Total Movements")]),
+            _vm._v(" "),
+            _c("h1", [_vm._v(_vm._s(this.movementsValues))])
           ]),
           _vm._v(" "),
           _c("br"),
@@ -57581,41 +57588,53 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.start_balance) +
-                      "€\n                "
+              movement.type == "e"
+                ? _c(
+                    "td",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.movementDetail(movement)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(movement.start_balance) +
+                          "€ - " +
+                          _vm._s(movement.value) +
+                          "€ = " +
+                          _vm._s(movement.end_balance) +
+                          "€\n                "
+                      )
+                    ]
                   )
-                ]
-              ),
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.end_balance) +
-                      "€\n                "
+              movement.type == "i"
+                ? _c(
+                    "td",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.movementDetail(movement)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(movement.start_balance) +
+                          "€ + " +
+                          _vm._s(movement.value) +
+                          "€ = " +
+                          _vm._s(movement.end_balance) +
+                          "€\n                "
+                      )
+                    ]
                   )
-                ]
-              ),
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "td",
@@ -57679,9 +57698,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Date")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Start Balance")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("End Balance")]),
+        _c("th", [_vm._v("Start Balance -> End Balance")]),
         _vm._v(" "),
         _c("th", [_vm._v("Value")])
       ])
@@ -59523,7 +59540,7 @@ var render = function() {
         _vm._v(" "),
         _c("user-list", {
           ref: "userListReference",
-          attrs: { users: _vm.users, "current-user": _vm.currentUser },
+          attrs: { users: this.users, "current-user": _vm.currentUser },
           on: {
             "edit-user": _vm.editUser,
             "toggle-active-user": _vm.toggleActiveUser
@@ -79906,6 +79923,22 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         });
       }
 
+      if (movement.wallet_id == 11 && this.$store.state.wallet.id != movement.wallet_id) {
+        this.$toasted.show('O User 12 Recebeu: ' + movement.value + ' na virtual wallet!!!', {
+          theme: "outline",
+          position: "top-right",
+          duration: 10000
+        });
+      }
+
+      if (movement.wallet_id == 12 && this.$store.state.wallet.id != movement.wallet_id) {
+        this.$toasted.show('O User 11 Recebeu: ' + movement.value + ' na virtual wallet!!!', {
+          theme: "outline",
+          position: "top-right",
+          duration: 10000
+        });
+      }
+
       if (movement.value >= 1000 && this.$store.state.user.type == 'a') {
         axios.get("api/users/" + movement.wallet_id).then(function (response) {
           var userOrigem = response.data.data;
@@ -79973,8 +80006,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\laragon\www\virtualwallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! D:\laragon\www\virtualwallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

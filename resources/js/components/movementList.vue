@@ -15,8 +15,8 @@
                     <!-- <th>Description</th>
                 <th>Source Description</th> -->
                     <th>Date</th>
-                    <th>Start Balance</th>
-                    <th>End Balance</th>
+                    <th>Start Balance -> End Balance</th>
+                    <!-- <th>End Balance</th> -->
                     <th>Value</th>
                 </tr>
             </thead>
@@ -94,12 +94,16 @@
                     <td @click="movementDetail(movement)">
                         {{ movement.date }}
                     </td>
-                    <td @click="movementDetail(movement)">
-                        {{ movement.start_balance }}€
+                    <td v-if="movement.type == 'e'" @click="movementDetail(movement)">
+                        {{ movement.start_balance }}€ - {{ movement.value }}€ = {{ movement.end_balance }}€
                     </td>
-                    <td @click="movementDetail(movement)">
+
+                    <td v-if="movement.type == 'i'" @click="movementDetail(movement)">
+                        {{ movement.start_balance }}€ + {{ movement.value }}€ = {{ movement.end_balance }}€
+                    </td>
+                    <!--<td @click="movementDetail(movement)">
                         {{ movement.end_balance }}€
-                    </td>
+                    </td> -->
                     <td @click="movementDetail(movement)">
                         {{ movement.value }}€
                     </td>

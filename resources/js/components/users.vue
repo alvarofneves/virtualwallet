@@ -12,7 +12,7 @@
         >
         </user-edit>
             <user-list
-                :users="users"
+                :users="this.users"
                 :current-user="currentUser"
                 @edit-user="editUser"
                 @toggle-active-user="toggleActiveUser"

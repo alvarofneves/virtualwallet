@@ -38,7 +38,7 @@ class MovementControllerAPI extends Controller
         /* return MovementResource::collection(Movement::sum('value')->get()); */
         $totalMovements= DB::table('movements')
         ->select('value')
-        ->sum('value');
+        ->count('value');
         
         return $totalMovements;
     }
