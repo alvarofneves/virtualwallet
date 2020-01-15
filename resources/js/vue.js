@@ -96,7 +96,7 @@ const app = new Vue({
             }
 
         },
-        verify_movement(movement) {  
+        /* verify_movement(movement) {  
             if(this.$store.state.user.type=='a'){
                 console.log('passo 2');
                 
@@ -109,7 +109,7 @@ const app = new Vue({
                 });
             }
 
-        },
+        }, */
         user_account_status(user){
             if(this.$store.state.user.type =='a')
                 if(user.active==0){

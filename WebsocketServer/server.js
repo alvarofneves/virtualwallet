@@ -74,7 +74,7 @@ io.on('connection', function (socket) {
     socket.on('user_type_a', function(movement){
         console.log('Passo 3')
         console.log(movement);
-        socket.broadcast.emit('verify_movement', movement);
+        socket.broadcast.emit('user_account_status', movement);
     })
     // sending to individual socketid (private message)
   /* io.to(`${socketId}`).emit('hey', 'I just met you'); */

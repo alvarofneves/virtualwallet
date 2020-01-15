@@ -33,6 +33,15 @@ class MovementControllerAPI extends Controller
     {
         return MovementResource::collection(Movement::where('wallet_id', $id)->where('type', 'e')->orderBy('value','DESC')->take(5)->get());
     }
+    public function sum_movements(Request $request)
+    {
+        /* return MovementResource::collection(Movement::sum('value')->get()); */
+        $totalMovements= DB::table('movements')
+        ->select('value')
+        ->sum('value');
+        
+        return $totalMovements;
+    }
 
     public function store(Request $request)
     {

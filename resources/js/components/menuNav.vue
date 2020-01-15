@@ -41,7 +41,7 @@
                 <b-dropdown-item v-if="this.$store.state.user.type == 'o' && this.$store.state.isCreateIncome == true" v-on:click.prevent="createIncome()">Wallets</b-dropdown-item>
                 
                 <b-dropdown-item  v-if="this.$store.state.user.type != 'o'" v-on:click.prevent="statistics()">Statistics</b-dropdown-item>
-                <b-dropdown-item  v-if="this.$store.state.user.type == 'u'" v-on:click.prevent="topExpenses()">Top Expenses</b-dropdown-item>
+                <!-- <b-dropdown-item  v-if="this.$store.state.user.type == 'u'" v-on:click.prevent="topExpenses()">Top Expenses</b-dropdown-item> -->
             </b-nav-item-dropdown>
         </b-navbar-nav>
         <b-navbar-nav v-if="this.$store.state.isEdditingProfile == true" v-on:click.prevent="profile()">

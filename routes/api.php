@@ -37,6 +37,8 @@ Route::get('users/me', 'UserControllerAPI@me');
 
 //MOVEMENT API
 Route::get('movements', 'MovementControllerAPI@index');
+Route::get('movements/values', 'MovementControllerAPI@sum_movements');
+
 Route::get('movements/{id}', 'MovementControllerAPI@show_movement_id');
 Route::get('movements/top/{id}', 'MovementControllerAPI@show_top_movement_id');
 Route::post('movements', 'MovementControllerAPI@store');

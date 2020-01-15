@@ -56751,21 +56751,6 @@ var render = function() {
                             },
                             [_vm._v("Statistics")]
                           )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      this.$store.state.user.type == "u"
-                        ? _c(
-                            "b-dropdown-item",
-                            {
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.topExpenses()
-                                }
-                              }
-                            },
-                            [_vm._v("Top Expenses")]
-                          )
                         : _vm._e()
                     ],
                     1
@@ -80449,16 +80434,20 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
         });
       }
     },
-    verify_movement: function verify_movement(movement) {
-      if (this.$store.state.user.type == 'a') {
-        console.log('passo 2');
-        this.$toasted.show('O user ' + movement.data.email + ' recebeu ' + movement.data.balance + ' !!', {
-          theme: "outline",
-          position: "top-right",
-          duration: 10000
-        });
-      }
-    },
+
+    /* verify_movement(movement) {  
+        if(this.$store.state.user.type=='a'){
+            console.log('passo 2');
+            
+            this.$toasted.show(
+                'O user ' + movement.data.email  + ' recebeu ' + movement.data.balance +' !!'
+            ,{
+                theme: "outline", 
+                position: "top-right", 
+                duration : 10000
+            });
+        }
+      }, */
     user_account_status: function user_account_status(user) {
       if (this.$store.state.user.type == 'a') if (user.active == 0) {
         this.$toasted.show(user.name + ' foi desativado!!', {
