@@ -57,7 +57,7 @@
         </movement-edit>
 
         <div>
-            <movement-top-expense
+            <movement-list
                 :movements="this.movements"
                 :users="this.users"
                 :current-movement="this.currentMovement"
@@ -65,7 +65,7 @@
                 @movement-detail="movementDetail"
                 ref="moventsListReference"
             >
-            </movement-top-expense>
+            </movement-list>
             <pagination 
                 :meta_data="meta_data"
                 @next="getMovements">
@@ -83,7 +83,6 @@ import StackModal from "./stackModel";
 import MovementListComponent from "./movementList";
 import MovementEditComponent from "./movementEdit";
 import PaginationComponent from "./pagination";
-import MovementTopExpenseListComponent from "./movementTopExpenseList";
 
 export default {
     props: ["users","categories"],
@@ -168,8 +167,7 @@ export default {
         "movement-list": MovementListComponent,
         "movement-edit": MovementEditComponent,
         StackModal,
-        "pagination": PaginationComponent,
-        "movement-top-expense":MovementTopExpenseListComponent
+        "pagination": PaginationComponent
     }
 };
 </script>

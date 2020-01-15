@@ -6,8 +6,8 @@
             <div>
                 <h2>Total Wallets</h2>
                 <h1>{{ this.wallets.length }}</h1>
-                <h2>Value Wallets</h2>
-                <h1>{{ this.varTotalBalance }}</h1>
+                <!-- <h2>Value Wallets</h2>
+                <h1>{{ this.movementsValues }}</h1> -->
             </div>
             <br /><br />
             <div v-if="!registerUserState">
@@ -130,7 +130,8 @@
                 createMovementState: false,
                 wallets: [],
                 walletsCount: null,
-                varTotalBalance:0
+                varTotalBalance:0,
+                movementsValues:0
             };
         },
         methods: {
@@ -158,6 +159,12 @@
             loadCategories: function() {
                 axios.get("api/categories").then(response => {
                     this.categories = response.data.data;
+                });
+            },
+            totalMovements: function() {
+                axios.get("api/movements/values").then(response => {
+                    this.movementsValues = response.data;
+                    console.log(this.movementsValues);
                 });
             },
             beginRegisterUser: function() {
@@ -188,6 +195,7 @@
             this.getUsers();
             this.loadCategories();
             this.totalBalance();
+            /* this.totalMovements(); */
             if (sessionStorage.getItem("token")) {
                 this.$store.commit("loadTokenAndUserFromSession");
             }

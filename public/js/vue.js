@@ -2134,7 +2134,8 @@ __webpack_require__.r(__webpack_exports__);
       createMovementState: false,
       wallets: [],
       walletsCount: null,
-      varTotalBalance: 0
+      varTotalBalance: 0,
+      movementsValues: 0
     };
   },
   methods: {
@@ -2168,6 +2169,14 @@ __webpack_require__.r(__webpack_exports__);
         _this2.categories = response.data.data;
       });
     },
+    totalMovements: function totalMovements() {
+      var _this3 = this;
+
+      axios.get("api/movements/values").then(function (response) {
+        _this3.movementsValues = response.data;
+        console.log(_this3.movementsValues);
+      });
+    },
     beginRegisterUser: function beginRegisterUser() {
       this.registerUserState = true;
     },
@@ -2181,13 +2190,13 @@ __webpack_require__.r(__webpack_exports__);
       this.createMovementState = false;
     },
     totalBalance: function totalBalance() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get("api/wallets").then(function (response) {
-        _this3.wallets = response.data.data;
+        _this4.wallets = response.data.data;
 
-        _this3.wallets.forEach(function (wallet) {
-          _this3.varTotalBalance += parseFloat(wallet.balance);
+        _this4.wallets.forEach(function (wallet) {
+          _this4.varTotalBalance += parseFloat(wallet.balance);
         });
       });
     }
@@ -2196,6 +2205,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getUsers();
     this.loadCategories();
     this.totalBalance();
+    /* this.totalMovements(); */
 
     if (sessionStorage.getItem("token")) {
       this.$store.commit("loadTokenAndUserFromSession");
@@ -2928,139 +2938,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementTopExpenseList.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementTopExpenseList.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["movements", "currentMovement", "users"],
-  data: function data() {
-    return {};
-  },
-  methods: {
-    editMovement: function editMovement(movement) {
-      console.log("movimento atual");
-      console.log(movement.id);
-      this.$emit("edit-movement", movement);
-    },
-    movementDetail: function movementDetail(movement) {
-      this.$emit("movement-detail", movement);
-    }
-  },
-  components: {}
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movements.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movements.vue?vue&type=script&lang=js& ***!
@@ -3074,7 +2951,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _movementList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movementList */ "./resources/js/components/movementList.vue");
 /* harmony import */ var _movementEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./movementEdit */ "./resources/js/components/movementEdit.vue");
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pagination */ "./resources/js/components/pagination.vue");
-/* harmony import */ var _movementTopExpenseList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./movementTopExpenseList */ "./resources/js/components/movementTopExpenseList.vue");
 //
 //
 //
@@ -3155,7 +3031,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -3244,8 +3119,7 @@ __webpack_require__.r(__webpack_exports__);
     "movement-list": _movementList__WEBPACK_IMPORTED_MODULE_1__["default"],
     "movement-edit": _movementEdit__WEBPACK_IMPORTED_MODULE_2__["default"],
     StackModal: _stackModel__WEBPACK_IMPORTED_MODULE_0__["default"],
-    "pagination": _pagination__WEBPACK_IMPORTED_MODULE_3__["default"],
-    "movement-top-expense": _movementTopExpenseList__WEBPACK_IMPORTED_MODULE_4__["default"]
+    "pagination": _pagination__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -56337,11 +56211,7 @@ var render = function() {
           _c("div", [
             _c("h2", [_vm._v("Total Wallets")]),
             _vm._v(" "),
-            _c("h1", [_vm._v(_vm._s(this.wallets.length))]),
-            _vm._v(" "),
-            _c("h2", [_vm._v("Value Wallets")]),
-            _vm._v(" "),
-            _c("h1", [_vm._v(_vm._s(this.varTotalBalance))])
+            _c("h1", [_vm._v(_vm._s(this.wallets.length))])
           ]),
           _vm._v(" "),
           _c("br"),
@@ -57824,321 +57694,6 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementTopExpenseList.vue?vue&type=template&id=22d5231b&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movementTopExpenseList.vue?vue&type=template&id=22d5231b& ***!
-  \*************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("table", { staticClass: "table table-striped" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.movements, function(movement) {
-          return _c(
-            "tr",
-            {
-              key: movement.id,
-              class: { active: _vm.currentMovement === movement }
-            },
-            [
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [_vm._v(_vm._s(movement.id))]
-              ),
-              _vm._v(" "),
-              !movement.type
-                ? _c("div", {
-                    on: {
-                      click: function($event) {
-                        return _vm.movementDetail(movement)
-                      }
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              movement.type
-                ? _c(
-                    "div",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.movementDetail(movement)
-                        }
-                      }
-                    },
-                    [
-                      movement.type == "e"
-                        ? _c("div", [_c("td", [_vm._v("Expense")])])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      movement.type == "i"
-                        ? _c("div", [_c("td", [_vm._v("Income")])])
-                        : _vm._e()
-                    ]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              !movement.transfer_wallet_id
-                ? _c("td", {
-                    on: {
-                      click: function($event) {
-                        return _vm.movementDetail(movement)
-                      }
-                    }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              movement.transfer_wallet_id
-                ? _c(
-                    "td",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.movementDetail(movement)
-                        }
-                      }
-                    },
-                    _vm._l(_vm.users, function(user) {
-                      return _c("div", { key: user.id }, [
-                        user.id == movement.transfer_wallet_id
-                          ? _c("div", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(user.email) +
-                                  "\n                        "
-                              )
-                            ])
-                          : _vm._e()
-                      ])
-                    }),
-                    0
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              movement.type_payment == "bt"
-                ? _c(
-                    "div",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.movementDetail(movement)
-                        }
-                      }
-                    },
-                    [_c("td", [_vm._v("Bank Transfer")])]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              movement.type_payment == "mb"
-                ? _c(
-                    "div",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.movementDetail(movement)
-                        }
-                      }
-                    },
-                    [_c("td", [_vm._v("Multibank")])]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              movement.type_payment == "c"
-                ? _c(
-                    "div",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.movementDetail(movement)
-                        }
-                      }
-                    },
-                    [_c("td", [_vm._v("Cash")])]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              movement.type_payment == null
-                ? _c(
-                    "div",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.movementDetail(movement)
-                        }
-                      }
-                    },
-                    [_c("td")]
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.category) +
-                      "\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.date) +
-                      "\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.start_balance) +
-                      "€\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.end_balance) +
-                      "€\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  on: {
-                    click: function($event) {
-                      return _vm.movementDetail(movement)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(movement.value) +
-                      "€\n                "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _vm.$store.state.user.type == "u"
-                ? _c("td", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.editMovement(movement)
-                          }
-                        }
-                      },
-                      [_vm._v("Edit")]
-                    )
-                  ])
-                : _vm._e()
-            ]
-          )
-        }),
-        0
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("ID")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Type")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Destination")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Type of Payment")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Category")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Date")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Start Balance")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("End Balance")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Value")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movements.vue?vue&type=template&id=eeb3c42e&":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/movements.vue?vue&type=template&id=eeb3c42e& ***!
@@ -58298,7 +57853,7 @@ var render = function() {
       _c(
         "div",
         [
-          _c("movement-top-expense", {
+          _c("movement-list", {
             ref: "moventsListReference",
             attrs: {
               movements: this.movements,
@@ -78995,75 +78550,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementList_vue_vue_type_template_id_53b0a738___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementList_vue_vue_type_template_id_53b0a738___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/movementTopExpenseList.vue":
-/*!************************************************************!*\
-  !*** ./resources/js/components/movementTopExpenseList.vue ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _movementTopExpenseList_vue_vue_type_template_id_22d5231b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./movementTopExpenseList.vue?vue&type=template&id=22d5231b& */ "./resources/js/components/movementTopExpenseList.vue?vue&type=template&id=22d5231b&");
-/* harmony import */ var _movementTopExpenseList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movementTopExpenseList.vue?vue&type=script&lang=js& */ "./resources/js/components/movementTopExpenseList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _movementTopExpenseList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _movementTopExpenseList_vue_vue_type_template_id_22d5231b___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _movementTopExpenseList_vue_vue_type_template_id_22d5231b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/movementTopExpenseList.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/movementTopExpenseList.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/movementTopExpenseList.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_movementTopExpenseList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./movementTopExpenseList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementTopExpenseList.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_movementTopExpenseList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/movementTopExpenseList.vue?vue&type=template&id=22d5231b&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/movementTopExpenseList.vue?vue&type=template&id=22d5231b& ***!
-  \*******************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementTopExpenseList_vue_vue_type_template_id_22d5231b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./movementTopExpenseList.vue?vue&type=template&id=22d5231b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/movementTopExpenseList.vue?vue&type=template&id=22d5231b&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementTopExpenseList_vue_vue_type_template_id_22d5231b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_movementTopExpenseList_vue_vue_type_template_id_22d5231b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
