@@ -67,15 +67,15 @@ io.on('connection', function (socket) {
         /* console.log(movement); */
         socket.broadcast.emit('create_movement', movement);
     })
-    /* socket.on('user_type_a', function(user){
+    socket.on('user_type_a', function(user){
         console.log(user);
         socket.broadcast.emit('user_account_status', user);
-    }) */
-    socket.on('user_type_a', function(movement){
+    })
+    /* socket.on('user_type_a', function(movement){
         console.log('Passo 3')
         console.log(movement);
         socket.broadcast.emit('user_account_status', movement);
-    })
+    }) */
     // sending to individual socketid (private message)
   /* io.to(`${socketId}`).emit('hey', 'I just met you'); */
 });
