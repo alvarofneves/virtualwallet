@@ -97,7 +97,9 @@ export default {
                 })
                 .then(response => {
                     user.active = 1;
-                    console.log(response)
+                    console.log(response.data.data);
+                    this.$socket.emit('user_type_a', response.data.data);
+                    console.log('Ativo');
                 });
             }else{
                 axios.put("api/users/active/" + user.id, {
@@ -105,7 +107,9 @@ export default {
                 })
                 .then(response => {
                     user.active = 0;
-                    console.log(response)
+                    console.log(response.data.data);
+                    this.$socket.emit('user_type_a', response.data.data);
+                    console.log('Desativo');
                 });
             }
             

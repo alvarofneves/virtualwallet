@@ -22,6 +22,14 @@ class WalletControllerAPI extends Controller
             return WalletResource::collection(Wallet::all());
         }
     }
+    /* public function totalBalance(Request $request)
+    {
+        
+        $totalBalance= DB::table('wallets')
+        ->sum('balance') 
+        ->get()        
+        return $totalBalance;
+    } */
 
     public function show($id)
     {

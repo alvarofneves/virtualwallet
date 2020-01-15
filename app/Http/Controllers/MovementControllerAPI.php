@@ -29,6 +29,11 @@ class MovementControllerAPI extends Controller
         return MovementResource::collection(Movement::where('wallet_id', $id)->orderBy('date','DESC')->paginate(10));
     }
 
+    public function show_top_movement_id($id)
+    {
+        return MovementResource::collection(Movement::where('wallet_id', $id)->where('type', 'e')->orderBy('value','DESC')->take(5)->get());
+    }
+
     public function store(Request $request)
     {
         $request->validate([

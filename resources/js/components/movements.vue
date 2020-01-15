@@ -57,7 +57,7 @@
         </movement-edit>
 
         <div>
-            <movement-list
+            <movement-top-expense
                 :movements="this.movements"
                 :users="this.users"
                 :current-movement="this.currentMovement"
@@ -65,13 +65,12 @@
                 @movement-detail="movementDetail"
                 ref="moventsListReference"
             >
-            </movement-list>
+            </movement-top-expense>
             <pagination 
                 :meta_data="meta_data"
                 @next="getMovements">
             </pagination>
         </div>
-
         <!--<div class="alert alert-success" v-if="showSuccess">
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
@@ -84,6 +83,7 @@ import StackModal from "./stackModel";
 import MovementListComponent from "./movementList";
 import MovementEditComponent from "./movementEdit";
 import PaginationComponent from "./pagination";
+import MovementTopExpenseListComponent from "./movementTopExpenseList";
 
 export default {
     props: ["users","categories"],
@@ -168,7 +168,8 @@ export default {
         "movement-list": MovementListComponent,
         "movement-edit": MovementEditComponent,
         StackModal,
-        "pagination": PaginationComponent
+        "pagination": PaginationComponent,
+        "movement-top-expense":MovementTopExpenseListComponent
     }
 };
 </script>

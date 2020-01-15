@@ -45,7 +45,6 @@ let loggedUsers = new LoggedUsers();
 
 io.on('connection', function (socket) {
     console.log('client has connected --- (socket ID = '+socket.id+')' );
-    console.log('hola tomas');
 
     socket.on('chat',(msg)=>{
     	console.log(msg);
@@ -65,8 +64,19 @@ io.on('connection', function (socket) {
     	loggedUsers.addUserInfo(user, socket.id);
     })
     socket.on('create_movement', function(movement){
-        console.log(movement);
+        /* console.log(movement); */
         socket.broadcast.emit('create_movement', movement);
     })
+    /* socket.on('user_type_a', function(user){
+        console.log(user);
+        socket.broadcast.emit('user_account_status', user);
+    }) */
+    socket.on('user_type_a', function(movement){
+        console.log('Passo 3')
+        console.log(movement);
+        socket.broadcast.emit('verify_movement', movement);
+    })
+    // sending to individual socketid (private message)
+  /* io.to(`${socketId}`).emit('hey', 'I just met you'); */
 });
 

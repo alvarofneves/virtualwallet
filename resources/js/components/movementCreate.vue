@@ -323,15 +323,14 @@ export default {
                                 end_balance: (parseFloat(this.walletDest.balance) + parseFloat(this.tranferValue)),
                                 value: this.tranferValue
                             }).then(response => {
+                                this.$socket.emit('create_movement', response.data);
+                                this.$socket.emit('verify_movement', response.data);
+                                
                                 axios.put("api/wallets/" + this.walletDest.id, {
                                     balance: (parseFloat(this.walletDest.balance) + parseFloat(this.tranferValue))
                                 }).then(response => {
-                                    console.log('hola');
-                                    //console.log(response.data.data)
-                                    console.log('hola123');
                                     console.log(response.data);
-                                    console.log('hola123');
-                                    this.$socket.emit('create_movement', response.data);
+                                    console.log('Passo 1')
                                     this.$store.commit("createMovementToggle");
                                 }).catch(error => {
                                     console.log(error.response.data)
@@ -340,9 +339,6 @@ export default {
                         })
                     }
                 }
-
-
-
             }else{
                 this.moneyError = true;
             }

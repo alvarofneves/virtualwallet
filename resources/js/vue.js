@@ -32,6 +32,7 @@ Vue.use(
 );
 
 import Toasted from "vue-toasted";
+import Axios from 'axios';
 Vue.use(Toasted, {
     position: "bottom-center",
     duration: 5000,
@@ -61,23 +62,77 @@ const app = new Vue({
         connect(){
             console.log(this.$socket.id);
         },
-        create_movement(movement) {  
-            if(movement.data.id === this.$store.state.user.id){
-                console.log('----------------here--------------------');
-                console.log(movement);
-
-                this.$store.commit("addValueToWallet", parseFloat(movement.data.balance));
+        create_movement(movement) {
+            console.log("aqui")
+            console.log(movement)
+            if(movement.wallet_id === this.$store.state.wallet.id){
+                this.$store.commit("addValueToWallet", movement.value);
 
                 this.$toasted.show(
-                    'Recebeste o valor ' + movement.data.balance + ' na tua virtual wallet!!!'
+                    'Recebeste o valor ' + movement.value + ' na tua virtual wallet!!!'
                 ,{
                     theme: "outline", 
                     position: "top-right", 
-                    duration : 5000
+                    duration : 10000
+                });
+            }
+
+            if(movement.value >= 1000 && this.$store.state.user.type == 'a'){
+                axios.get("api/users/" + movement.wallet_id)
+                .then(response => {
+                    let userOrigem = response.data.data;
+                    console.log(userOrigem)
+                    axios.get("api/users/" + movement.transfer_wallet_id)
+                    .then(response => {
+                        this.$toasted.show(
+                            'O User: ' + userOrigem.name + ', Recebeu:' + movement.value + '€ do User:' + response.data.data.name
+                        ,{
+                            theme: "outline", 
+                            position: "top-right", 
+                            duration : 10000
+                        });
+                    })
                 });
             }
 
         },
+        verify_movement(movement) {  
+            if(this.$store.state.user.type=='a'){
+                console.log('passo 2');
+                
+                this.$toasted.show(
+                    'O user ' + movement.data.email  + ' recebeu ' + movement.data.balance +' !!'
+                ,{
+                    theme: "outline", 
+                    position: "top-right", 
+                    duration : 10000
+                });
+            }
+
+        },
+        user_account_status(user){
+            if(this.$store.state.user.type =='a')
+                if(user.active==0){
+                    this.$toasted.show(
+                        user.name + ' foi desativado!!'
+                    ,{
+                        theme: "outline", 
+                        position: "top-right", 
+                        duration : 5000
+                    });
+                }
+                else{
+                    this.$toasted.show(
+                        user.name + ' foi ativado!!'
+                    ,{
+                        theme: "outline", 
+                        position: "top-right", 
+                        duration : 5000
+                    });
+                }
+            
+
+        }
         
         
     },

@@ -68,7 +68,6 @@ export default {
     },
     methods: {
         editUser(user) {
-            console.log(users)
             this.$emit("edit-user", user);
         },
         toggleActiveUser(user) {

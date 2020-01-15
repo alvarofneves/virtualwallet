@@ -6,6 +6,8 @@
             <div>
                 <h2>Total Wallets</h2>
                 <h1>{{ this.wallets.length }}</h1>
+                <h2>Value Wallets</h2>
+                <h1>{{ this.varTotalBalance }}</h1>
             </div>
             <br /><br />
             <div v-if="!registerUserState">
@@ -127,7 +129,8 @@
                 registerUserState: false,
                 createMovementState: false,
                 wallets: [],
-                walletsCount: null
+                walletsCount: null,
+                varTotalBalance:0
             };
         },
         methods: {
@@ -136,6 +139,7 @@
                     this.users = responseUser.data.data;
                     axios.get("api/wallets").then(responseWallets => {
                         this.wallets = responseWallets.data.data;
+                        console.log(this.wallets);
                         this.users.forEach(user => {
                             this.wallets.forEach(wallet => {
                                 if (user.email == wallet.email) {
@@ -147,7 +151,9 @@
                             });
                         });
                     });
+                    
                 });
+                //this.totalBalance=parseFloat(this.totalBalance).toFixed(2);
             },
             loadCategories: function() {
                 axios.get("api/categories").then(response => {
@@ -166,10 +172,22 @@
             cancelCreateMovement: function() {
                 this.createMovementState = false;
             },
+            totalBalance: function(){
+                axios.get("api/wallets")
+                .then(response=>{
+                    this.wallets=response.data.data;
+                    this.wallets.forEach(wallet => {
+                            this.varTotalBalance+=parseFloat(wallet.balance);
+                                });
+                })
+
+            }
+            
         },
         mounted() {
             this.getUsers();
             this.loadCategories();
+            this.totalBalance();
             if (sessionStorage.getItem("token")) {
                 this.$store.commit("loadTokenAndUserFromSession");
             }

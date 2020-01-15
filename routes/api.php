@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //WALLET API
 Route::get('wallets', 'WalletControllerAPI@index');
+/* Route::get('wallets/total', 'WalletControllerAPI@totalBalance'); */
 Route::get('wallets/{id}', 'WalletControllerAPI@show');
 Route::post('wallets', 'WalletControllerAPI@store');
 Route::put('wallets/{id}', 'WalletControllerAPI@update');
@@ -37,6 +38,7 @@ Route::get('users/me', 'UserControllerAPI@me');
 //MOVEMENT API
 Route::get('movements', 'MovementControllerAPI@index');
 Route::get('movements/{id}', 'MovementControllerAPI@show_movement_id');
+Route::get('movements/top/{id}', 'MovementControllerAPI@show_top_movement_id');
 Route::post('movements', 'MovementControllerAPI@store');
 Route::put('movements/{id}', 'MovementControllerAPI@update');
 //STATISTICS API

@@ -15,7 +15,8 @@ export default new Vuex.Store({
         isCreateMovement: false,
         isCreateIncome: false,
         statistic:false,
-        adminIsCreatingAccount: false
+        adminIsCreatingAccount: false,
+        topExpensesToggle:false
     },
     mutations: { 
         clearUserAndToken: (state) => {
@@ -65,6 +66,13 @@ export default new Vuex.Store({
                 state.isCreateIncome = false;
             }
         },
+        topExpensesToggle:(state) => {
+            if(state.topExpense == false){
+                state.topExpense = true;
+            }else{
+                state.topExpense = false;
+            }
+        },
         clearToken: (state) => {
             state.user = null;
             state.wallet = null;
@@ -86,7 +94,8 @@ export default new Vuex.Store({
             sessionStorage.setItem('wallet', JSON.stringify(wallet));
         },
         addValueToWallet: (state, value) => {
-            state.wallet.balance = value;
+            state.wallet.balance = parseFloat(state.wallet.balance) + parseFloat(value);
+            parseFloat(state.wallet.balance).toFixed(2);
         },
         setToken: (state, token) => {
             state.token= token;
